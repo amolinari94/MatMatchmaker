@@ -1,0 +1,10 @@
+.profile_toggler[b-9qzjl9511h]{
+    appearance: none;
+    position: absolute;
+    
+
+}
+
+.profile_toggler:checked[b-9qzjl9511h]{
+    background-color: rgb(172, 172, 172);
+}
