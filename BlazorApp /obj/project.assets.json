@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone/MatMatchmaking/BlazorApp/BlazorApp.csproj",
+      "projectUniqueName": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /BlazorApp.csproj",
       "projectName": "BlazorApp",
-      "projectPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone/MatMatchmaking/BlazorApp/BlazorApp.csproj",
+      "projectPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /BlazorApp.csproj",
       "packagesPath": "/Users/alexmolinari/.nuget/packages/",
-      "outputPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone/MatMatchmaking/BlazorApp/obj/",
+      "outputPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/alexmolinari/.nuget/NuGet/NuGet.Config"

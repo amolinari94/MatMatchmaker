@@ -17,7 +17,8 @@ namespace Structure
 
     }
 
-
+    /*Roster contains members size, schoolName and rosterList, where wrestlers are stored as 
+    */
     public class Roster{
         int count;
         String schoolName;
