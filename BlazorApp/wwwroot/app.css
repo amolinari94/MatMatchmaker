@@ -8,24 +8,52 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
+    background-image: linear-gradient(rgb(0, 73, 132), rgb(0, 30, 77));
+    /*background-color: #1b6ec2;
     border-color: #1861ac;
+    */
+}
+
+.btn-primary:hover{
+    transform: scale(1.07);
 }
 
 .btn-secondary {
-    background-image: linear-gradient(to bottom right, #231077, rgb(160, 33, 192));
+    /*background-image: linear-gradient(to bottom right, rgb(0, 98, 179), rgb(1, 42, 107));*/
+    color:#006bb7;
+    background-color: transparent;
+    border: none;
+    
 }
+
+/*
+.btn-secondary:hover{
+    transform: scale(1.1);
+}
+*/
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  
 }
+
 
 .content {
     padding-top: 1.1rem;
 }
 
+/*
 h1:focus {
-    outline: none;
+    outline:#231077;
+}
+*/
+
+h1{
+    background-image: linear-gradient(rgb(0, 46, 137), rgb(0, 21, 90));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* Makes the text itself transparent, showing the background */
+    display: inline-block;
 }
 
 .valid.modified:not([type=checkbox]) {

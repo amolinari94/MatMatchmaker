@@ -4,8 +4,12 @@ using System;
 namespace Structure
 {
     public class Wrestler{
-        String firstName, lastName, gender,schoolName;
-        int grade, skill;
+
+        //made public for testing
+        public String firstName, lastName, gender,schoolName;
+
+        //made public for testing 
+        public int grade, skill;
         protected internal Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName){
             this.firstName=firstName;
             this.lastName=lastName;
@@ -20,16 +24,22 @@ namespace Structure
     /*Roster contains members size, schoolName and rosterList, where wrestlers are stored as 
     */
     public class Roster{
-        int count;
+        public int count;//changed to public for testing 
         String schoolName;
-        Dictionary<String, Wrestler>  rosterList;
-        protected internal Roster (String schoolName){
+
+        //changed to public for testing
+        public Dictionary<String, Wrestler>  rosterList;
+
+        //changed to public for testing (from protected internal)
+        public Roster (string schoolName){
             this.schoolName = schoolName;
-            Dictionary<String, Wrestler>  rosterList = new Dictionary<String, Wrestler>();
+            this.rosterList = new Dictionary<String, Wrestler>();
             int count = 0;
         }
 
-        private void addWrestler(String firstName,String lastName,int grade,int skill,String gender){
+
+        //Changed to public for testing
+        public void addWrestler(String firstName,String lastName,int grade,int skill,String gender){
             Wrestler newWrestler = new Wrestler(firstName,lastName,grade,skill,gender, this.schoolName );
             try{
                 rosterList.Add(lastName, newWrestler);
@@ -41,6 +51,12 @@ namespace Structure
 
         protected internal int getCount(){
             return this.count;
+        }
+
+        protected internal void printList(){
+            foreach (var item in rosterList){
+                Console.WriteLine(item.Value);
+            }
         }
 
     }
