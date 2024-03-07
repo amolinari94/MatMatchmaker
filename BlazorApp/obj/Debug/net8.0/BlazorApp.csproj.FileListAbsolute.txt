@@ -59,3 +59,35 @@
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /obj/Debug/net8.0/BlazorApp.pdb
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /obj/Debug/net8.0/ref/BlazorApp.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/appsettings.Development.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/appsettings.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorApp.staticwebassets.runtime.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorApp
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorApp.deps.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorApp.runtimeconfig.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorApp.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorApp.pdb
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.AssemblyInfoInputs.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.AssemblyInfo.cs
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.CoreCompileInputs.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.MvcApplicationPartsAssemblyInfo.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.sourcelink.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets.build.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets.development.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.BlazorApp.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.build.BlazorApp.props
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.BlazorApp.props
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.BlazorApp.props
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets.pack.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/MainLayout.razor.rz.scp.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/ProfileMenu.razor.rz.scp.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/bundle/BlazorApp.styles.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/refint/BlazorApp.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.pdb
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Roster.razor.rz.scp.css

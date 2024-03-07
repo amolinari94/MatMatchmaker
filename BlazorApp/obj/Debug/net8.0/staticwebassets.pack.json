@@ -1,23 +1,23 @@
 {
   "Files": [
     {
-      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /obj/Debug/net8.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css",
+      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css",
       "PackagePath": "staticwebassets/BlazorApp.bundle.scp.css"
     },
     {
-      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /wwwroot/app.css",
+      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/wwwroot/app.css",
       "PackagePath": "staticwebassets/app.css"
     },
     {
-      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /wwwroot/bootstrap/bootstrap.min.css",
+      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/wwwroot/bootstrap/bootstrap.min.css",
       "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
     },
     {
-      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /wwwroot/bootstrap/bootstrap.min.css.map",
+      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/wwwroot/bootstrap/bootstrap.min.css.map",
       "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
     },
     {
-      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp /wwwroot/favicon.png",
+      "Id": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/wwwroot/favicon.png",
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
