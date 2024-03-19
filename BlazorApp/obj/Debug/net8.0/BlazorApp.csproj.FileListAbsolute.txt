@@ -91,3 +91,4 @@
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Roster.razor.rz.scp.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/SignUp.razor.rz.scp.css

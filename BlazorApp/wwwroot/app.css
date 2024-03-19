@@ -26,6 +26,10 @@ a, .btn-link {
     
 }
 
+.input-table-text{
+    align-self:center;
+}
+
 /*
 .btn-secondary:hover{
     transform: scale(1.1);

@@ -1,0 +1,66 @@
+/* Apply bold font weight to labels */
+.label[b-hwecgiciv1] {
+    font-weight: bold;
+}
+
+/* Set width for input fields */
+.input-SignUp[b-hwecgiciv1] {
+    width: 250px; /* Adjust width as needed */
+    border: solid;
+    border-radius: 50px;
+    border-color: rgb(183, 183, 183);
+}
+
+.submit-SignUp[b-hwecgiciv1]{
+    justify-self: center;
+    vertical-align: auto;
+}
+
+
+/* Style the submit button */
+.btn[b-hwecgiciv1] {
+    background-color: #007bff; /* Blue color */
+    color: white; /* Text color */
+    padding: 8px 16px; /* Padding */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Cursor on hover */
+    justify-self: center;
+}
+
+    /* Hover effect for the submit button */
+    .btn:hover[b-hwecgiciv1] {
+        background-color: #0056b3; /* Darker blue color */
+    }
+
+.input-table[b-hwecgiciv1]{
+    display: grid;
+    padding-top: 50px;
+    
+    place-items: center;
+    vertical-align: auto;
+    
+    
+}
+
+.input-table td[b-hwecgiciv1]{
+    padding: 10px 0;
+}
+
+
+
+.center-title[b-hwecgiciv1]{
+    display: grid;
+    place-items: center;
+    
+}
+
+
+
+
+body .input-table[b-hwecgiciv1]{
+    display: grid;
+    place-items: center;
+    vertical-align: auto;
+    
+}
