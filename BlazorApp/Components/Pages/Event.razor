@@ -1,0 +1,39 @@
+﻿@page "/event"
+
+
+<PageTitle>Event</PageTitle>
+
+
+<h1>Event set up:</h1>
+<form>
+    <label id="school" for="school"> Enter School Name:</label><br>
+    <input type="text" id="school" name="school"/><br>
+   
+    <h2>Event details: </h2>
+    <h3>Number of matches</h3>
+    <label id="matchminl" for="matchmin">Minimum </label>
+    <input type="text" id="matchmin" name="matchmin" />
+    <label id="matchmaxl" for="matchmax">Maximum </label>
+    <input type="text" id="matchmax" name="matchmax" /><br>
+
+    <label id="skillL" for="skill">Skill level Difference </label>
+    <input type="text" id="skill" name="skill" />
+    <label id="gradeL" for="grade">Grade Level Difference  </label>
+    <input type="text" id="grade" name="grade" /><br>
+
+    <label id="matsl" for="mats">Number of Mats: </label>
+    <input type="text" id="mats" name="mats" />
+    <label id="matchschoolL" for="matchmax">Allow Matches from your school? </label>
+    <input type="text" id="matchschool" name="matchschool" /><br>
+    <br>
+    <h2> Match Criteria</h2>
+    <label id="weightminl" for="weightmin">Minimum Weight </label>
+    <input type="text" id="weighthmin" name="weightmin" />
+    <label id="weightmaxl" for="weightmax">Maximum Weight </label>
+    <input type="text" id="weightmax" name="weightmax" />
+    <label id="diffL" for="diff">Allowed Weight Difference </label>
+    <input type="text" id="diff" name="diff" />
+    <button class="btn btn-secondary"  >Add Match</button>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
