@@ -1,43 +1,107 @@
 @page "/Roster"
+@using Microsoft.AspNetCore.Components
+@using System.Diagnostics
+@using Structure
+
 @inject Structure.Roster rosterObj
 
 
 <PageTitle>My Roster</PageTitle>
 <head><link rel="stylesheet" href="~BlazorApp/wwwroot/app.css" /></head>
-<h1 class="main-title" >My Roster</h1>
+<h1 class="main-title">My Roster</h1>
 <body>
     <div>
-        
-        
-
-        <table class="table" style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);">
+        <table class="table" style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 24px rgba(0, 27, 49, 0.631);">
         <thead>
             <tr>
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Skill level</th>
                 <th>Grade</th>
+                <th>School</th>
             </tr>
         </thead>
         <tbody>
 
+        
             @foreach (var item in rosterObj.rosterList)
             {
-                <tr>
-                    <td>@item.Key</td>
-                    <td>@item.Value.firstName</td>
-                    <td>@item.Value.skill</td>
-                    <td>@item.Value.grade</td>
-                    <td><button class="btn btn-secondary" href=""  type="submit">Edit</button></td>
-                </tr>
+                @if (item.Value.editing){
+                    <h1>@item.Value.editing</h1>
+                    <tr>
+                        <td>@item.Key</td>
+                        <td>@item.Value.firstName</td>
+                        <td>@item.Value.skill</td>
+                        <td>@item.Value.grade</td>
+                        <td>@item.Value.schoolName</td>
+                        <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
+                    </tr>
+
+                }
+                @if (item.Value.editing){ 
+                    <tr>
+                        <td><input type="text" @bind="item.Value.lastName"/></td>
+                        <td><input type="text" @bind="item.Value.firstName"/></td>
+                        <td><input type="text" @bind="item.Value.skill"/></td>
+                        <td><input type="text" @bind="item.Value.grade"/></td>
+                        <td><input type="text" @bind="@item.Value.schoolName"/></td>
+                        <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
+                    </tr>
+
+                }
+                
             }
+
             <tr>
-                <td><button class="btn btn-primary" href=""  type="submit">Add</button></td>
+                <td><button class="btn btn-primary"  href=""  type="submit">Add</button></td>
                 <td><button class="btn btn-primary" href=""  type="submit">Remove</button></td>
             </tr>
         </tbody>
+        <h1>@testItem</h1>
+        <button class="btn bnt-primary" @onclick="testItemChange">test</button>
     </table>
 
     </div>
 
 </body>
+
+@code{
+
+    
+    string testItem = "test";
+    public void testItemChange(){
+        testItem="test worked!";
+        
+        StateHasChanged();
+    }
+    
+    [Parameter]
+    public EventCallback<bool> Edit{get;set;}
+
+    
+    private async Task toggleEdit(Wrestler wrestler){
+        wrestler.editing=!wrestler.editing;
+        StateHasChanged();
+    }
+    public void Add(){
+
+    }
+    
+    /*
+    public EventCallback Editing(string lastName){
+        rosterObj.rosterList[lastName].editing=true;
+        StateHasChanged();
+    }
+    */
+    
+    /*
+    public EventCallback DoneEditing(string lastName){
+        rosterObj.rosterList[lastName].editing=false;
+        StateHasChanged();
+    }
+    */
+    
+}
+
+
+

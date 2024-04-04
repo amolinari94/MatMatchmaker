@@ -11,7 +11,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 
-//testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later)
+//testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later (sql or N))
 builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
     Structure.Roster rosterObj = new Structure.Roster("test SchoolName");
     //rosterObj.rosterList = new Dictionary<string, Structure.Wrestler>();

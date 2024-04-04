@@ -1,0 +1,64 @@
+@page "/SignUp"
+ 
+
+<PageTitle>SignUp</PageTitle>
+<head>
+    
+</head>
+<h1 class="center-title">Sign Up</h1>
+
+<body class="SignUp-body">
+<form method="post" @onsubmit="HandleSubmit">
+
+    <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
+        <tr>
+            
+            <td ><input placeholder="Email" class="input-SignUp" @bind="UserProfile.Email" /></td>
+        </tr>
+        <tr>
+            
+            <td><input placeholder="Username" class="input-SignUp" @bind="UserProfile.Username" /></td>
+        </tr>
+        <tr>
+            
+            <td><input placeholder="City" class="input-SignUp" @bind="UserProfile.City" /></td>
+        </tr>
+        <tr> 
+            <td><input placeholder="State" class="input-SignUp" @bind="UserProfile.State" /></td>
+            
+        </tr>
+        <tr>
+            
+            <td><input placeholder="School Name" class="input-SignUp" @bind="UserProfile.SchoolName" /></td>
+        </tr>
+        <tr>
+            
+            <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </td>
+        </tr>
+    </table>
+
+</form>
+
+</body>
+
+
+@code {
+    public class _Profile //used for ease of testing
+    {
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string SchoolName { get; set; }
+
+    }
+
+    private _Profile UserProfile = new _Profile();
+
+    private void HandleSubmit()
+    {
+        
+    }
+}

@@ -1,12 +1,15 @@
 using System;
-
-
+using Microsoft.AspNetCore.Components;
+//backend
 namespace Structure
 {
     public class Wrestler{
 
+        
+
         //made public for testing
         public String firstName, lastName, gender,schoolName;
+        public bool editing;
 
         //made public for testing 
         public int grade, skill;
@@ -17,6 +20,7 @@ namespace Structure
             this.skill=skill;
             this.gender=gender;
             this.schoolName=schoolName;
+            this.editing = false;
         }
 
     }
@@ -59,6 +63,15 @@ namespace Structure
             }
         }
 
+        public void Editing(string key){
+            rosterList[key].editing=true;
+            
+        }
+
+        public void DoneEditing(string key){
+            rosterList[key].editing=false;
+        }
+
     }
 
     public class School
@@ -79,9 +92,9 @@ namespace Structure
         String email,username,city,state,schoolName;
         School school;
 
-        protected internal Profile(String email, String username, String schoolName, String city, String state){
+        protected internal Profile(String email, /*String username,*/ String schoolName, String city, String state){
             this.email=email;
-            this.username = username;
+            //this.username = username;
             this.city=city;
             this.state=state;
             this.schoolName=schoolName;
