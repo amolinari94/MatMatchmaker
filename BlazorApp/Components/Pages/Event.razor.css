@@ -1,0 +1,13 @@
+.text_input{
+    border: solid;
+    border-radius: 50px;
+}
+
+th, td{
+    height: 25px;
+    border: solid;
+    border-left: none;
+    border-right: none;
+    
+    border-color: #636464;
+}

@@ -22,24 +22,12 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9BcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Db3VudGVyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Error.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Test.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9UZXN0LnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Weather.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9XZWF0aGVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Routes.razor]
@@ -58,9 +46,9 @@ build_metadata.AdditionalFiles.CssScope = b-fekawvbbds
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTmF2TWVudS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-zswk0q6kaa
 
-[/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Layout/ProfileMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvUHJvZmlsZU1lbnUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-9qzjl9511h
+[/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Event.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FdmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-fdr5jz3fcj
 
 [/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/Components/Pages/Roster.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Sb3N0ZXIucmF6b3I=

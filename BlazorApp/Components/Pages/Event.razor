@@ -1,0 +1,75 @@
+@page "/Event"
+
+
+<head>
+    <h1>Create New Event</h1>
+</head>
+
+
+<h3>Event set up:</h3>
+
+    
+
+
+        
+            <label id="school" for="school"> Enter School Name:</label>
+            <input class="text_input" type="text" id="school" name="school"/>
+        
+        <h2>Event details: </h2>
+
+        
+
+    <table cellpadding="20px" style="width: 65%; height: fit-content;  border-collapse: collapse;">
+        <tr height="20px">
+            <td><label id="matchminl" for="matchmin">Number of Matches: </label></td>
+            <td><input class="text_input" placeholder="Min" type="text" id="matchmin" name="matchmin"/></td>
+            <td><input class="text_input" placeholder="Max" type="text" id="matchmax" name="matchmax"/></td>
+        </tr>
+        <tr>
+            <td><label id="skillL" for="skill">Skill level Difference: </label></td>
+            <td><input class="text_input" type="text" id="skill" name="skill"/></td>
+        </tr>
+        <tr>
+            <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
+            <td><input class="text_input" type="text" id="grade" name="grade"/></td>
+        </tr>
+        
+        <tr>
+            <td><label id="matsl" for="mats">Number of Mats: </label></td>
+            <td><input class="text_input" type="text" id="mats" name="mats"/></td>
+            <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
+            <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool"/></td>
+        </tr>
+    </table>
+
+            
+            
+            
+            
+
+            
+            
+
+            
+            
+            <h2> Match Criteria</h2>
+            <label id="weightminl" for="weightmin">Weight Limits:</label>
+            <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
+            <label class="text_input" id="weightmaxl" for="weightmax"> </label>
+            <input class="text_input" placeholder="Max" type="text" id="weightmax" name="weightmax"/>
+            <label id="diffL" for="diff">Max Weight Difference:</label>
+            <input class="text_input" type="text" id="diff" name="diff"/>
+
+
+        
+        
+        <button class="btn btn-secondary">Add Match</button>
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+
+
+@code {
+    
+}

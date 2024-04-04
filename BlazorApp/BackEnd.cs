@@ -3,17 +3,19 @@ using Microsoft.AspNetCore.Components;
 //backend
 namespace Structure
 {
+    
+    /* Class WRESTLER
+     * Holds information for each student/wrestler
+     */
     public class Wrestler{
-
-        
-
         //made public for testing
         public String firstName, lastName, gender,schoolName;
         public bool editing;
 
         //made public for testing 
         public int grade, skill;
-        protected internal Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName){
+        //changed from protected internal to public for testing
+        public Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName){
             this.firstName=firstName;
             this.lastName=lastName;
             this.grade=grade;
@@ -22,15 +24,19 @@ namespace Structure
             this.schoolName=schoolName;
             this.editing = false;
         }
+        
+        
 
     }
-
-    /*Roster contains members size, schoolName and rosterList, where wrestlers are stored as 
-    */
+    
+    /* Class ROSTER
+     * Contains members size, schoolName and rosterList, where wrestlers are stored as 
+     */
     public class Roster{
-        public int count;//changed to public for testing 
-        String schoolName;
-
+        //changed to public for testing 
+        public int count;
+        private String schoolName;
+        
         //changed to public for testing
         public Dictionary<String, Wrestler>  rosterList;
 
@@ -74,6 +80,9 @@ namespace Structure
 
     }
 
+    /*Class SCHOOL
+     * 
+     */
     public class School
     {
         Roster roster;
@@ -88,6 +97,10 @@ namespace Structure
         }
     }
 
+    
+    /*Class PROFILE
+     *
+     */
     public class Profile{
         String email,username,city,state,schoolName;
         School school;
@@ -113,9 +126,11 @@ namespace Structure
 
     }
 
+    /*Class EVENT
+     * Object for creating wrestling meet event
+     */
     public class Event
     {
-
         School host;
         School[] guests;
 

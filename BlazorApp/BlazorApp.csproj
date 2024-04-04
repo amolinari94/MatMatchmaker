@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Components\Pages\Event.razor.css" />
+    <Content Include="Components\Pages\Event.razor.css" />
+  </ItemGroup>
+
 </Project>
