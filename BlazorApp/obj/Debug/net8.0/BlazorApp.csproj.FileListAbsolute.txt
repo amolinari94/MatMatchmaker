@@ -21,7 +21,6 @@
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/staticwebassets.pack.json
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/MainLayout.razor.rz.scp.css
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css
-/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/ProfileMenu.razor.rz.scp.css
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Roster.razor.rz.scp.css
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/SignUp.razor.rz.scp.css
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/bundle/BlazorApp.styles.css
@@ -31,3 +30,4 @@
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.pdb
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Event.razor.rz.scp.css
