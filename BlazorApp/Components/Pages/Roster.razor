@@ -8,7 +8,7 @@
 
 <PageTitle>My Roster</PageTitle>
 <head><link rel="stylesheet" href="~BlazorApp/wwwroot/app.css" /></head>
-<h1 class="main-title" >My Roster</h1>
+<h1 class="main-title">My Roster</h1>
 <body>
     <div>
         <table class="table" style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 24px rgba(0, 27, 49, 0.631);">
@@ -23,29 +23,30 @@
         </thead>
         <tbody>
 
-            
+        
             @foreach (var item in rosterObj.rosterList)
             {
-                @if (item.Value.editing ==false){
-                <tr>
-                    
-                    <td>@item.Key</td>
-                    <td>@item.Value.firstName</td>
-                    <td>@item.Value.skill</td>
-                    <td>@item.Value.grade</td>
-                    <td>@item.Value.schoolName</td>
-                    <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
-                </tr>
+                @if (item.Value.editing){
+                    <h1>@item.Value.editing</h1>
+                    <tr>
+                        <td>@item.Key</td>
+                        <td>@item.Value.firstName</td>
+                        <td>@item.Value.skill</td>
+                        <td>@item.Value.grade</td>
+                        <td>@item.Value.schoolName</td>
+                        <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
+                    </tr>
 
-                }else if (item.Value.editing==true){
-                <tr>
-                    <td><input type="text" @bind="item.Value.lastName"/></td>
-                    <td><input type="text" @bind="item.Value.firstName"/></td>
-                    <td><input type="text" @bind="item.Value.skill"/></td>
-                    <td><input type="text" @bind="item.Value.grade"/></td>
-                    <td><input type="text" @bind="@item.Value.schoolName"/></td>
-                    <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
-                </tr>
+                }
+                @if (item.Value.editing){ 
+                    <tr>
+                        <td><input type="text" @bind="item.Value.lastName"/></td>
+                        <td><input type="text" @bind="item.Value.firstName"/></td>
+                        <td><input type="text" @bind="item.Value.skill"/></td>
+                        <td><input type="text" @bind="item.Value.grade"/></td>
+                        <td><input type="text" @bind="@item.Value.schoolName"/></td>
+                        <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
+                    </tr>
 
                 }
                 
@@ -57,7 +58,7 @@
             </tr>
         </tbody>
         <h1>@testItem</h1>
-        <button class="btn bnt-primary" @onclick="(()=>testItemChange())">test</button>
+        <button class="btn bnt-primary" @onclick="testItemChange">test</button>
     </table>
 
     </div>
@@ -66,28 +67,18 @@
 
 @code{
 
-    /*
-    public EventCallback Editing(string lastName){
-        rosterObj.rosterList[lastName].editing=true;
-        StateHasChanged();
-    }
-    */
+    
     string testItem = "test";
     public void testItemChange(){
         testItem="test worked!";
         
         StateHasChanged();
     }
-    //private bool isEditing=false;
+    
     [Parameter]
     public EventCallback<bool> Edit{get;set;}
 
-    /*
-    public EventCallback DoneEditing(string lastName){
-        rosterObj.rosterList[lastName].editing=false;
-        StateHasChanged();
-    }
-    */
+    
     private async Task toggleEdit(Wrestler wrestler){
         wrestler.editing=!wrestler.editing;
         StateHasChanged();
@@ -95,6 +86,20 @@
     public void Add(){
 
     }
+    
+    /*
+    public EventCallback Editing(string lastName){
+        rosterObj.rosterList[lastName].editing=true;
+        StateHasChanged();
+    }
+    */
+    
+    /*
+    public EventCallback DoneEditing(string lastName){
+        rosterObj.rosterList[lastName].editing=false;
+        StateHasChanged();
+    }
+    */
     
 }
 

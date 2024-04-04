@@ -92,9 +92,9 @@ namespace Structure
         String email,username,city,state,schoolName;
         School school;
 
-        protected internal Profile(String email, String username, String schoolName, String city, String state){
+        protected internal Profile(String email, /*String username,*/ String schoolName, String city, String state){
             this.email=email;
-            this.username = username;
+            //this.username = username;
             this.city=city;
             this.state=state;
             this.schoolName=schoolName;
