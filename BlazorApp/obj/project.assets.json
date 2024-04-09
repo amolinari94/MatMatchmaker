@@ -590,24 +590,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/alexmolinari/.nuget/packages/": {}
+    "C:\\Users\\nicks\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/BlazorApp.csproj",
+      "projectUniqueName": "C:\\Users\\nicks\\Desktop\\MatMatchmaker\\BlazorApp\\BlazorApp.csproj",
       "projectName": "BlazorApp",
-      "projectPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/BlazorApp.csproj",
-      "packagesPath": "/Users/alexmolinari/.nuget/packages/",
-      "outputPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/",
+      "projectPath": "C:\\Users\\nicks\\Desktop\\MatMatchmaker\\BlazorApp\\BlazorApp.csproj",
+      "packagesPath": "C:\\Users\\nicks\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nicks\\Desktop\\MatMatchmaker\\BlazorApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/alexmolinari/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\nicks\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -650,7 +652,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
