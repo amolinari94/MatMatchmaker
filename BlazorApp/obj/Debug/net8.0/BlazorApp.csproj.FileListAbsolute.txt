@@ -31,3 +31,6 @@
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Event.razor.rz.scp.css
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorBootstrap.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.AssemblyReference.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.Up2Date
