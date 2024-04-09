@@ -3,6 +3,7 @@ using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
 using Structure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,23 @@ builder.Services.AddBlazorBootstrap();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Add services to the container.
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+// Add DbContext and specify the connection string
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add anti-forgery token configuration
+builder.Services.AddAntiforgery(options =>
+{
+    options.Cookie.Expiration = TimeSpan.Zero;
+    // Disable anti-forgery token validation for testing purposes
+    options.SuppressXFrameOptionsHeader = true;
+    
+});
 
 
 //testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later (sql or N))

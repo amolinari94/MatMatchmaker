@@ -43,6 +43,14 @@
             "Blazor.Bootstrap": {
               "target": "Package",
               "version": "[2.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.0-preview.2.24128.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.0-preview.2.24128.4, )"
             }
           },
           "imports": [
