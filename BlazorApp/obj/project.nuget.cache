@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "t2/bR+SA+DRc7ixayc+y1CVoxX40kyp3fZo+JX5s9/44jhZjG1VtWqJYQGm0C2KRqK6/2zyx20/FB/l7S3WNCw==",
+  "dgSpecHash": "OYT/JnqPWJ5sGsoWdW0SvLH8CWXwkGVIUoHnwRet4MQLz4Ej8iaxBGR/N49ezcELxjyI11uQqq+MEVN4svwEEg==",
   "success": true,
   "projectFilePath": "C:\\Users\\nicks\\Desktop\\MatMatchmaker\\BlazorApp\\BlazorApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nicks\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\blazor.bootstrap\\2.0.0\\blazor.bootstrap.2.0.0.nupkg.sha512",
+    "C:\\Users\\nicks\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.26\\microsoft.aspnetcore.authorization.6.0.26.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.26\\microsoft.aspnetcore.components.6.0.26.nupkg.sha512",
     "C:\\Users\\nicks\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\6.0.26\\microsoft.aspnetcore.components.analyzers.6.0.26.nupkg.sha512",

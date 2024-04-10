@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using BlazorApp.Components;
-namespace Structure;
+namespace BlazorApp.Components
+{
 
 public class ApplicationDbContext : DbContext
 {
@@ -11,4 +12,5 @@ public class ApplicationDbContext : DbContext
 
     // Define DbSet properties for your entities
     public DbSet<UserProfile> UserProfiles { get; set; }
+}
 }

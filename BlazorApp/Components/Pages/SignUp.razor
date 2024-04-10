@@ -1,5 +1,7 @@
 @page "/SignUp"
- 
+@using DataAccessLibrary.Models
+@using BlazorApp.Models
+using BlazorApp.Components;
 
 <PageTitle>SignUp</PageTitle>
 <head>
@@ -34,7 +36,7 @@
         <tr>
             
             <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" @onclick="HandleSubmit" type="submit">Submit</button>
             </td>
         </tr>
     </table>
@@ -45,20 +47,38 @@
 
 
 @code {
-    public class _Profile //used for ease of testing
-    {
-        public string Email { get; set; }
-        public string Username { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string SchoolName { get; set; }
+    private List<ProfileModel> profile;
+    private DisplayProfileModel newProfile = new DisplayProfileModel();
 
-    }
 
-    private _Profile UserProfile = new _Profile();
 
-    private void HandleSubmit()
-    {
-        
-    }
+
+
+    /* // Inject the ApplicationDbContext
+     [Inject]
+     private ApplicationDbContext dbContext { get; set; }
+
+     // Define a property to hold the user input
+     private UserProfile UserProfile { get; set; } = new UserProfile();
+
+     // Define the method to handle form submission
+     private async Task HandleSubmit()
+     {
+         try
+         {
+             // Add the UserProfile object to the database
+             dbContext.UserProfiles.Add(UserProfile);
+             await dbContext.SaveChangesAsync();
+
+             // Optionally, you can clear the form after successful submission
+             UserProfile = new UserProfile();
+         }
+         catch (Exception ex)
+         {
+             // Handle any exceptions that may occur during database operation
+             // Display error message to the user
+             // Redirect to an error page if necessary
+         }
+
+     }*/
 }
