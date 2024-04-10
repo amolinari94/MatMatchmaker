@@ -2,6 +2,8 @@
 @using Microsoft.AspNetCore.Components
 @using System.Diagnostics
 @using Structure
+@using System.ComponentModel.DataAnnotations.Schema
+@using System.Reflection.Metadata
 @inject Structure.Roster rosterObj
 @rendermode InteractiveServer
 
@@ -18,7 +20,7 @@
                 <th>First Name</th>
                 <th>Skill level</th>
                 <th>Grade</th>
-                <th>School</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -30,8 +32,6 @@
                         <td>@item.Value.firstName</td>
                         <td>@item.Value.skill</td>
                         <td>@item.Value.grade</td>
-                        
-                        
                         <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
                     </tr>
                 }
@@ -41,15 +41,26 @@
                         <td><input type="text" @bind="item.Value.firstName"/></td>
                         <td><input type="text" @bind="item.Value.skill"/></td>
                         <td><input type="text" @bind="item.Value.grade"/></td>
-                        
+                        <td ><button class="btn btn-secondary" @onclick="()=>deleteWrestler(item.Value)" type="submit">Delete</button></td>
                         <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
                     </tr>
                     
                 }
             }
+            <tr id="addRow" style="@displayMode">
+                <td><input id="lastName" @bind="lastName" type="text" /></td>
+                <td><input id="firstName" type="text" @bind="firstName" /></td>
+                <td><input id="skill" type="text" @bind="skill"/> </td>
+                <td><input id="grade" type="text" @bind="grade"></td>
+                <td><input id="gender" type="text" @bind="gender"></td>
+                <td><input id="schoolName" type="text" @bind="schoolName"></td>
+                <td><button @onclick="addWrestler" class="btn-secondary" type="submit">Done</button></td>
+
+            </tr>
             <tr>
-                <td><button class="btn btn-primary"  href=""  type="submit">Add</button></td>
-                <td><button class="btn btn-primary" href=""  type="submit">Remove</button></td>
+                
+                <td><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
+                
             </tr>
         </tbody>
         
@@ -60,23 +71,54 @@
 
 
 @code{
-
-    
-    public string testItem = "test";
-    public void testItemChange(){
-        Console.WriteLine("entered testitemchanged function");
-        testItem="test worked";
-        
-        StateHasChanged();
-    }
     
     [Parameter]
     public EventCallback<bool> Edit{get;set;}
+    
+    public string lastName { get; set; }
+    public string firstName { get; set; }
+    public string skill { get; set; }
+    public string grade { get; set; }
+    public string gender { get; set; }
+    public string schoolName { get; set; }
+
+    private void deleteWrestler(Wrestler wrestler) {
+        rosterObj.rosterList.Remove(wrestler.lastName);
+        deleteButtonDisplayMode = "display: none;";
+        StateHasChanged();
+    }
+    
+    private void addWrestler() {
+        
+        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender,schoolName);
+        rosterObj.rosterList.Add(wrestler.lastName,wrestler);
+        
+
+    }
+    string deleteButtonDisplayMode = "display: none;";
+
+    private void showDelete() {
+        deleteButtonDisplayMode = "";
+    }
+    
+    string displayMode = "display: none;";
+    private void displayNewRow() {
+        
+        lastName = "";
+        firstName="";
+        skill="";
+        grade="";
+        gender = "";
+        schoolName = "";
+        displayMode = "";
+
+    }
 
     //changed from 'private async Task' to 'private void'
     private void toggleEdit(Wrestler wrestler) {
         
         wrestler.editing=!wrestler.editing;
+        
         StateHasChanged();
         
     }
