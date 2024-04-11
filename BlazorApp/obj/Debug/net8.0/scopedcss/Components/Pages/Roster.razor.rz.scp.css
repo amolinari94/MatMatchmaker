@@ -1,7 +1,0 @@
-.main-title[b-rvlot1nh3i]{
-    background-image: linear-gradient(blue, darkblue);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent; /* Makes the text itself transparent, showing the background */
-    display: inline-block;
-}
