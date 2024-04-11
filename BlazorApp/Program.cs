@@ -13,13 +13,12 @@ builder.Services.AddBlazorBootstrap();
 
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
+
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Add DbContext and specify the connection string
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add anti-forgery token configuration
 builder.Services.AddAntiforgery(options =>

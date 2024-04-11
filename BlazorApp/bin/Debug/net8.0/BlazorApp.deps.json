@@ -9,6 +9,7 @@
       "BlazorApp/1.0.0": {
         "dependencies": {
           "Blazor.Bootstrap": "2.0.0",
+          "DataAccessLibrary": "1.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.0-preview.2.24128.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.0-preview.2.24128.4"
         },
@@ -58,6 +59,14 @@
           "lib/net6.0/BlazorBootstrap.dll": {
             "assemblyVersion": "2.0.0.0",
             "fileVersion": "2.0.0.0"
+          }
+        }
+      },
+      "Dapper/2.1.35": {
+        "runtime": {
+          "lib/net7.0/Dapper.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.1.35.13827"
           }
         }
       },
@@ -537,7 +546,17 @@
       },
       "System.Text.Encodings.Web/4.7.2": {},
       "System.Text.Json/4.7.2": {},
-      "System.Threading.Tasks.Extensions/4.5.4": {}
+      "System.Threading.Tasks.Extensions/4.5.4": {},
+      "DataAccessLibrary/1.0.0": {
+        "dependencies": {
+          "Dapper": "2.1.35",
+          "Microsoft.Data.SqlClient": "5.2.0-preview5.24024.3",
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0-preview.2.24128.5"
+        },
+        "runtime": {
+          "DataAccessLibrary.dll": {}
+        }
+      }
     }
   },
   "libraries": {
@@ -566,6 +585,13 @@
       "sha512": "sha512-doNpy1OCQWKrCBea2/XP4nubTGvl04NxiQxQrfpjFBhq086xbIjdYf9m+dhtsLOiKllcBdQTPsSu5vc3fqPyiA==",
       "path": "blazor.bootstrap/2.0.0",
       "hashPath": "blazor.bootstrap.2.0.0.nupkg.sha512"
+    },
+    "Dapper/2.1.35": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YKRwjVfrG7GYOovlGyQoMvr1/IJdn+7QzNXJxyMh0YfFF5yvDmTYaJOVYWsckreNjGsGSEtrMTpnzxTUq/tZQw==",
+      "path": "dapper/2.1.35",
+      "hashPath": "dapper.2.1.35.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authorization/6.0.26": {
       "type": "package",
@@ -951,6 +977,11 @@
       "sha512": "sha512-zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
       "path": "system.threading.tasks.extensions/4.5.4",
       "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    },
+    "DataAccessLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

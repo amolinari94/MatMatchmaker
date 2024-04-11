@@ -118,3 +118,6 @@ C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\obj\Debug\net8.0\refint\BlazorApp
 C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\obj\Debug\net8.0\BlazorApp.pdb
 C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\obj\Debug\net8.0\BlazorApp.genruntimeconfig.cache
 C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\obj\Debug\net8.0\ref\BlazorApp.dll
+C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\bin\Debug\net8.0\Dapper.dll
+C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\bin\Debug\net8.0\DataAccessLibrary.dll
+C:\Users\nicks\Desktop\MatMatchmaker\BlazorApp\bin\Debug\net8.0\DataAccessLibrary.pdb

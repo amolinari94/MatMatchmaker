@@ -14,7 +14,7 @@ namespace DataAccessLibrary
     {
         private readonly IConfiguration _config;
 
-        public string ConnectionStringName { get; set; } = "Default";
+        public string ConnectionStringName { get; set; } = "DefaultConnection";
 
         public SqlDataAccess(IConfiguration config)
         {
@@ -23,7 +23,7 @@ namespace DataAccessLibrary
 
         public async Task<List<T>> LoadData<T, U>(string sql, U parameters)
         {
-            string connectionString = _config.GetConnectionString(ConnectionStringName);
+            string connectionString = _config.GetConnectionString("DefaultConnection");
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
@@ -35,7 +35,7 @@ namespace DataAccessLibrary
 
         public async Task SaveData<T>(string sql, T parameters)
         {
-            string connectionString = _config.GetConnectionString(ConnectionStringName);
+            string connectionString = _config.GetConnectionString("DefaultConnection");
 
             using (IDbConnection connection = new SqlConnection(connectionString))
             {
