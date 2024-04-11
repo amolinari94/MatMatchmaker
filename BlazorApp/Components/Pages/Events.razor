@@ -1,0 +1,68 @@
+@page "/Events"
+
+@code {
+    string monthName = "";
+    DateTime monthEnd;
+    int monthsAway = 0;
+    int numColumn = 0;
+    int year = 2020;
+    int month = 0;
+    List<Calendar.CalendarItem> items = new List<Calendar.CalendarItem>();
+    protected override void OnInitialized()
+    {
+        items.Add(new Calendar.CalendarItem(new DateTime(2024, 04, 04), "Test day 1"));
+		CreateMonth();
+	}
+
+	void CreateMonth()
+	{
+		var tempDate = DateTime.Now.AddMonths(monthsAway);
+		month = tempDate.Month;
+		year = tempDate.Year;
+
+		DateTime monthStart = new DateTime(year, month, 1);
+		monthEnd = monthStart.AddMonths(1).AddDays(-1);
+		monthName = monthStart.Month switch
+		{
+			1 => "January",
+			2 => "February",
+			3 => "March",
+			4 => "April",
+			5 => "May",
+			6 => "June",
+			7 => "July",
+			8 => "August",
+			9 => "September",
+			10 => "October",
+			11 => "November",
+			12 => "December",
+			_ => ""
+		};
+
+		numColumn = (int)monthStart.DayOfWeek;
+	}
+}
+
+<button @onclick="() => { monthsAway--; CreateMonth(); }">Previous Month</button>
+<h1>@monthName, @year</h1>
+<button @onclick="() => { monthsAway++; CreateMonth(); }">Next Month</button>
+
+<section>
+	@for (int i = 0; i < numColumn; i++)
+	{
+		<div></div>
+	}
+	@for (int i = 1; i <= monthEnd.Day; i++)
+	{
+		var calendarItem = 
+			items.FirstOrDefault(n => n.Date == new DateTime(year, month, i));
+
+		<div>
+			<h2>@i</h2>
+			@if (calendarItem != null)
+			{
+				<p>@calendarItem.Name</p>
+			}
+		</div>
+	}
+</section>

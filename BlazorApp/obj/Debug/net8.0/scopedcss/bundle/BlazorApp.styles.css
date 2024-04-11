@@ -24,7 +24,8 @@ main[b-fekawvbbds] {
 }
 
 .top-row[b-fekawvbbds] {
-    background-color: #f7f7f7;
+    /*background-color: #f7f7f7;*/
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #040d32 70%);
     border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
     height: 3.5rem;
@@ -243,6 +244,17 @@ th[b-fdr5jz3fcj], td[b-fdr5jz3fcj]{
     
     border-color: #636464;
 }
+/* _content/BlazorApp/Components/Pages/Events.razor.rz.scp.css */
+section[b-af0ekgvc4l] {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+}
+
+section > div[b-af0ekgvc4l] {
+	border: 1px solid black;
+	padding: 10px;
+}
+/* _content/BlazorApp/Components/Pages/Home.razor.rz.scp.css */
 /* _content/BlazorApp/Components/Pages/Roster.razor.rz.scp.css */
 .main-title[b-rvlot1nh3i]{
     background-image: linear-gradient(blue, darkblue);

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/BlazorApp.csproj": {}
+    "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/BlazorApp.csproj": {}
   },
   "projects": {
-    "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/BlazorApp.csproj": {
+    "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/BlazorApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/BlazorApp.csproj",
+        "projectUniqueName": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/BlazorApp.csproj",
         "projectName": "BlazorApp",
-        "projectPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/BlazorApp.csproj",
-        "packagesPath": "/Users/alexmolinari/.nuget/packages/",
-        "outputPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/",
+        "projectPath": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/BlazorApp.csproj",
+        "packagesPath": "/Users/venitia/.nuget/packages/",
+        "outputPath": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/alexmolinari/.nuget/NuGet/NuGet.Config"
+          "/Users/venitia/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {

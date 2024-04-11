@@ -34,3 +34,41 @@
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/bin/Debug/net8.0/BlazorBootstrap.dll
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.AssemblyReference.cache
 /Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.Up2Date
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/appsettings.Development.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/appsettings.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorApp.staticwebassets.runtime.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorApp
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorApp.deps.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorApp.runtimeconfig.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorApp.dll
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorApp.pdb
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/bin/Debug/net8.0/BlazorBootstrap.dll
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.AssemblyReference.cache
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.AssemblyInfoInputs.cache
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.AssemblyInfo.cs
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.CoreCompileInputs.cache
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.MvcApplicationPartsAssemblyInfo.cache
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.sourcelink.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets.build.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets.development.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.BlazorApp.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.build.BlazorApp.props
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.BlazorApp.props
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.BlazorApp.props
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/staticwebassets.pack.json
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/MainLayout.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/NavMenu.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Roster.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/SignUp.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Event.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/bundle/BlazorApp.styles.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/projectbundle/BlazorApp.bundle.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.csproj.Up2Date
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.dll
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/refint/BlazorApp.dll
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.pdb
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Events.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Home.razor.rz.scp.css
