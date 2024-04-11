@@ -2,6 +2,9 @@ using BlazorApp.Components;
 using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Structure;
 
 var builder = WebApplication.CreateBuilder(args);
