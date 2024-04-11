@@ -20,8 +20,8 @@ public class ProfileData : IProfileData
 
     public Task InsertProfile(ProfileModel profile)
     {
-        string sql = @"insert into dbo.Profile (EmailAddress, Username, City, State, SchoolName, PasswordHash, SchoolId) 
-                      values (@EmailAddress, @Username, @City, @State, @SchoolName, @PasswordHash, @SchoolId);";
+        string sql = @"insert into dbo.Profile (Email, Username, City, State, SchoolName, PasswordHash) 
+                      values (@Email, @Username, @City, @State, @SchoolName, @PasswordHash);";
 
         return _db.SaveData(sql, profile);
     }

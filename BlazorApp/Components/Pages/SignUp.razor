@@ -1,64 +1,94 @@
+
 @page "/SignUp"
- 
+@using DataAccessLibrary.Models
+@using BlazorApp.Models
+@using DataAccessLibrary
+@inject IProfileData _db
+
+
+
 
 <PageTitle>SignUp</PageTitle>
 <head>
-    
+
 </head>
 <h1 class="center-title">Sign Up</h1>
 
 <body class="SignUp-body">
-<form method="post" @onsubmit="HandleSubmit">
+
+<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
+    <InputText id ="Email" @bind-Value="newProfile.Email"/>
+    <InputText id ="Username" @bind-Value="newProfile.Username"/>
+    <InputText id ="City" @bind-Value="newProfile.City"/>
+    <InputText id ="State" @bind-Value="newProfile.State"/>
+    <InputText id ="SchoolName" @bind-Value="newProfile.SchoolName"/>
+    <InputText id ="Password" @bind-Value="newProfile.PasswordHash"/>
+    
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+
+</EditForm>
+          
+@**<form method="post" @onsubmit="HandleSubmit">
 
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
-            
-            <td ><input placeholder="Email" class="input-SignUp" @bind="UserProfile.Email" /></td>
+
+            <td ><input placeholder="Email" class="input-SignUp" @bind="UserProfile.Email"/></td>
         </tr>
         <tr>
-            
-            <td><input placeholder="Username" class="input-SignUp" @bind="UserProfile.Username" /></td>
+
+            <td><input placeholder="Username" class="input-SignUp" @bind="UserProfile.Username"/></td>
         </tr>
         <tr>
-            
-            <td><input placeholder="City" class="input-SignUp" @bind="UserProfile.City" /></td>
-        </tr>
-        <tr> 
-            <td><input placeholder="State" class="input-SignUp" @bind="UserProfile.State" /></td>
-            
+
+            <td><input placeholder="City" class="input-SignUp" @bind="UserProfile.City"/></td>
         </tr>
         <tr>
-            
-            <td><input placeholder="School Name" class="input-SignUp" @bind="UserProfile.SchoolName" /></td>
+            <td><input placeholder="State" class="input-SignUp" @bind="UserProfile.State"/></td>
+
         </tr>
         <tr>
-            
+
+            <td><input placeholder="School Name" class="input-SignUp" @bind="UserProfile.SchoolName"/></td>
+        </tr>
+        <tr>
+
             <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <button class="btn btn-primary" @onclick="HandleSubmit" type="submit">Submit</button>
             </td>
         </tr>
     </table>
 
 </form>
+**@
 
-</body>
-
+</body> 
 
 @code {
-    public class _Profile //used for ease of testing
-    {
-        public string Email { get; set; }
-        public string Username { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string SchoolName { get; set; }
+    private List<ProfileModel> profile;
+    private DisplayProfileModel newProfile = new DisplayProfileModel();
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        profile = await _db.GetProfile();
     }
 
-    private _Profile UserProfile = new _Profile();
-
-    private void HandleSubmit()
+    private async Task InsertProfile()
     {
-        
+        ProfileModel p = new ProfileModel()
+        {
+            Email = newProfile.Email,
+            City = newProfile.City,
+            Username = newProfile.Username,
+            State = newProfile.State,
+            SchoolName = newProfile.SchoolName,
+            PasswordHash = newProfile.PasswordHash
+
+        };
+        await _db.InsertProfile(p);
     }
+
 }

@@ -2,6 +2,7 @@ using BlazorApp.Components;
 using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
+using DataAccessLibrary;
 using Structure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,9 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddTransient<IProfileData, ProfileData>();
 
 
 //testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later (sql or N))
