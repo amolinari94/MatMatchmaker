@@ -2,6 +2,7 @@ using BlazorApp.Components;
 using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
+using DataAccessLibrary;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +16,9 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+builder.Services.AddTransient<IProfileData, ProfileData>();
 
 
 //testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later (sql or N))
