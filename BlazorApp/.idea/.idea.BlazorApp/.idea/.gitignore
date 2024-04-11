@@ -1,3 +1,9 @@
+bin/ 	
+# ignore bin directory 
+*.obj 	
+# ignore any files with .obj postfix 
+
+
 # Default ignored files
 /shelf/
 /workspace.xml
