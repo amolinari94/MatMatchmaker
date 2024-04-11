@@ -3,6 +3,9 @@ using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
 using DataAccessLibrary;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Structure;
 
 var builder = WebApplication.CreateBuilder(args);
