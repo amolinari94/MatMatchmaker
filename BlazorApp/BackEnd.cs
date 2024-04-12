@@ -35,7 +35,7 @@ namespace Structure
     public class Roster{
         //changed to public for testing 
         public int count;
-        private String schoolName;
+        internal String schoolName { get; set; }
         
         //changed to public for testing
         public Dictionary<String, Wrestler>  rosterList;

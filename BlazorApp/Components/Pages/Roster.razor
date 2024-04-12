@@ -13,13 +13,14 @@
 <link rel="stylesheet" href="~BlazorApp/wwwroot/app.css" />
 <h1 class="main-title">My Roster</h1>
     <div>
-        <table class="table" style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 24px rgba(0, 27, 49, 0.631);">
+        <table  class="table" style="width: 100%; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227);  ">
         <thead>
             <tr>
                 <th>Last Name</th>
                 <th>First Name</th>
                 <th>Skill level</th>
                 <th>Grade</th>
+                <th></th>
                 
             </tr>
         </thead>
@@ -27,39 +28,40 @@
             @foreach (var item in rosterObj.rosterList)
             {
                 @if (!item.Value.editing){
-                    <tr >
+                    <tr  >
                         <td>@item.Key</td>
                         <td>@item.Value.firstName</td>
                         <td>@item.Value.skill</td>
                         <td>@item.Value.grade</td>
-                        <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
                     </tr>
                 }
                 else {
                     <tr>
-                        <td><input type="text" @bind="item.Value.lastName"/></td>
-                        <td><input type="text" @bind="item.Value.firstName"/></td>
-                        <td><input type="text" @bind="item.Value.skill"/></td>
-                        <td><input type="text" @bind="item.Value.grade"/></td>
-                        <td ><button class="btn btn-secondary" @onclick="()=>deleteWrestler(item.Value)" type="submit">Delete</button></td>
-                        <td><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
+                        <td><input class="input-2" type="text" @bind="item.Value.lastName"/></td>
+                        <td><input class="input-2" type="text" @bind="item.Value.firstName"/></td>
+                        <td><input class="input-2" type="text" @bind="item.Value.skill"/></td>
+                        <td><input class="input-2" type="text" @bind="item.Value.grade"/></td>
+                        <td style="border: none" ><button class="btn btn-secondary" @onclick="()=>deleteWrestler(item.Value)" type="submit">Delete</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
                     </tr>
                     
                 }
             }
             <tr id="addRow" style="@displayMode">
-                <td><input class="input-SignUp" id="lastName" @bind="lastName" type="text" /></td>
-                <td><input id="firstName" type="text" @bind="firstName" /></td>
-                <td><input id="skill" type="text" @bind="skill"/> </td>
-                <td><input id="grade" type="text" @bind="grade"></td>
-                <td><input id="gender" type="text" @bind="gender"></td>
-                <td><input id="schoolName" type="text" @bind="schoolName"></td>
-                <td><button @onclick="addWrestler" class="btn-secondary" type="submit">Done</button></td>
+                <td><input class="input-2" id="lastName" @bind="lastName" type="text" /></td>
+                <td><input class="input-2" id="firstName" type="text" @bind="firstName" /></td>
+                <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
+                <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
+                <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
+                
+                <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
+                <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
 
             </tr>
             <tr>
                 
-                <td><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
+                <td style="border: none"><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
                 
             </tr>
         </tbody>
@@ -90,13 +92,20 @@
     
     private void addWrestler() {
         
-        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender,schoolName);
+        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender, rosterObj.schoolName);
         rosterObj.rosterList.Add(wrestler.lastName,wrestler);
-        
+        rosterObj.rosterList[lastName].editing = false;
+        displayMode = "display: none;";
+
+
 
     }
     string deleteButtonDisplayMode = "display: none;";
 
+    private void cancelAdd() {
+        displayMode = "display: none;";
+    }
+    
     private void showDelete() {
         deleteButtonDisplayMode = "";
     }
@@ -124,6 +133,13 @@
     }
     public void Add(){
 
+    }
+
+    public void sort(string value) {
+        if (value == "Last Name") {
+            
+            
+        }
     }
     
     /*
