@@ -76,9 +76,9 @@
         profile = await _db.GetProfile();
     }
 
-    private async Task InsertProfile()
-    {
-        ProfileModel p = new ProfileModel()
+    private async Task InsertProfile() {
+        ProfileModel p = new ProfileModel(newProfile.Email, newProfile.Username, newProfile.City, newProfile.State,newProfile.SchoolName,
+            newProfile.PasswordHash)
         {
             Email = newProfile.Email,
             City = newProfile.City,
@@ -88,6 +88,8 @@
             PasswordHash = newProfile.PasswordHash
 
         };
+        Console.WriteLine($"Profile email: {p.Email}");
+        
         await _db.InsertProfile(p);
     }
 

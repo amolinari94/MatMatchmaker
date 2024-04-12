@@ -30,7 +30,7 @@ public class ProfileData : IProfileData
     public async Task<ProfileModel> AuthenticateUser(string email, string password)
     {
         // Query the database to check if the provided email and password are valid
-        string sql = @"SELECT COUNT(*) FROM dbo.Profile WHERE Email = @Email AND PasswordHash = @PasswordHash;";
+        string sql = @"SELECT * FROM dbo.Profile WHERE Email = @Email AND PasswordHash = @PasswordHash;";
 
         var parameters = new
         {
@@ -40,8 +40,9 @@ public class ProfileData : IProfileData
 
         try
         {
-            var userProfile = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
-            return userProfile.FirstOrDefault(); // Return the first matching user profile, or null if not found
+            var userProfileList = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
+            Console.WriteLine($"user profile email: {userProfileList.FirstOrDefault().Email}");
+            return userProfileList.FirstOrDefault(); // Return the first matching user profile, or null if not found
         }
         catch (Exception ex)
         {
