@@ -25,14 +25,14 @@ builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
     Structure.Roster rosterObj = new Structure.Roster("test SchoolName");
     //rosterObj.rosterList = new Dictionary<string, Structure.Wrestler>();
-    rosterObj.addWrestler("jim", "smith", 7, 5, "male");
-    rosterObj.addWrestler("john", "green", 6, 2, "male");
-    rosterObj.addWrestler("jack", "taylor", 6, 3, "male");
-    rosterObj.addWrestler("jessica", "graham", 7, 4, "female");
-    rosterObj.addWrestler("tom", "phillips", 5, 5, "male");
-    rosterObj.addWrestler("simon", "jefferson", 6, 3, "male");
-    rosterObj.addWrestler("frank", "linberg", 6, 2, "male");
-    rosterObj.addWrestler("tina", "tomlinson", 7, 1, "female");
+    rosterObj.addWrestler("Jim", "Smith", 7, 5, "male");
+    rosterObj.addWrestler("John", "Green", 6, 2, "male");
+    rosterObj.addWrestler("Jack", "Taylor", 6, 3, "male");
+    rosterObj.addWrestler("Jessica", "Graham", 7, 4, "female");
+    rosterObj.addWrestler("Tom", "Phillips", 5, 5, "male");
+    rosterObj.addWrestler("Simon", "Jefferson", 6, 3, "male");
+    rosterObj.addWrestler("Frank", "Linberg", 6, 2, "male");
+    rosterObj.addWrestler("Tina", "Tomlinson", 7, 1, "female");
     return rosterObj;
     
 
