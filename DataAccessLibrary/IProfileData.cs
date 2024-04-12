@@ -6,5 +6,6 @@ namespace DataAccessLibrary
     {
         Task<List<ProfileModel>> GetProfile();
         Task InsertProfile(ProfileModel profile);
+        Task<ProfileModel> AuthenticateUser(string email, string password);
     }
 }

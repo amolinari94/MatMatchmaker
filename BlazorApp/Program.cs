@@ -20,6 +20,14 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 
+builder.Services.AddAntiforgery(options =>
+{
+    options.Cookie.Expiration = TimeSpan.Zero;
+    // Disable anti-forgery token validation for testing purposes
+    options.SuppressXFrameOptionsHeader = true;
+    
+});
+
 
 //testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later (sql or N))
 builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{

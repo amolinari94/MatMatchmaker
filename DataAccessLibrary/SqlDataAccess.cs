@@ -43,5 +43,15 @@ namespace DataAccessLibrary
             }
 
         }
+        
+        public async Task<T> ExecuteScalar<T>(string sql, object parameters = null)
+        {
+            string connectionString = _config.GetConnectionString(ConnectionStringName);
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                return await connection.ExecuteScalarAsync<T>(sql, parameters);
+            }
+        }
     }
 }
