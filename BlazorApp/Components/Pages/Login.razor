@@ -1,4 +1,10 @@
 @page "/Login"
+@using BlazorApp.Models
+@using DataAccessLibrary
+@using Microsoft.AspNetCore.Antiforgery
+@inject IProfileData _db
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Antiforgery
 
 <PageTitle>Login Page</PageTitle>
 
@@ -57,11 +63,44 @@
 </div>
 <div class="container">
     <h1>Login</h1>
-    <form action="#" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+    <form @onsubmit="@_Login">
+        <input type="text" name="email" placeholder="Email" @bind="email" required>
+        <input type="password" name="password" placeholder="Password" @bind="password" required>
         <input type="submit" value="Login">
         <p><a href="/SignUp">Create an account</a></p>
+        
     </form>
+
+
 </div>
 </body>
+
+@code {
+    [Inject]
+    protected IAntiforgery _antiforgery { get; set; }
+    private string email;
+    private string password;
+
+    private async Task _Login()
+    {
+        // Print out the values of email and password for debugging
+        Console.WriteLine($"Email: {email}, Password: {password}");
+        
+        // Retrieve user profile from the database based on the provided email
+        var userProfile = await _db.AuthenticateUser(email, password);
+        
+        // Print out the userProfile for debugging
+        Console.WriteLine($"User Profile: {userProfile}");
+
+        if (userProfile != null && userProfile.PasswordHash == password)
+        {
+            // Authentication successful, redirect to the desired page
+            NavigationManager.NavigateTo("/Roster");
+        }
+        else
+        {
+            // Authentication failed, display an error message
+            Console.WriteLine("Invalid email or password.");
+        }
+    }
+}
