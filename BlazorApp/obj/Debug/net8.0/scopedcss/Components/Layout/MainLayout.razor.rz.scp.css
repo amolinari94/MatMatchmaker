@@ -12,14 +12,6 @@ main[b-fekawvbbds] {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #040d32 70%);
 }
 
-.profile_toggler[b-fekawvbbds]{
-    background-image: linear-gradient(180deg, rgb(5,39,103) 0%,#2848c8 70% );
-}
-
-.profile_nav[b-fekawvbbds]{
-    position: right;
-}
-
 .top-row[b-fekawvbbds] {
     /*background-color: #f7f7f7;*/
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #040d32 70%);

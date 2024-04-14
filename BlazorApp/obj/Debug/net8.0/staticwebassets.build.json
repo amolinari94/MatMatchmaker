@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "tJYlF4v97agvy73FYI3ouovHpRzi98F6jVRCpnCAQGY=",
+  "Hash": "0qqfCk7VsCkvfyDRfaZ6B44C2s12uyOAZCWuL50g5Lk=",
   "Source": "BlazorApp",
   "BasePath": "_content/BlazorApp",
   "Mode": "Default",
@@ -262,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.png"
+    },
+    {
+      "Identity": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/Mizzou.jpg",
+      "SourceId": "BlazorApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/",
+      "BasePath": "_content/BlazorApp",
+      "RelativePath": "Mizzou.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/Mizzou.jpg"
     }
   ]
 }

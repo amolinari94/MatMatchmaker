@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/BlazorApp.bundle.scp.css"
     },
     {
+      "Id": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/Mizzou.jpg",
+      "PackagePath": "staticwebassets/Mizzou.jpg"
+    },
+    {
       "Id": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/app.css",
       "PackagePath": "staticwebassets/app.css"
     },

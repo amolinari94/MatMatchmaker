@@ -1,4 +1,4 @@
-@page "/Events"
+@page "/EventCalendar"
 
 @code {
     string monthName = "";
@@ -11,6 +11,7 @@
     protected override void OnInitialized()
     {
         items.Add(new Calendar.CalendarItem(new DateTime(2024, 04, 04), "Test day 1"));
+		items.Add(new Calendar.CalendarItem(new DateTime(2024, 05, 10), "Test day 2"));
 		CreateMonth();
 	}
 
@@ -43,9 +44,15 @@
 	}
 }
 
-<button @onclick="() => { monthsAway--; CreateMonth(); }">Previous Month</button>
-<h1>@monthName, @year</h1>
-<button @onclick="() => { monthsAway++; CreateMonth(); }">Next Month</button>
+<div class="title-container">
+    <h1>Event Calendar</h1>
+</div>
+
+<div class="button-container">
+    <button class="btn btn-primary" @onclick="() => { monthsAway--; CreateMonth(); }">Previous Month</button>
+    <h1>@monthName, @year</h1>
+    <button class="btn btn-primary" @onclick="() => { monthsAway++; CreateMonth(); }">Next Month</button>
+</div>
 
 <section>
 	@for (int i = 0; i < numColumn; i++)
