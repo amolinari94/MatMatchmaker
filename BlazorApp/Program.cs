@@ -3,6 +3,7 @@ using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
 using DataAccessLibrary;
+using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
+builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
 
 builder.Services.AddAntiforgery(options =>
 {
