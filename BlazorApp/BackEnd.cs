@@ -132,7 +132,9 @@ namespace Structure
     public class Event
     {
         School host;
-        School[] guests;
+        public School[] guests;
+        
+        Wrestler[][] matchList;
 
         DateTime date;
         protected internal Event(School host, DateTime date){

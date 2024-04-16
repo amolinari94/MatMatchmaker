@@ -1,4 +1,12 @@
 @page "/Event"
+@using Microsoft.AspNetCore.Components
+@using System.Diagnostics
+@using Structure
+@using System.ComponentModel.DataAnnotations.Schema
+@using System.Reflection.Metadata
+@inject Structure.Roster rosterObj
+@inject Structure.Event currentEvent
+@rendermode InteractiveServer
 
 
 <head>
@@ -63,13 +71,53 @@
 
         
         
-        <button class="btn btn-secondary">Add Match</button>
+        <button class="btn btn-secondary" >Add Match</button>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <div>
+        <table  class="table" style="width: 100%; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227);  ">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Gndr</th>
+                <th>Wgt</th>
+                <th>Skill</th>
+                <th>Grade</th>
+                <th></th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+             
+        </tbody>
+        </table>
+        </div>
+
 
 
 
 
 @code {
+    public string lastName { get; set; }
+    public string firstName { get; set; }
+    public string skill { get; set; }
+    public string grade { get; set; }
+    public string gender { get; set; }
+    public string schoolName { get; set; }
+    
+   
+    
+    
+
+    public Wrestler[] addMatch(){
+        Wrestler[] match;
+        int participNum=currentEvent.guests.length+1;
+        School[] particip= new School[currentEvent.guests.length+1];
+
+
+        return match;
+    }
     
 }
