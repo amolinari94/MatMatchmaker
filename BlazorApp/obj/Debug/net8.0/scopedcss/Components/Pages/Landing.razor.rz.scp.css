@@ -1,0 +1,9 @@
+.background-image[b-p8m4vawjh5] {
+    background-image: url('/wrestlingmat.jpeg');
+    background-size: cover; /* Ensures the image covers the entire container */
+    background-position: center; /* Centers the background image */
+    height: 100vh;
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}

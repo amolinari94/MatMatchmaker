@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets/favicon.png"
     },
     {
+      "Id": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/wrestlingmat.jpeg",
+      "PackagePath": "staticwebassets/wrestlingmat.jpeg"
+    },
+    {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.BlazorApp.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

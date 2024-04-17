@@ -70,7 +70,8 @@
 /Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.pdb
 /Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/BlazorApp.genruntimeconfig.cache
 /Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/ref/BlazorApp.dll
-/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Home.razor.rz.scp.css
 /Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Dashboard.razor.rz.scp.css
 /Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/HeaderLayout.razor.rz.scp.css
 /Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/EventCalendar.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Layout/LandingLayout.razor.rz.scp.css
+/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/obj/Debug/net8.0/scopedcss/Components/Pages/Landing.razor.rz.scp.css

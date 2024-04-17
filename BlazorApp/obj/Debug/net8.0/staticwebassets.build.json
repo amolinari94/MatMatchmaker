@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0qqfCk7VsCkvfyDRfaZ6B44C2s12uyOAZCWuL50g5Lk=",
+  "Hash": "zdQgrOO1I2OyZ7DOzjkI9rN17+3rnHoMToJSYQCodow=",
   "Source": "BlazorApp",
   "BasePath": "_content/BlazorApp",
   "Mode": "Default",
@@ -281,6 +281,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/Mizzou.jpg"
+    },
+    {
+      "Identity": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/wrestlingmat.jpeg",
+      "SourceId": "BlazorApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/venitia/Desktop/MatMatchmaker/MatMatchmaker/BlazorApp/wwwroot/",
+      "BasePath": "_content/BlazorApp",
+      "RelativePath": "wrestlingmat.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/wrestlingmat.jpeg"
     }
   ]
 }
