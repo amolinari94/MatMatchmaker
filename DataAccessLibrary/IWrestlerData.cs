@@ -4,5 +4,6 @@ public interface IWrestlerData
 {
     Task<List<WrestlerModel>> GetWrestlers();
     public Task InsertWrestler(WrestlerModel wrestler);
-
+    
+    Task<List<WrestlerModel>> GetWrestlersByEmail(string email);
 }

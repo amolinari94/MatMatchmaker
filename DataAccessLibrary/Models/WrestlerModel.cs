@@ -8,4 +8,5 @@ public class WrestlerModel
     public int Skill { get; set; }
     public string Gender { get; set; }
     public string SchoolName { get; set; }
+    public string Email { get; set; } // to store the email of the user
 }
