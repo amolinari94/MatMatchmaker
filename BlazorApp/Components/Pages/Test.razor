@@ -1,0 +1,115 @@
+@page "/test"
+
+@using DataAccessLibrary.Models
+@using BlazorApp.Models
+@using DataAccessLibrary
+@using Structure
+@inject IWrestlerData _db
+
+<PageTitle>Test</PageTitle>
+
+<body class="Test-body">
+
+<!-- Used for putting test wrestlers in the database -->
+@**<EditForm Model="@newWrestler" OnSubmit="@InsertWrestler">
+    <InputText id="Email" @bind-Value="newWrestler.Email"/>
+    <InputText id="Username" @bind-Value="newWrestler.FirstName"/>
+    <InputText id="City" @bind-Value="newWrestler.LastName"/>
+    <InputNumber id="State" @bind-Value="newWrestler.Skill"/>
+    <InputText id="SchoolName" @bind-Value="newWrestler.SchoolName"/>
+    <InputNumber id="Grade" @bind-Value="newWrestler.Grade"/>
+    <InputText id="Gender" @bind-Value="newWrestler.Gender"/>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>**@
+
+
+<div>
+    <label for="Email">Enter Email:</label>
+    <input id="Email" @bind="email" />
+    <button @onclick="SearchWrestlers" class="btn btn-primary">Get Wrestlers</button>
+</div>
+
+@if (selectedWrestlers != null && selectedWrestlers.Any())
+{
+    <div>
+        <h3>Wrestler Details</h3>
+        @foreach (var wrestler in selectedWrestlers)
+        {
+            <div>
+                <p><strong>Name:</strong> @wrestler.FirstName @wrestler.LastName</p>
+                <p><strong>Grade:</strong> @wrestler.Grade</p>
+                <!-- Include other wrestler details here -->
+            </div>
+            <hr />
+        }
+    </div>
+}
+else if (searched)
+{
+    <p>No wrestlers found with the entered email address.</p>
+}
+
+</body>
+
+@code {
+    // List to store all wrestlers
+    private List<WrestlerModel> wrestlers;
+    // Model to hold data for a new wrestler
+    private WrestlerModel newWrestler = new WrestlerModel();
+    // Email input field value
+    private string email;
+    // List to store wrestlers associated with the entered email
+    private List<WrestlerModel> selectedWrestlers;
+    // Flag to indicate if a search has been performed
+    private bool searched;
+
+    // Method called when the component is initialized
+    protected override async Task OnInitializedAsync()
+    {
+        // Fetch all wrestlers from the database
+        wrestlers = await _db.GetWrestlers();
+    }
+
+    // Method to insert a new wrestler into the database
+    private async Task InsertWrestler()
+    {
+        // Create a new WrestlerModel instance with data from the newWrestler object
+        WrestlerModel p = new WrestlerModel()
+        {
+            Email = newWrestler.Email,
+            FirstName = newWrestler.FirstName,
+            LastName = newWrestler.LastName,
+            Grade = newWrestler.Grade,
+            Skill = newWrestler.Skill,
+            Gender = newWrestler.Gender,
+            SchoolName = newWrestler.SchoolName
+        };
+
+        // Print the email of the wrestler being inserted (for debugging purposes)
+        Console.WriteLine($"Profile email: {p.Email}");
+
+        // Insert the new wrestler into the database
+        await _db.InsertWrestler(p);
+
+
+    }
+
+    private async Task SearchWrestlers()
+    {
+        // Check if email is not null or empty
+        if (!string.IsNullOrEmpty(email))
+        {
+            // Fetch wrestlers by email
+            selectedWrestlers = await _db.GetWrestlersByEmail(email);
+            searched = true;
+        }
+        else
+        {
+            // Handle the case where email is null or empty
+            Console.WriteLine("Email cannot be null or empty.");
+            
+        }
+
+    }
+
+}
