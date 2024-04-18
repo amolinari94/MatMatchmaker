@@ -33,14 +33,14 @@ builder.Services.AddAntiforgery(options =>
 builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
     Structure.Roster rosterObj = new Structure.Roster("test SchoolName");
     //rosterObj.rosterList = new Dictionary<string, Structure.Wrestler>();
-    rosterObj.addWrestler("Jim", "Smith", 7, 5, "male");
-    rosterObj.addWrestler("John", "Green", 6, 2, "male");
-    rosterObj.addWrestler("Jack", "Taylor", 6, 3, "male");
-    rosterObj.addWrestler("Jessica", "Graham", 7, 4, "female");
-    rosterObj.addWrestler("Tom", "Phillips", 5, 5, "male");
-    rosterObj.addWrestler("Simon", "Jefferson", 6, 3, "male");
-    rosterObj.addWrestler("Frank", "Linberg", 6, 2, "male");
-    rosterObj.addWrestler("Tina", "Tomlinson", 7, 1, "female");
+    rosterObj.AddWrestler("Jim", "Smith", 7, 5, "male");
+    rosterObj.AddWrestler("John", "Green", 6, 2, "male");
+    rosterObj.AddWrestler("Jack", "Taylor", 6, 3, "male");
+    rosterObj.AddWrestler("Jessica", "Graham", 7, 4, "female");
+    rosterObj.AddWrestler("Tom", "Phillips", 5, 5, "male");
+    rosterObj.AddWrestler("Simon", "Jefferson", 6, 3, "male");
+    rosterObj.AddWrestler("Frank", "Linberg", 6, 2, "male");
+    rosterObj.AddWrestler("Tina", "Tomlinson", 7, 1, "female");
     return rosterObj;
     
 

@@ -5,6 +5,7 @@
 @inject IProfileData _db
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Antiforgery
+@using Structure
 
 <PageTitle>Login Page</PageTitle>
 
@@ -95,6 +96,26 @@
         if (userProfile != null && userProfile.PasswordHash == password)
         {
             // Authentication successful, redirect to the desired page
+            
+            //initialize local profile object from user's database access
+            string schoolName = "sql call goes here";
+            string city = "sql call goes here";
+            string state = "sql call goes here";
+            string address = "sql call goes here";
+            
+            
+            Profile profile = new Profile(email, schoolName, city, state, address);
+            List<Wrestler> wrestlerList = new List<Wrestler>();
+            /*
+             * populate wrestlerList from database
+             */
+            foreach (var wrestler in wrestlerList) {
+                //profile.school.roster.rosterList.Add(wrestler.lastName, new Wrestler());
+            }
+            
+            
+            
+            
             NavigationManager.NavigateTo("/Roster");
         }
         else

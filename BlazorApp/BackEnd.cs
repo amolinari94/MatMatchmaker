@@ -33,23 +33,20 @@ namespace Structure
      * Contains members size, schoolName and rosterList, where wrestlers are stored as 
      */
     public class Roster{
-        //changed to public for testing 
-        public int count;
-        internal String schoolName { get; set; }
         
-        //changed to public for testing
-        public Dictionary<String, Wrestler>  rosterList;
-
-        //changed to public for testing (from protected internal)
+        private int count;
+        internal string schoolName { get; set; }
+        protected internal Dictionary<string, Wrestler>  rosterList;
+        
+        //Constructor
         public Roster (string schoolName){
             this.schoolName = schoolName;
             this.rosterList = new Dictionary<String, Wrestler>();
             int count = 0;
         }
 
-
-        //Changed to public for testing
-        public void addWrestler(String firstName,String lastName,int grade,int skill,String gender){
+        //Add Wrestler Method
+        protected internal void AddWrestler(String firstName,String lastName,int grade,int skill,String gender){
             Wrestler newWrestler = new Wrestler(firstName,lastName,grade,skill,gender, this.schoolName );
             try{
                 rosterList.Add(lastName, newWrestler);
@@ -59,21 +56,23 @@ namespace Structure
             }
         }
 
+        //Get Number of Wrestlers in Roster
         protected internal int getCount(){
             return this.count;
         }
 
-        protected internal void printList(){
+        //Print list of Wrestlers
+        protected internal void PrintList(){
             foreach (var item in rosterList){
                 Console.WriteLine(item.Value);
             }
         }
-
+        
         public void Editing(string key){
             rosterList[key].editing=true;
             
         }
-
+        
         public void DoneEditing(string key){
             rosterList[key].editing=false;
         }
@@ -85,14 +84,16 @@ namespace Structure
      */
     public class School
     {
-        Roster roster;
-        String username, schoolName, city, state;
-        public School(String username, String schoolName, String city, String state){
-            this.username = username;
-            this.schoolName = schoolName;
-            this.city =city;
-            this.state = state;
-            Roster roster = new Roster(this.schoolName); 
+        internal Roster roster;
+        private string Address;
+        private string  Name, City, State;
+        public School( string schoolName, string city, string state, string address){
+            
+            this.Name = schoolName;
+            this.City =city;
+            this.State = state;
+            this.roster = new Roster(this.Name);
+            this.Address = "insert sql call";
 
         }
     }
@@ -102,16 +103,17 @@ namespace Structure
      *
      */
     public class Profile{
-        String email,username,city,state,schoolName;
-        School school;
+        private string email,city,state,schoolName;
+        internal School school;
+        private string address;
 
-        protected internal Profile(String email, /*String username,*/ String schoolName, String city, String state){
-            this.email=email;
-            //this.username = username;
+        protected internal Profile(string email, string schoolName, string city, string state, string address) {
+            this.email = email;
             this.city=city;
             this.state=state;
             this.schoolName=schoolName;
-            this.school = new School(this.username, this.schoolName,this.city,this.state);
+            this.address = address;
+            school = new School(this.schoolName,this.city,this.state, this.address);
         }
 
         protected internal void emailVerification(){
