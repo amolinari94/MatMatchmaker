@@ -54,6 +54,7 @@
                 <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
                 <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
                 <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
+                <td><input class="input-2" id="weight" type="text" @bind="weight"></td>
                 
                 <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
                 <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
@@ -83,6 +84,8 @@
     public string grade { get; set; }
     public string gender { get; set; }
     public string schoolName { get; set; }
+    public bool wrestleGen{get;set;}
+    public int weight {get;set;}
 
     private void deleteWrestler(Wrestler wrestler) {
         rosterObj.rosterList.Remove(wrestler.lastName);
@@ -92,7 +95,7 @@
     
     private void addWrestler() {
         
-        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender, rosterObj.schoolName);
+        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender, rosterObj.schoolName, );
         rosterObj.rosterList.Add(wrestler.lastName,wrestler);
         rosterObj.rosterList[lastName].editing = false;
         displayMode = "display: none;";

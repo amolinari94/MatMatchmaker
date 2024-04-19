@@ -10,12 +10,12 @@ namespace Structure
     public class Wrestler{
         //made public for testing
         public String firstName, lastName, gender,schoolName;
-        public bool editing;
+        public bool editing, wrestleGen;
 
         //made public for testing 
-        public int grade, skill;
+        public int grade, skill, weight;
         //changed from protected internal to public for testing
-        public Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName){
+        public Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName, bool wrestleGen, int weight){
             this.firstName=firstName;
             this.lastName=lastName;
             this.grade=grade;
@@ -23,6 +23,7 @@ namespace Structure
             this.gender=gender;
             this.schoolName=schoolName;
             this.editing = false;
+            this.wrestleGen=wrestleGen;
         }
         
         
@@ -49,8 +50,8 @@ namespace Structure
 
 
         //Changed to public for testing
-        public void addWrestler(String firstName,String lastName,int grade,int skill,String gender){
-            Wrestler newWrestler = new Wrestler(firstName,lastName,grade,skill,gender, this.schoolName );
+        public void addWrestler(String firstName,String lastName,int grade,int skill,String gender,bool wrestleGen, int weight){
+            Wrestler newWrestler = new Wrestler(firstName,lastName,grade,skill,gender, this.schoolName, wrestleGen,weight );
             try{
                 rosterList.Add(lastName, newWrestler);
                 count++;
@@ -85,7 +86,7 @@ namespace Structure
      */
     public class School
     {
-        Roster roster;
+        protected internal Roster roster;
         String username, schoolName, city, state;
         public School(String username, String schoolName, String city, String state){
             this.username = username;
@@ -131,7 +132,7 @@ namespace Structure
      */
     public class Event
     {
-        School host;
+        public School host;
         public School[] guests;
         
         Wrestler[][] matchList;

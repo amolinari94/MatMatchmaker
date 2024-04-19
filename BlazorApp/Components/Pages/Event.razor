@@ -39,14 +39,14 @@
         </tr>
         <tr>
             <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
-            <td><input class="text_input" type="text" id="grade" name="grade"/></td>
+            <td><input class="text_input" type="text" id="grade" name="grade" @bind="gradeDiff"/></td>
         </tr>
         
         <tr>
             <td><label id="matsl" for="mats">Number of Mats: </label></td>
             <td><input class="text_input" type="text" id="mats" name="mats"/></td>
             <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
-            <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool"/></td>
+            <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool" @bind="matchschool"/></td>
         </tr>
     </table>
 
@@ -62,11 +62,11 @@
             
             <h2> Match Criteria</h2>
             <label id="weightminl" for="weightmin">Weight Limits:</label>
-            <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
+            <input class="text_input" placeholder="Min" type="text" id="weightmin" name="weightmin" @bind="weightMin"/>
             <label class="text_input" id="weightmaxl" for="weightmax"> </label>
-            <input class="text_input" placeholder="Max" type="text" id="weightmax" name="weightmax"/>
+            <input class="text_input" placeholder="Max" type="text" id="weightmax" name="weightmax" @bind="weightMax"/>
             <label id="diffL" for="diff">Max Weight Difference:</label>
-            <input class="text_input" type="text" id="diff" name="diff"/>
+            <input class="text_input" type="text" id="diff" name="diff" @bind="diff"/>
 
 
         
@@ -106,18 +106,97 @@
     public string grade { get; set; }
     public string gender { get; set; }
     public string schoolName { get; set; }
+    public bool matchschool {get;set; }
+    
+    public int diff {get;set;}
+
+    public int skillDiff{get;set;}
+
+    public int gradeDiff {get;set;}
+
+    public int weightMax {get;set;}
+
+    public int weightMin{get;set;}
+
     
    
+    @* public Wrestler[][] fillMatchlist(){
+        School[] particip= new School[currentEvent.guests.Length+1];
+        foreach(var item in currentEvent.guests){
+            particip.Append(item);
+        }
+        particip.Append(currentEvent.host);
+    } *@
     
-    
 
-    public Wrestler[] addMatch(){
-        Wrestler[] match;
-        int participNum=currentEvent.guests.length+1;
-        School[] particip= new School[currentEvent.guests.length+1];
+    @* School[] particip= new School[currentEvent.guests.Length+1];
+        foreach(var item in currentEvent.guests){
+            particip.Append(item);
+        }
+        particip.Append(currentEvent.host);
+        Random rnd =new Random();
+        
+        int schoolIndex = rnd.Next(particip.Length);
+        School firstSchool=particip[schoolIndex];
+        int wrestIndex=rnd.Next(firstSchool.roster.getCount());
+        first= firstSchool.roster.rosterList.ElementAt(wrestIndex).Value;
+        foreach(var item in particip){
+            if (item==firstSchool && !matchschool){
+                continue;
+            }
+            School secondSchool=item;
+            Structure.Roster schoolRoster=secondSchool.roster; *@
 
 
-        return match;
+
+    //So, I've changed this around a little and taken out the school selection portion (see above commented block)
+    public void addMatch(School school1, School school2 ){
+        Wrestler[] match=new Wrestler[2];
+        Wrestler first;
+        Structure.Roster roster1=school1.roster;
+        Structure.Roster roster2=school2.roster;    
+        foreach(var item in roster1.rosterList){
+            if(item.Value.weight<=weightMin ||item.Value.weight>=weightMax){
+                continue;
+            }
+            first=item.Value;
+
+            foreach(var item2 in roster2.rosterList){
+                
+                Wrestler second=item2.Value;
+                 if(second.weight<=weightMin ||second.weight>=weightMax){
+                    continue;
+                }
+                //Checks to see if the people are not the same gender, and if not, checks if either wrestler can't wrestle the other gender
+                if(first.gender!=second.gender&&(!first.wrestleGen||!second.wrestleGen)){
+                    continue;
+                }
+
+                if(Math.Abs(second.weight-first.weight)>diff){
+                    continue;
+                }
+                if(Math.Abs(second.grade-first.grade)>gradeDiff){
+                    continue;
+                }
+                if(Math.Abs(second.skill-first.skill)>skillDiff){
+                    continue;
+                }
+                
+                match.Append(first);
+                match.Append(second);
+            }
+            
+        }
+
+       
+        
+
+    }
+
+        
+
+
+        
     }
     
 }
