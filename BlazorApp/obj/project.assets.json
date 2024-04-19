@@ -4378,32 +4378,34 @@
     ]
   },
   "packageFolders": {
-    "/Users/venitia/.nuget/packages/": {}
+    "C:\\Users\\byrdd\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/BlazorApp.csproj",
+      "projectUniqueName": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\BlazorApp\\BlazorApp.csproj",
       "projectName": "BlazorApp",
-      "projectPath": "/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/BlazorApp.csproj",
-      "packagesPath": "/Users/venitia/.nuget/packages/",
-      "outputPath": "/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/obj/",
+      "projectPath": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\BlazorApp\\BlazorApp.csproj",
+      "packagesPath": "C:\\Users\\byrdd\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\BlazorApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/venitia/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\byrdd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/venitia/MatMatchmaker2/MatMatchmaker/DataAccessLibrary/DataAccessLibrary.csproj": {
-              "projectPath": "/Users/venitia/MatMatchmaker2/MatMatchmaker/DataAccessLibrary/DataAccessLibrary.csproj"
+            "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\DataAccessLibrary\\DataAccessLibrary.csproj": {
+              "projectPath": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\DataAccessLibrary\\DataAccessLibrary.csproj"
             }
           }
         }
@@ -4412,11 +4414,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4467,7 +4464,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

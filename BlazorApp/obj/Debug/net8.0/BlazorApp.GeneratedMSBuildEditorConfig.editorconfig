@@ -9,75 +9,79 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BlazorApp
 build_property.RootNamespace = BlazorApp
-build_property.ProjectDir = /Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/
+build_property.ProjectDir = C:\Users\byrdd\RiderProjects\MatMatchmaker\BlazorApp\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp
+build_property.MSBuildProjectDirectory = C:\Users\byrdd\RiderProjects\MatMatchmaker\BlazorApp
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/App.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9BcHAucmF6b3I=
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/App.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Error.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FcnJvci5yYXpvcg==
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Error.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Home.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ib21lLnJhem9y
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Login.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Mb2dpbi5yYXpvcg==
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Routes.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9Sb3V0ZXMucmF6b3I=
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Test.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xUZXN0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/_Imports.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9fSW1wb3J0cy5yYXpvcg==
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Routes.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xSb3V0ZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Layout/HeaderLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvSGVhZGVyTGF5b3V0LnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-f2keoovd85
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Layout/LandingLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTGFuZGluZ0xheW91dC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-8rc64p0ci1
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Layout/HeaderLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcSGVhZGVyTGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-voizo7d7aq
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Layout/MainLayout.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTWFpbkxheW91dC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-fekawvbbds
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Layout/LandingLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTGFuZGluZ0xheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-8e6ulpkixc
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Layout/NavMenu.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvTmF2TWVudS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-zswk0q6kaa
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-qgsvw684bo
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Dashboard.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9EYXNoYm9hcmQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-qb8dadcbnp
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTmF2TWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-g8o6n169oq
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Event.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FdmVudC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = b-fdr5jz3fcj
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEYXNoYm9hcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ix3zhoijqt
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/EventCalendar.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9FdmVudENhbGVuZGFyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-dfqg5azmox
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Event.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-h1srcbhccm
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Landing.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9MYW5kaW5nLnJhem9y
-build_metadata.AdditionalFiles.CssScope = b-p8m4vawjh5
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/EventCalendar.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFdmVudENhbGVuZGFyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-rn7o509f9w
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/Roster.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Sb3N0ZXIucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-rvlot1nh3i
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Landing.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xMYW5kaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-nryhup4pko
 
-[/Users/venitia/MatMatchmaker2/MatMatchmaker/BlazorApp/Components/Pages/SignUp.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9TaWduVXAucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = b-hwecgiciv1
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/Roster.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSb3N0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-6h6uhqa7zl
+
+[C:/Users/byrdd/RiderProjects/MatMatchmaker/BlazorApp/Components/Pages/SignUp.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTaWduVXAucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-j569fatkmf
