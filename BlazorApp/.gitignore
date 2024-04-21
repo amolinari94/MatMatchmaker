@@ -1,6 +1,8 @@
-bin/ 	
+bin/ 
+/bin/	
 # ignore bin directory 
-*.obj 	
+*.obj 
+/obj/	
 # ignore any files with .obj postfix 
 
 
