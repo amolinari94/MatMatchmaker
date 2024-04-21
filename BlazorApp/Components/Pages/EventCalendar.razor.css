@@ -1,0 +1,41 @@
+.title-container {
+	text-align: center; 
+  }
+
+.button-container {
+	display: flex; 
+	justify-content: center; 
+	align-items: center; 
+	margin-bottom: 15px; 
+  }
+h1 {
+	text-align: center; 
+  }
+  
+  .btn {
+	display: block; 
+	margin: 0 auto; 
+  }
+  .btn:first-child {
+	margin-right: 15px; 
+  }
+  
+  .btn:last-child {
+	margin-left: 15px; 
+  }
+  section {
+	padding-top: 15px;
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+  }
+  
+  section > div {
+	border: 1px solid black;
+	padding: 10px;
+  }
+  
+  section > div h2 {
+	font-size: 15pt;
+  }
+  
