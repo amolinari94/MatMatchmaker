@@ -16,7 +16,7 @@
 
 <body class="SignUp-body">
 
-<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
+@**<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
     <InputText id ="Email" @bind-Value="newProfile.Email"/>
     <InputText id ="Username" @bind-Value="newProfile.Username"/>
     <InputText id ="City" @bind-Value="newProfile.City"/>
@@ -29,40 +29,41 @@
 
 
 </EditForm>
+**@
           
-@**<form method="post" @onsubmit="HandleSubmit">
+<form method="post" @onsubmit="InsertProfile">
 
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
 
-            <td ><input placeholder="Email" class="input-SignUp" @bind="UserProfile.Email"/></td>
+            <td ><InputText placeholder="Email" class="input-SignUp" @bind-Value="newProfile.Email"/></td>
         </tr>
         <tr>
 
-            <td><input placeholder="Username" class="input-SignUp" @bind="UserProfile.Username"/></td>
+            <td><InputText placeholder="Username" class="input-SignUp" @bind-Value="newProfile.Username"/></td>
         </tr>
         <tr>
 
-            <td><input placeholder="City" class="input-SignUp" @bind="UserProfile.City"/></td>
+            <td><InputText placeholder="City" class="input-SignUp" @bind-Value="newProfile.City"/></td>
         </tr>
         <tr>
-            <td><input placeholder="State" class="input-SignUp" @bind="UserProfile.State"/></td>
+            <td><InputText placeholder="State" class="input-SignUp" @bind-Value="newProfile.State"/></td>
 
         </tr>
         <tr>
 
-            <td><input placeholder="School Name" class="input-SignUp" @bind="UserProfile.SchoolName"/></td>
+            <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="newProfile.SchoolName"/></td>
         </tr>
         <tr>
 
             <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
-                <button class="btn btn-primary" @onclick="HandleSubmit" type="submit">Submit</button>
+                <button class="btn btn-primary" @onclick="InsertProfile" type="submit">Submit</button>
             </td>
         </tr>
     </table>
 
 </form>
-**@
+
 
 </body> 
 
