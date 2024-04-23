@@ -39,8 +39,8 @@
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 3px solid black;
+            border-radius: 50px;
             box-sizing: border-box;
         }
 
@@ -60,14 +60,15 @@
     </style>
 <body>
 <div class="center">
-    <h2>Welcome to MatMatchmaker! Please login or create an account!</h2>
+    <h2>Welcome to MatMatchmaker! <br/>Please login or create an account!</h2>
 </div>
 <div class="container">
     <h1>Login</h1>
     <form @onsubmit="@_Login">
         <input type="text" name="email" placeholder="Email" @bind="email" required>
         <input type="password" name="password" placeholder="Password" @bind="password" required>
-        <input type="submit" value="Login">
+        <br><br/>
+        <button type="submit" class="btn btn-primary">Login</button>
         <p><a href="/SignUp">Create an account</a></p>
         
     </form>
