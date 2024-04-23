@@ -2,6 +2,7 @@ using BlazorApp.Components;
 using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
+using Blazored.LocalStorage;
 using DataAccessLibrary;
 using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -21,6 +23,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
+builder.Services.AddBlazoredLocalStorage();
+
 
 builder.Services.AddAntiforgery(options =>
 {

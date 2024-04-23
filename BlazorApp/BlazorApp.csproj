@@ -16,8 +16,9 @@
     <None Remove="Components\Pages\Event.razor.css" />
     <Content Include="Components\Pages\Event.razor.css" />
     <PackageReference Include="Blazor.Bootstrap" Version="2.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Dapper" Version="2.1.35" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.26" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Server" Version="3.0.0-preview3-19153-02" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.2.24128.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.2.24128.4" />

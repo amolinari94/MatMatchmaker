@@ -3,8 +3,11 @@
 @using DataAccessLibrary.Models
 @using BlazorApp.Models
 @using DataAccessLibrary
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Structure
-@inject IWrestlerData _db
+@inject IWrestlerData _dba
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
+@rendermode InteractiveServer
 
 <PageTitle>Test</PageTitle>
 
@@ -23,11 +26,21 @@
 </EditForm>**@
 
 
-<div>
+@**<div>
     <label for="Email">Enter Email:</label>
     <input id="Email" @bind="email" />
     <button @onclick="SearchWrestlers" class="btn btn-primary">Get Wrestlers</button>
-</div>
+</div>**@
+
+@if (!string.IsNullOrEmpty(email))
+{
+    <p><strong>Saved Email:</strong> @email</p>
+}
+else
+{
+    <p>No email found.</p>
+}
+
 
 @if (selectedWrestlers != null && selectedWrestlers.Any())
 {
@@ -52,6 +65,8 @@ else if (searched)
 </body>
 
 @code {
+    
+    
     // List to store all wrestlers
     private List<WrestlerModel> wrestlers;
     // Model to hold data for a new wrestler
@@ -67,7 +82,14 @@ else if (searched)
     protected override async Task OnInitializedAsync()
     {
         // Fetch all wrestlers from the database
-        wrestlers = await _db.GetWrestlers();
+        wrestlers = await _dba.GetWrestlers();
+        email = await GetSavedEmail();
+
+        if (!string.IsNullOrEmpty(email))
+        {
+            selectedWrestlers = await _dba.GetWrestlersByEmail(email);
+            searched = true;
+        }
     }
 
     // Method to insert a new wrestler into the database
@@ -89,7 +111,7 @@ else if (searched)
         Console.WriteLine($"Profile email: {p.Email}");
 
         // Insert the new wrestler into the database
-        await _db.InsertWrestler(p);
+        await _dba.InsertWrestler(p);
 
 
     }
@@ -100,7 +122,7 @@ else if (searched)
         if (!string.IsNullOrEmpty(email))
         {
             // Fetch wrestlers by email
-            selectedWrestlers = await _db.GetWrestlersByEmail(email);
+            selectedWrestlers = await _dba.GetWrestlersByEmail(email);
             searched = true;
         }
         else
@@ -110,6 +132,11 @@ else if (searched)
             
         }
 
+    }
+
+    private async Task<string> GetSavedEmail()
+    {
+        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userProfile.email");
     }
 
 }
