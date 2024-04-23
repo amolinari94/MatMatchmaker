@@ -6,6 +6,7 @@
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using Structure
 @inject IWrestlerData _dba
+@inject IProfileData _db
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @rendermode InteractiveServer
 
@@ -35,48 +36,52 @@
 @if (!string.IsNullOrEmpty(email))
 {
     <p><strong>Saved Email:</strong> @email</p>
+    @if (selectedWrestlers != null && selectedWrestlers.Any())
+    {
+        <div>
+            <h3>Wrestler Details</h3>
+            @foreach (var wrestler in selectedWrestlers)
+            {
+                <div>
+                    <p><strong>Name:</strong> @wrestler.FirstName @wrestler.LastName</p>
+                    <p><strong>Grade:</strong> @wrestler.Grade</p>
+                    <!-- Include other wrestler details here -->
+                </div>
+                <hr />
+            }
+        </div>
+    }
+    else if (searched)
+    {
+        <p>No wrestlers found with the entered email address.</p>
+    }
+    
 }
 else
 {
     <p>No email found.</p>
 }
 
-
-@if (selectedWrestlers != null && selectedWrestlers.Any())
-{
-    <div>
-        <h3>Wrestler Details</h3>
-        @foreach (var wrestler in selectedWrestlers)
-        {
-            <div>
-                <p><strong>Name:</strong> @wrestler.FirstName @wrestler.LastName</p>
-                <p><strong>Grade:</strong> @wrestler.Grade</p>
-                <!-- Include other wrestler details here -->
-            </div>
-            <hr />
-        }
-    </div>
-}
-else if (searched)
-{
-    <p>No wrestlers found with the entered email address.</p>
-}
-
 </body>
 
 @code {
-    
-    
+
+
     // List to store all wrestlers
     private List<WrestlerModel> wrestlers;
+
     // Model to hold data for a new wrestler
     private WrestlerModel newWrestler = new WrestlerModel();
+
     // Email input field value
     private string email;
+
     // List to store wrestlers associated with the entered email
     private List<WrestlerModel> selectedWrestlers;
+
     // Flag to indicate if a search has been performed
     private bool searched;
+    //private UserProfile userProfile;
 
     // Method called when the component is initialized
     protected override async Task OnInitializedAsync()
@@ -84,6 +89,8 @@ else if (searched)
         // Fetch all wrestlers from the database
         wrestlers = await _dba.GetWrestlers();
         email = await GetSavedEmail();
+
+        email = email?.Trim('"');
 
         if (!string.IsNullOrEmpty(email))
         {
@@ -129,14 +136,14 @@ else if (searched)
         {
             // Handle the case where email is null or empty
             Console.WriteLine("Email cannot be null or empty.");
-            
+
         }
 
     }
 
     private async Task<string> GetSavedEmail()
     {
-        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "userProfile.email");
+        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "email");
     }
 
 }
