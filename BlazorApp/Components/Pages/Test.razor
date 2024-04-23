@@ -84,20 +84,21 @@ else
     //private UserProfile userProfile;
 
     // Method called when the component is initialized
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        // Fetch all wrestlers from the database
-        wrestlers = await _dba.GetWrestlers();
-        email = await GetSavedEmail();
-
-        email = email?.Trim('"');
-
-        if (!string.IsNullOrEmpty(email))
+        if (firstRender)
         {
-            selectedWrestlers = await _dba.GetWrestlersByEmail(email);
-            searched = true;
+            email = await GetSavedEmail();
+            email = email?.Trim('"');
+
+            if (!string.IsNullOrEmpty(email))
+            {
+                await SearchWrestlers();
+                StateHasChanged(); // Ensure the component re-renders after the async operation
+            }
         }
     }
+
 
     // Method to insert a new wrestler into the database
     private async Task InsertWrestler()
