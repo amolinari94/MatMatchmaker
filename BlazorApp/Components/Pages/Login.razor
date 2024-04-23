@@ -6,6 +6,12 @@
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Antiforgery
 @using Structure
+@using Microsoft.JSInterop
+@using System.Text.Json
+@using Blazored.LocalStorage
+@rendermode InteractiveServer
+@inject ILocalStorageService _localStorage
+
 
 <PageTitle>Login Page</PageTitle>
 
@@ -75,6 +81,9 @@
     protected IAntiforgery _antiforgery { get; set; }
     private string email;
     private string password;
+    
+    [Inject]
+    protected IJSRuntime _jsRuntime { get; set; }
 
     private async Task _Login()
     {
@@ -89,7 +98,10 @@
 
         if (userProfile != null && userProfile.PasswordHash == password)
         {
-            // Authentication successful, redirect to the desired page
+            // Store authentication token/session information (if applicable)
+            //await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userProfile", JsonSerializer.Serialize(userProfile));
+            await _localStorage.SetItemAsync("email", email);
+          /*  // Authentication successful, redirect to the desired page
             
             //initialize local profile object from user's database access
             string schoolName = "sql call goes here";
@@ -99,18 +111,18 @@
             
             
             Profile profile = new Profile(email, schoolName, city, state, address);
-            List<Wrestler> wrestlerList = new List<Wrestler>();
+            //List<Wrestler> wrestlerList = new List<Wrestler>();
             /*
              * populate wrestlerList from database
              */
-            foreach (var wrestler in wrestlerList) {
+            //foreach (var wrestler in wrestlerList) {
                 //profile.school.roster.rosterList.Add(wrestler.lastName, new Wrestler());
-            }
+          //  }
             
             
             
             
-            NavigationManager.NavigateTo("/Roster");
+            NavigationManager.NavigateTo("/Test");
         }
         else
         {
