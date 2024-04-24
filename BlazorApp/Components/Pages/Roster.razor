@@ -4,7 +4,12 @@
 @using Structure
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
 @inject Structure.Roster rosterObj
+@using Structure
+@using System.ComponentModel.DataAnnotations
+@inject IWrestlerData _dba
 @rendermode InteractiveServer
 
 
@@ -73,7 +78,6 @@
 
 
 @code{
-
     //Roster roster = new Roster();
     
     [Parameter]
@@ -86,19 +90,43 @@
     public string gender { get; set; }
     public string schoolName { get; set; }
 
+    /*
+    private void createRoster(ISqlDataAccess db) {
+        Structure.Roster rosterObj2 = new Structure.Roster("schoolname");
+        rosterObj2.rosterList = () => {
+            foreach (var VARIABLE in db.LoadData< local storage email, roster table>()) {
+                rosterObj2.rosterList.Add(@Email, );
+            }
+        };
+    }
+    */
+
     private void deleteWrestler(Wrestler wrestler) {
+        
         rosterObj.rosterList.Remove(wrestler.lastName);
         deleteButtonDisplayMode = "display: none;";
         StateHasChanged();
     }
     
-    private void addWrestler() {
+    private async void addWrestler() {
         
-        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender, rosterObj.schoolName);
-        rosterObj.rosterList.Add(wrestler.lastName,wrestler);
+        string email = "temp";
+        rosterObj.AddWrestler(email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
+        
         rosterObj.rosterList[lastName].editing = false;
         displayMode = "display: none;";
-
+        WrestlerModel newWrestler = new WrestlerModel() {
+            Email = email,
+            FirstName = firstName,
+            LastName = lastName,
+            Gender = gender,
+            Grade = int.Parse(grade),
+            SchoolName = schoolName,
+            Skill = int.Parse(skill)
+        };
+        await _dba.InsertWrestler(newWrestler);
+        
+        
 
 
     }
@@ -129,7 +157,16 @@
     private void toggleEdit(Wrestler wrestler) {
         
         wrestler.editing=!wrestler.editing;
-        
+        WrestlerModel newWrestler = new WrestlerModel() {
+            Email = wrestler.email,
+            FirstName = wrestler.firstName,
+            LastName = wrestler.lastName,
+            Gender = wrestler.gender,
+            Grade = wrestler.grade,
+            SchoolName = wrestler.schoolName,
+            Skill = wrestler.skill
+        };
+        /* access this wrestlers row in the database, replace values with textbox values*/
         StateHasChanged();
         
     }
