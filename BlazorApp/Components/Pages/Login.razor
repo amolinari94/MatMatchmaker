@@ -99,8 +99,8 @@
         if (userProfile != null && userProfile.PasswordHash == password)
         {
             // Store authentication token/session information (if applicable)
-            //await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userProfile", JsonSerializer.Serialize(userProfile));
-            await _localStorage.SetItemAsync("email", email);
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "userProfile", JsonSerializer.Serialize(userProfile));
+            //await _localStorage.SetItemAsync("email", email);
           /*  // Authentication successful, redirect to the desired page
             
             //initialize local profile object from user's database access
