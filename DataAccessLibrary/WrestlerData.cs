@@ -32,5 +32,20 @@ public class WrestlerData : IWrestlerData
         string sql = "SELECT * FROM dbo.Wrestlers WHERE Email = @Email";
         return await _dba.LoadData<WrestlerModel, dynamic>(sql, new { Email = email });
     }
+    
+    public Task UpdateWrestler(WrestlerModel wrestler)
+    {
+        string sql = @"UPDATE dbo.Wrestlers 
+                   SET FirstName = @FirstName, 
+                       LastName = @LastName, 
+                       Grade = @Grade, 
+                       Skill = @Skill, 
+                       Gender = @Gender, 
+                       SchoolName = @SchoolName
+                   WHERE Email = @Email;";
+
+        return _dba.SaveData(sql, wrestler);
+    }
+
 
 }

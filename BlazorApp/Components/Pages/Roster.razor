@@ -11,6 +11,7 @@
 @using System.ComponentModel.DataAnnotations
 @inject IWrestlerData _dba
 @rendermode InteractiveServer
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
 
 
 
@@ -30,45 +31,54 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in rosterObj.rosterList)
+        @if (rosterObj2 != null)
+        {
+            @foreach (var item in rosterObj2.rosterList)
             {
-                @if (!item.Value.editing){
-                    <tr  >
+                @if (!item.Value.editing)
+                {
+                    <tr >
                         <td>@item.Key</td>
                         <td>@item.Value.firstName</td>
                         <td>@item.Value.skill</td>
                         <td>@item.Value.grade</td>
-                        <td style="border: none"><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)">Edit</button></td>
                     </tr>
                 }
-                else {
+                else
+                {
                     <tr>
                         <td><input class="input-2" type="text" @bind="item.Value.lastName"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.firstName"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.skill"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.grade"/></td>
-                        <td style="border: none" ><button class="btn btn-secondary" @onclick="()=>deleteWrestler(item.Value)" type="submit">Delete</button></td>
-                        <td style="border: none"><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick="() => deleteWrestler(item.Value)" type="submit">Delete</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)" type="submit">Submit</button></td>
                     </tr>
-                    
+
                 }
             }
-            <tr id="addRow" style="@displayMode">
-                <td><input class="input-2" id="lastName" @bind="lastName" type="text" /></td>
-                <td><input class="input-2" id="firstName" type="text" @bind="firstName" /></td>
-                <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
-                <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
-                <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
-                
-                <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
-                <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
+        }
+        else
+        {
+            <p>loading roster data</p>
+        }
+        <tr id="addRow" style="@displayMode">
+            <td><input class="input-2" id="lastName" @bind="lastName" type="text"/></td>
+            <td><input class="input-2" id="firstName" type="text" @bind="firstName"/></td>
+            <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
+            <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
+            <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
 
-            </tr>
-            <tr>
-                
-                <td style="border: none"><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
-                
-            </tr>
+            <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
+            <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
+
+        </tr>
+        <tr>
+
+            <td style="border: none"><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
+
+        </tr>
         </tbody>
         
     </table>
@@ -79,6 +89,14 @@
 
 @code{
     //Roster roster = new Roster();
+    private Structure.Roster rosterObj2;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        // Call CreateRoster to initialize rosterObj2
+        await CreateRoster(_dba);
+    }
+
     
     [Parameter]
     public EventCallback<bool> Edit{get;set;}
@@ -110,7 +128,7 @@
     
     private async void addWrestler() {
         
-        string email = "temp";
+        string email = await GetSavedEmail();
         rosterObj.AddWrestler(email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
         
         rosterObj.rosterList[lastName].editing = false;
@@ -154,7 +172,7 @@
     }
 
     //changed from 'private async Task' to 'private void'
-    private void toggleEdit(Wrestler wrestler) {
+    private async void toggleEdit(Wrestler wrestler) {
         
         wrestler.editing=!wrestler.editing;
         WrestlerModel newWrestler = new WrestlerModel() {
@@ -166,7 +184,7 @@
             SchoolName = wrestler.schoolName,
             Skill = wrestler.skill
         };
-        /* access this wrestlers row in the database, replace values with textbox values*/
+        await _dba.UpdateWrestler(newWrestler);
         StateHasChanged();
         
     }
@@ -180,6 +198,39 @@
             
         }
     }
+    
+    private async Task<string> GetSavedEmail()
+    {
+        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "email");
+    }
+    
+    private async Task CreateRoster(IWrestlerData db)
+    {
+        try
+        {
+            // Retrieve the email of the current user
+            string email = await GetSavedEmail();
+            email = email?.Trim('"');
+
+            // Create a roster object
+            rosterObj2 = new Structure.Roster("schoolname");
+
+            // Retrieve wrestlers from the database based on the user's email
+            var wrestlers = await _dba.GetWrestlersByEmail(email);
+
+            // Add retrieved wrestlers to the roster
+            foreach (var wrestler in wrestlers)
+            {
+                rosterObj2.AddWrestler(wrestler.Email, wrestler.FirstName, wrestler.LastName, wrestler.Skill, wrestler.Grade, wrestler.Gender);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur
+            Console.WriteLine("An error occurred: " + ex.Message);
+        }
+    }
+    
     
     /*
     public EventCallback Editing(string lastName){
