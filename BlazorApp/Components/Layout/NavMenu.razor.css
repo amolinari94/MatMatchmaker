@@ -121,3 +121,8 @@
         overflow-y: auto;
     }
 }
+.centered-image {
+    display: flex;
+    justify-content: left;
+    text-align: left;
+}
