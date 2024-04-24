@@ -2,7 +2,10 @@ using BlazorApp.Components;
 using BlazorApp;
 using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Blazored.LocalStorage;
+using Blazored.SessionStorage;
 using DataAccessLibrary;
 using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +27,17 @@ builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredSessionStorage(config => {
+        config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+        //config.JsonSerializerOptions.IgnoreNullValues = true;
+        config.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        config.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+        config.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        config.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        config.JsonSerializerOptions.ReadCommentHandling = JsonCommentHandling.Skip;
+        config.JsonSerializerOptions.WriteIndented = false;
+    }
+);
 
 
 builder.Services.AddAntiforgery(options =>
