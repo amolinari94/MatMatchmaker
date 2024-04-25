@@ -5,7 +5,7 @@
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
 @inject Structure.Roster rosterObj
-@inject Structure.Event testEvent
+@*@inject Structure.Event testEvent*@
 @rendermode InteractiveServer
 
 
@@ -95,22 +95,14 @@
                 <tr @key="item" class="pb-2 relative" @ondragstart="() => draggingModel = item" @ondragend="()=> draggingModel = null" draggable="true"  @ondrop="()=>HandleDrop(item)">
                     
                         <td></td>
-                        <td>@item.match[0].firstName</td>
+                        <td>@item.Name@*.match[0].firstName</td>
                         <td>@item.match[0].gender</td>
                         <td>@item.match[0].weight</td>
                         <td>@item.match[0].skill</td>
-                        <td>@item.match[0].grade</td>
+                        <td>@item.match[0].grade*@</td>
           	
 			
-                    @* <tr> 
-                        <td></td>
-                        <td>@testEvent.matchList[i][1].firstName</td>
-                        <td>@testEvent.matchList[i][1].gender</td>
-                        <td>@testEvent.matchList[i][1].weight</td>
-                        <td>@testEvent.matchList[i][1].skill</td>
-                        <td>@testEvent.matchList[i][1].grade</td>
-                        <td></td>
-                    </tr>*@
+                  
                    
                 </tr> 
                 
@@ -153,22 +145,22 @@
 		public int Order { get; set; }
 		public string Name { get; set; } = "";
 		public bool IsDragOver { get; set; }
-        protected internal Wrestler[] match {get;set;}=[];
+        @*protected internal Wrestler[] match {get;set;}=[];*@
 	}
     private Model? draggingModel;//the model that is being dragged
 
 	protected override void OnInitialized()
 	{//fill names wit "random" string
-		for (var i = 0; i < testEvent.matchList.Length; i++)
+		for (var i = 0; i < 10 @*testEvent.matchList.Length*@; i++)
 		{
-			Model m = new() { Order = i, Name = $"Item {i}", match=testEvent.matchList[i]};
+			Model m = new() { Order = i, Name = $"Item {i}"@*, match=testEvent.matchList[i]*@};
 			Models.Add(m);
 		}
 		base.OnInitialized();
 	}
     private void HandleDrop(Model landingModel)
 	{//landing model -> where the drag happened
-		Console.WriteLine($"handle drop");
+		
 		
 		if (draggingModel is null)
 		{
