@@ -53,14 +53,14 @@ builder.Services.AddAntiforgery(options =>
 builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
     Structure.Roster rosterObj = new Structure.Roster("test SchoolName");
     //rosterObj.rosterList = new Dictionary<string, Structure.Wrestler>();
-    rosterObj.AddWrestler("testEmail1","Jim", "Smith", 7, 5, "male");
-    rosterObj.AddWrestler("testEmail1","John", "Green", 6, 2, "male");
-    rosterObj.AddWrestler("testEmail1","Jack", "Taylor", 6, 3, "male");
-    rosterObj.AddWrestler("testEmail1","Jessica", "Graham", 7, 4, "female");
-    rosterObj.AddWrestler("testEmail1","Tom", "Phillips", 5, 5, "male");
-    rosterObj.AddWrestler("testEmail1","Simon", "Jefferson", 6, 3, "male");
-    rosterObj.AddWrestler("testEmail1","Frank", "Linberg", 6, 2, "male");
-    rosterObj.AddWrestler("testEmail1","Tina", "Tomlinson", 7, 1, "female");
+    // rosterObj.AddWrestler("testEmail1","Jim", "Smith", 7, 5, "male");
+   // rosterObj.AddWrestler("testEmail1","John", "Green", 6, 2, "male");
+    //rosterObj.AddWrestler("testEmail1","Jack", "Taylor", 6, 3, "male");
+   // rosterObj.AddWrestler("testEmail1","Jessica", "Graham", 7, 4, "female");
+    //rosterObj.AddWrestler("testEmail1","Tom", "Phillips", 5, 5, "male");
+  //  rosterObj.AddWrestler("testEmail1","Simon", "Jefferson", 6, 3, "male");
+   // rosterObj.AddWrestler("testEmail1","Frank", "Linberg", 6, 2, "male");
+   // rosterObj.AddWrestler("testEmail1","Tina", "Tomlinson", 7, 1, "female");
     return rosterObj;
     
 

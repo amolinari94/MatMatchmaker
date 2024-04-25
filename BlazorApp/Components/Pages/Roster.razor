@@ -107,47 +107,85 @@
     public string grade { get; set; }
     public string gender { get; set; }
     public string schoolName { get; set; }
+    
 
-    /*
-    private void createRoster(ISqlDataAccess db) {
-        Structure.Roster rosterObj2 = new Structure.Roster("schoolname");
-        rosterObj2.rosterList = () => {
-            foreach (var VARIABLE in db.LoadData< local storage email, roster table>()) {
-                rosterObj2.rosterList.Add(@Email, );
-            }
-        };
-    }
-    */
-
-    private void deleteWrestler(Wrestler wrestler) {
+    /*private void deleteWrestler(Wrestler wrestler) {
         
         rosterObj.rosterList.Remove(wrestler.lastName);
         deleteButtonDisplayMode = "display: none;";
         StateHasChanged();
-    }
+    }*/
     
-    private async void addWrestler() {
-        
-        string email = await GetSavedEmail();
-        rosterObj.AddWrestler(email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
-        
-        rosterObj.rosterList[lastName].editing = false;
-        displayMode = "display: none;";
-        WrestlerModel newWrestler = new WrestlerModel() {
-            Email = email,
-            FirstName = firstName,
-            LastName = lastName,
-            Gender = gender,
-            Grade = int.Parse(grade),
-            SchoolName = schoolName,
-            Skill = int.Parse(skill)
-        };
-        await _dba.InsertWrestler(newWrestler);
-        
-        
+    private async Task deleteWrestler(Wrestler wrestler)
+    {
+        try
+        {
+            // Debugging statement to print the wrestler's ID
+            Console.WriteLine($"Deleting wrestler with ID: {wrestler.wrestlerID}");
+            
+            // Remove the wrestler from the roster list
+            rosterObj2.rosterList.Remove(wrestler.lastName);
 
+            // Update UI
+            deleteButtonDisplayMode = "display: none;";
+            StateHasChanged();
+            
+            // Debugging statement: Print SQL query being executed
+            Console.WriteLine($"Executing SQL query to delete wrestler with ID: {wrestler.wrestlerID}");
 
+            // Delete the wrestler from the database
+            await _dba.DeleteWrestler(wrestler.wrestlerID);
+            
+            // Debugging statement: Print confirmation message after deletion
+            Console.WriteLine("Wrestler deleted successfully!");
+        }
+        catch (Exception ex)
+        {
+            // Handle any potential errors
+            Console.WriteLine($"An error occurred while deleting the wrestler: {ex.Message}");
+        }
     }
+
+    
+    private async Task addWrestler()
+    {
+        try
+        {
+            // Retrieve the user's email
+            string email = await GetSavedEmail();
+            email = email?.Trim('"');
+
+            // Create a new WrestlerModel instance with the provided data
+            WrestlerModel newWrestler = new WrestlerModel()
+            {
+                
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName,
+                Grade = int.Parse(grade),
+                Skill = int.Parse(skill),
+                Gender = gender,
+                SchoolName = schoolName
+            };
+
+            // Insert the new wrestler into the database
+            int wrestlerID = await _dba.InsertWrestler(newWrestler);
+
+            // Update the roster list
+            rosterObj.AddWrestler(wrestlerID, email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
+
+            // Update UI
+            rosterObj.rosterList[lastName].editing = false;
+            displayMode = "display: none;";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            // Handle any potential errors
+            Console.WriteLine($"An error occurred while adding the wrestler: {ex.Message}");
+        }
+    }
+
     string deleteButtonDisplayMode = "display: none;";
 
     private void cancelAdd() {
@@ -182,7 +220,8 @@
             Gender = wrestler.gender,
             Grade = wrestler.grade,
             SchoolName = wrestler.schoolName,
-            Skill = wrestler.skill
+            Skill = wrestler.skill,
+            WrestlerID = wrestler.wrestlerID
         };
         await _dba.UpdateWrestler(newWrestler);
         StateHasChanged();
@@ -221,7 +260,7 @@
             // Add retrieved wrestlers to the roster
             foreach (var wrestler in wrestlers)
             {
-                rosterObj2.AddWrestler(wrestler.Email, wrestler.FirstName, wrestler.LastName, wrestler.Skill, wrestler.Grade, wrestler.Gender);
+                rosterObj2.AddWrestler(wrestler.WrestlerID, wrestler.Email, wrestler.FirstName, wrestler.LastName, wrestler.Skill, wrestler.Grade, wrestler.Gender);
             }
         }
         catch (Exception ex)
