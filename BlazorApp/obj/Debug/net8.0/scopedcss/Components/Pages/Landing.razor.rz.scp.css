@@ -1,4 +1,4 @@
-.background-image {
+.background-image[b-p8m4vawjh5] {
     background-image: url('/wrestlingmat.jpeg');
     background-size: cover; 
     background-position: center; 
@@ -8,21 +8,21 @@
     align-items: center; 
 }
 
-* {
+*[b-p8m4vawjh5] {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-a {
+a[b-p8m4vawjh5] {
   text-decoration: none;
 }
 
-input::placeholder {
+input[b-p8m4vawjh5]::placeholder {
   color: #f3f4f6;
 }
 
-.container {
+.container[b-p8m4vawjh5] {
   display: flex;
   min-height: 100vh;
   max-width: 1300px;
@@ -32,39 +32,39 @@ input::placeholder {
   position: relative;
 }
 
-.container__left,
-.container__right {
+.container__left[b-p8m4vawjh5],
+.container__right[b-p8m4vawjh5] {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.container__left .content {
+.container__left .content[b-p8m4vawjh5] {
   max-width: 400px;
   display: grid;
   gap: 1rem;
 }
 
-.content h1 {
+.content h1[b-p8m4vawjh5] {
   font-size: 4rem;
   line-height: 4rem;
   color: #f3f4f6;
   font-weight: 700;
 }
 
-.content p {
+.content p[b-p8m4vawjh5] {
   color: #f3f4f6;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
   font-size: 1.2rem;
 }
 
-.btns {
+.btns[b-p8m4vawjh5] {
   display: flex;
   gap: 1rem;
 }
 
-.btns button {
+.btns button[b-p8m4vawjh5] {
   padding: 0.5rem 2rem;
   color: #f3f4f6;
   font-size: 1rem;
@@ -76,13 +76,13 @@ input::placeholder {
   transition: 0.3s;
 }
 
-button.learn__more {
+button.learn__more[b-p8m4vawjh5] {
   background-color: #f3f4f6;
   color: #333333;
 }
 
 
-form {
+form[b-p8m4vawjh5] {
   width: 350px;
   display: grid;
   border-radius: 5px;
@@ -90,19 +90,19 @@ form {
   color: #f3f4f6;
 }
 
-form h4 {
+form h4[b-p8m4vawjh5] {
   font-size: 1.5rem;
   font-weight: 600;
   padding: 2rem;
 }
 
-.form__group {
+.form__group[b-p8m4vawjh5] {
   display: grid;
   padding: 0 2rem;
   margin-bottom: 1rem;
 }
 
-.form__group input {
+.form__group input[b-p8m4vawjh5] {
   padding: 0.5rem;
   font-size: 1rem;
   color: #f3f4f6;
@@ -112,7 +112,7 @@ form h4 {
   border-bottom: 2px solid #f3f4f6;
 }
 
-form button {
+form button[b-p8m4vawjh5] {
   margin-top: 1rem;
   padding: 1rem;
   font-size: 1.1rem;
@@ -125,18 +125,18 @@ form button {
   cursor: pointer;
 }
 
-form p {
+form p[b-p8m4vawjh5] {
     text-align: center; 
     font-size: 1rem !important;
 }
 
-form a {
+form a[b-p8m4vawjh5] {
     color: #f3f4f6; 
     text-decoration: none; 
     position: relative;
     font-weight: bold;
 }
-form a::after {
+form a[b-p8m4vawjh5]::after {
     content: '';
     position: absolute;
     left: 0;
