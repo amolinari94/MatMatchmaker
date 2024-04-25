@@ -36,35 +36,27 @@
 
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
-
             <td ><InputText placeholder="Email" class="input-SignUp" @bind-Value="localEmail"/></td>
         </tr>
         <tr>
-
             <td><InputText placeholder="Username" class="input-SignUp" @bind-Value="localUserName"/></td>
         </tr>
         <tr>
-
             <td><InputText placeholder="City" class="input-SignUp" @bind-Value="localCity"/></td>
         </tr>
         <tr>
             <td><InputText placeholder="State" class="input-SignUp" @bind-Value="localState"/></td>
-
         </tr>
         <tr>
-
             <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="localSchoolName"/></td>
         </tr>
         <tr>
-        
             <td><InputText placeholder="Password" class="input-SignUp" @bind-Value="passwordTemp1"/></td>
         </tr>
         <tr>
-        
-                    <td><InputText id="confirmPass" placeholder=@confirmPass class="input-SignUp" @bind-Value="passwordTemp2"/></td>
-                </tr>
+            <td><InputText id="confirmPass" placeholder=@confirmPass class="input-SignUp" @bind-Value="passwordTemp2"/></td>
+        </tr>
         <tr>
-
             <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
                 <button class="btn btn-primary" @onclick="CheckPasswords" >Submit</button>
             </td>

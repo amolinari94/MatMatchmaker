@@ -9,13 +9,14 @@ namespace Structure
      */
     public class Wrestler{
         //made public for testing
-        public String firstName, lastName, gender,schoolName;
+        public String firstName, lastName, gender,schoolName, email;
         public bool editing;
 
         //made public for testing 
         public int grade, skill;
         //changed from protected internal to public for testing
-        public Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName){
+        public Wrestler(String email, String firstName, String lastName, int grade, int skill, String gender, String schoolName) {
+            this.email = email;
             this.firstName=firstName;
             this.lastName=lastName;
             this.grade=grade;
@@ -46,8 +47,13 @@ namespace Structure
         }
 
         //Add Wrestler Method
-        protected internal void AddWrestler(String firstName,String lastName,int grade,int skill,String gender){
-            Wrestler newWrestler = new Wrestler(firstName,lastName,grade,skill,gender, this.schoolName );
+        protected internal void AddWrestler(String email,
+            String firstName,
+            String lastName,
+            int grade,
+            int skill,
+            String gender){
+            Wrestler newWrestler = new Wrestler(email, firstName,lastName,grade,skill,gender, this.schoolName );
             try{
                 rosterList.Add(lastName, newWrestler);
                 count++;
@@ -55,6 +61,7 @@ namespace Structure
                 //Notify user of error 
             }
         }
+        
 
         //Get Number of Wrestlers in Roster
         protected internal int getCount(){
