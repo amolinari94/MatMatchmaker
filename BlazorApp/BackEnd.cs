@@ -89,11 +89,11 @@ namespace Structure
     /*Class SCHOOL
      * 
      */
-    public class School
-    {
+    public class School {
+        internal int totalEvents;
         internal Roster roster;
         private string Address;
-        private string  Name, City, State;
+        protected internal string  Name, City, State;
         public School( string schoolName, string city, string state, string address){
             
             this.Name = schoolName;
@@ -101,6 +101,7 @@ namespace Structure
             this.State = state;
             this.roster = new Roster(this.Name);
             this.Address = "insert sql call";
+            this.totalEvents = 0;
 
         }
     }
@@ -113,6 +114,7 @@ namespace Structure
         private string email,city,state,schoolName;
         internal School school;
         private string address;
+        private List<string> Events;
 
         protected internal Profile(string email, string schoolName, string city, string state, string address) {
             this.email = email;
@@ -133,24 +135,35 @@ namespace Structure
         */
 
 
+        private void addEvent(string eventID){
+            Events.Add(eventID);
+            
+        }
+
+
     }
 
     /*Class EVENT
      * Object for creating wrestling meet event
      */
-    public class Event
-    {
+    public class Event {
+        protected string ID;
         School host;
-        School[] guests;
-
+        string guestListID;
+        protected School[] guests;
         DateTime date;
-        protected internal Event(School host, DateTime date){
+        
+        protected internal Event(String Id, School host, string guestListId, DateTime date) {
+            this.ID = Id;
             this.host=host;
+            this.guestListID = guestListId;
             this.date=date;
         }
 
-        private void addGuest(School guestSchool){
+        protected internal void addGuest(School guestSchool){
            guests.Append(guestSchool);
+           guestListID = $"{host.Name}_EVNT_{host.totalEvents + 1}";//sets the event name to "SchoolName_EVNT_1"
+           /*add db call to add guest email/info to guest list table in DB*/
         }
 
         private void sendEventNotice(School[] schools){

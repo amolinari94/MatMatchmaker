@@ -28,6 +28,14 @@ namespace DataAccessLibrary
 
             return _db.SaveData(sql, eventModel);
         }
+        
+        public Task CreateNewEvent(EventModel eventModel) 
+        {
+            string sql = @"INSERT INTO dbo.Events ( eventID, Host, Guests, Date) 
+                           VALUES (@EventID, @Host, @Guests, @Date)";
+
+            return _db.SaveData(sql, eventModel);
+        }
 
         // You can add other methods here for updating, deleting, or querying events
     }
