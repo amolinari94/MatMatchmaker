@@ -9,4 +9,5 @@ public class WrestlerModel
     public string Gender { get; set; }
     public string SchoolName { get; set; }
     public string Email { get; set; } // to store the email of the user
+    public int WrestlerID { get; set; }
 }
