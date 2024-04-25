@@ -1,19 +1,19 @@
-* {
+*[b-8rc64p0ci1] {
     margin: 0;
     padding: 0;
 }
 
-.page {
+.page[b-8rc64p0ci1] {
     position: relative;
     display: flex;
     flex-direction: column;
 }
 
-main {
+main[b-8rc64p0ci1] {
     flex: 1;
 }
 
-.top-row {
+.top-row[b-8rc64p0ci1] {
     /*background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #040d32 70%);*/
     background-color:#022733;
     border-bottom: 1px solid #000000;
@@ -22,7 +22,7 @@ main {
     display: flex;
     align-items: center;
 }
-.top-row h2 {
+.top-row h2[b-8rc64p0ci1] {
     margin: 0 auto; /* Remove default margin to center properly */
     text-align: left;
     justify-content: flex-start;
@@ -30,55 +30,55 @@ main {
     color: white;
 }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
+    .top-row[b-8rc64p0ci1]  a, .top-row[b-8rc64p0ci1]  .btn-link {
         white-space: nowrap;
         margin-left: 1.5rem;
         text-decoration: none;
     }
 
-    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+    .top-row[b-8rc64p0ci1]  a:hover, .top-row[b-8rc64p0ci1]  .btn-link:hover {
         text-decoration: underline;
     }
 
-    .top-row ::deep a:first-child {
+    .top-row[b-8rc64p0ci1]  a:first-child {
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
 @media (max-width: 640.98px) {
-    .top-row {
+    .top-row[b-8rc64p0ci1] {
         justify-content: space-between;
     }
 
-    .top-row ::deep a, .top-row ::deep .btn-link {
+    .top-row[b-8rc64p0ci1]  a, .top-row[b-8rc64p0ci1]  .btn-link {
         margin-left: 0;
     }
 }
 
 @media (min-width: 641px) {
-    .page {
+    .page[b-8rc64p0ci1] {
         flex-direction: row;
     }
 
-    .top-row {
+    .top-row[b-8rc64p0ci1] {
         position: sticky;
         top: 0;
         z-index: 1;
     }
 
-    .top-row.auth ::deep a:first-child {
+    .top-row.auth[b-8rc64p0ci1]  a:first-child {
         flex: 1;
         text-align: right;
         width: 0;
     }
 
-    .top-row, article {
+    .top-row[b-8rc64p0ci1], article[b-8rc64p0ci1] {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
 }
 
-#blazor-error-ui {
+#blazor-error-ui[b-8rc64p0ci1] {
     background: lightyellow;
     bottom: 0;
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
@@ -90,7 +90,7 @@ main {
     z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
+    #blazor-error-ui .dismiss[b-8rc64p0ci1] {
         cursor: pointer;
         position: absolute;
         right: 0.75rem;
