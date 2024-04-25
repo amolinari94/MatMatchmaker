@@ -11,11 +11,14 @@ namespace Structure
         //made public for testing
         public String firstName, lastName, gender,schoolName, email;
         public bool editing;
+        public int wrestlerID;
 
         //made public for testing 
         public int grade, skill;
         //changed from protected internal to public for testing
-        public Wrestler(String email, String firstName, String lastName, int grade, int skill, String gender, String schoolName) {
+        public Wrestler(int wrestlerId, String email, String firstName, String lastName, int grade, int skill, String gender, String schoolName)
+        {
+            this.wrestlerID = wrestlerId;
             this.email = email;
             this.firstName=firstName;
             this.lastName=lastName;
@@ -47,13 +50,14 @@ namespace Structure
         }
 
         //Add Wrestler Method
-        protected internal void AddWrestler(String email,
+        protected internal void AddWrestler(int wrestlerID,
+            String email,
             String firstName,
             String lastName,
             int grade,
             int skill,
             String gender){
-            Wrestler newWrestler = new Wrestler(email, firstName,lastName,grade,skill,gender, this.schoolName );
+            Wrestler newWrestler = new Wrestler(wrestlerID, email, firstName,lastName,grade,skill,gender, this.schoolName );
             try{
                 rosterList.Add(lastName, newWrestler);
                 count++;

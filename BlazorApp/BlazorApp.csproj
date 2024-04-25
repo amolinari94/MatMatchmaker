@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.2.24128.4" />
     <Content Remove="DataAccessLibrary\**" />
     <None Remove="DataAccessLibrary\**" />
+    <PackageReference Include="NUnit" Version="4.1.0" />
     
     
   </ItemGroup>
