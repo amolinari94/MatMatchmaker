@@ -9,7 +9,15 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #040d32 70%);
+    background-image: linear-gradient(180deg, #0e88ae 0%, #033C4F 70%);
+}
+
+.profile_toggler{
+    background-image: linear-gradient(180deg, rgb(5,39,103) 0%,#2848c8 70% );
+}
+
+.profile_nav{
+    position: right;
 }
 
 .top-row {

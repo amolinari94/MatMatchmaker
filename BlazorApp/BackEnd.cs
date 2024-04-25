@@ -9,13 +9,17 @@ namespace Structure
      */
     public class Wrestler{
         //made public for testing
-        public String firstName, lastName, gender,schoolName;
+        public String firstName, lastName, gender,schoolName, email;
         public bool editing;
+        public int wrestlerID;
 
         //made public for testing 
         public int grade, skill;
         //changed from protected internal to public for testing
-        public Wrestler(String firstName, String lastName, int grade, int skill, String gender, String schoolName){
+        public Wrestler(int wrestlerId, String email, String firstName, String lastName, int grade, int skill, String gender, String schoolName)
+        {
+            this.wrestlerID = wrestlerId;
+            this.email = email;
             this.firstName=firstName;
             this.lastName=lastName;
             this.grade=grade;
@@ -33,24 +37,27 @@ namespace Structure
      * Contains members size, schoolName and rosterList, where wrestlers are stored as 
      */
     public class Roster{
-        //changed to public for testing 
-        public int count;
-        internal String schoolName { get; set; }
         
-        //changed to public for testing
-        public Dictionary<String, Wrestler>  rosterList;
-
-        //changed to public for testing (from protected internal)
+        private int count;
+        internal string schoolName { get; set; }
+        protected internal Dictionary<string, Wrestler>  rosterList;
+        
+        //Constructor
         public Roster (string schoolName){
             this.schoolName = schoolName;
             this.rosterList = new Dictionary<String, Wrestler>();
             int count = 0;
         }
 
-
-        //Changed to public for testing
-        public void addWrestler(String firstName,String lastName,int grade,int skill,String gender){
-            Wrestler newWrestler = new Wrestler(firstName,lastName,grade,skill,gender, this.schoolName );
+        //Add Wrestler Method
+        protected internal void AddWrestler(int wrestlerID,
+            String email,
+            String firstName,
+            String lastName,
+            int grade,
+            int skill,
+            String gender){
+            Wrestler newWrestler = new Wrestler(wrestlerID, email, firstName,lastName,grade,skill,gender, this.schoolName );
             try{
                 rosterList.Add(lastName, newWrestler);
                 count++;
@@ -58,22 +65,25 @@ namespace Structure
                 //Notify user of error 
             }
         }
+        
 
+        //Get Number of Wrestlers in Roster
         protected internal int getCount(){
             return this.count;
         }
 
-        protected internal void printList(){
+        //Print list of Wrestlers
+        protected internal void PrintList(){
             foreach (var item in rosterList){
                 Console.WriteLine(item.Value);
             }
         }
-
+        
         public void Editing(string key){
             rosterList[key].editing=true;
             
         }
-
+        
         public void DoneEditing(string key){
             rosterList[key].editing=false;
         }
@@ -83,16 +93,19 @@ namespace Structure
     /*Class SCHOOL
      * 
      */
-    public class School
-    {
-        Roster roster;
-        String username, schoolName, city, state;
-        public School(String username, String schoolName, String city, String state){
-            this.username = username;
-            this.schoolName = schoolName;
-            this.city =city;
-            this.state = state;
-            Roster roster = new Roster(this.schoolName); 
+    public class School {
+        internal int totalEvents;
+        internal Roster roster;
+        private string Address;
+        protected internal string  Name, City, State;
+        public School( string schoolName, string city, string state, string address){
+            
+            this.Name = schoolName;
+            this.City =city;
+            this.State = state;
+            this.roster = new Roster(this.Name);
+            this.Address = "insert sql call";
+            this.totalEvents = 0;
 
         }
     }
@@ -102,16 +115,18 @@ namespace Structure
      *
      */
     public class Profile{
-        String email,username,city,state,schoolName;
-        School school;
+        private string email,city,state,schoolName;
+        internal School school;
+        private string address;
+        private List<string> Events;
 
-        protected internal Profile(String email, /*String username,*/ String schoolName, String city, String state){
-            this.email=email;
-            //this.username = username;
+        protected internal Profile(string email, string schoolName, string city, string state, string address) {
+            this.email = email;
             this.city=city;
             this.state=state;
             this.schoolName=schoolName;
-            this.school = new School(this.username, this.schoolName,this.city,this.state);
+            this.address = address;
+            school = new School(this.schoolName,this.city,this.state, this.address);
         }
 
         protected internal void emailVerification(){
@@ -124,24 +139,35 @@ namespace Structure
         */
 
 
+        private void addEvent(string eventID){
+            Events.Add(eventID);
+            
+        }
+
+
     }
 
     /*Class EVENT
      * Object for creating wrestling meet event
      */
-    public class Event
-    {
+    public class Event {
+        protected string ID;
         School host;
-        School[] guests;
-
+        string guestListID;
+        protected School[] guests;
         DateTime date;
-        protected internal Event(School host, DateTime date){
+        
+        protected internal Event(String Id, School host, string guestListId, DateTime date) {
+            this.ID = Id;
             this.host=host;
+            this.guestListID = guestListId;
             this.date=date;
         }
 
-        private void addGuest(School guestSchool){
+        protected internal void addGuest(School guestSchool){
            guests.Append(guestSchool);
+           guestListID = $"{host.Name}_EVNT_{host.totalEvents + 1}";//sets the event name to "SchoolName_EVNT_1"
+           /*add db call to add guest email/info to guest list table in DB*/
         }
 
         private void sendEventNotice(School[] schools){

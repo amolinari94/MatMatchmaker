@@ -1,5 +1,6 @@
 .text_input{
     border: solid;
+    border-color: rgb(183, 183, 183)
     border-radius: 50px;
 }
 

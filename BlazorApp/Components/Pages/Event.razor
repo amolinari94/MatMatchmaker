@@ -1,11 +1,24 @@
 @page "/Event"
+@using BlazorApp.Models
+@using DataAccessLibrary
+@using Microsoft.AspNetCore.Antiforgery
+@inject IProfileData _db
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Antiforgery
+@using Structure
+@using Microsoft.JSInterop
+@using System.Text.Json
+@using Blazored.LocalStorage
+@using DataAccessLibrary.Models
+@rendermode InteractiveServer
+@inject ILocalStorageService _localStorage
+@inject IEventData eventData
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
 
 
-<head>
-    <h1>Create New Event</h1>
-</head>
+<PageTitle> Event Creator </PageTitle>
 
-
+<body>
 <h3>Event set up:</h3>
 
     
@@ -19,7 +32,7 @@
 
         
 
-    <table cellpadding="20px" style="width: 65%; height: fit-content;  border-collapse: collapse;">
+    <table cellpadding="30px" style="width: 65%; height: fit-content;  border-collapse: collapse;">
         <tr height="20px">
             <td><label id="matchminl" for="matchmin">Number of Matches: </label></td>
             <td><input class="text_input" placeholder="Min" type="text" id="matchmin" name="matchmin"/></td>
@@ -41,17 +54,6 @@
             <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool"/></td>
         </tr>
     </table>
-
-            
-            
-            
-            
-
-            
-            
-
-            
-            
             <h2> Match Criteria</h2>
             <label id="weightminl" for="weightmin">Weight Limits:</label>
             <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
@@ -66,10 +68,61 @@
         <button class="btn btn-secondary">Add Match</button>
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
-
-
-
+</body>
 
 @code {
+    private Structure.Event newEvent;
+    
+    private async Task<string> GetSavedEmail()
+    {
+        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "email");
+    }
+    
+    /*
+    private async void addEvent() {
+        
+        string email = await GetSavedEmail();
+        newEvent.addGuest(email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
+        
+        rosterObj.rosterList[lastName].editing = false;
+        displayMode = "display: none;";
+        WrestlerModel newWrestler = new WrestlerModel() {
+            Email = email,
+            FirstName = firstName,
+            LastName = lastName,
+            Gender = gender,
+            Grade = int.Parse(grade),
+            SchoolName = schoolName,
+            Skill = int.Parse(skill)
+        };
+        await _dba.InsertWrestler(newWrestler);
+        
+        
+
+
+    }
+    */
+            
+    /*Event Database table:
+     *---------------------------------------------------------------------------------------------------
+     | Event ID (Primary Key) | HostID | GuestListID (primary key for guest list for this event) | Date |
+     * -----------------------*--------*---------------------------------------------------------*------*
+     *                        *        *                                                         *      *
+     *                        *        *                                                         *      *
+     *                        *        *                                                         *      *
+     *                        *        *                                                         *      *
+     ---------------------------------------------------------------------------------------------------*/ 
+    
+    /*Guest list table:
+     * ------------------------------------------------------
+     | GuestListID (Primary Key) | SchoolName | SchoolEmail | 
+     *---------------------------*------------*-------------*
+     *                           *            *             *
+     *                           *            *             *
+     *                           *            *             *
+     *                           *            *             *
+     -------------------------------------------------------*/
+            
+            
     
 }

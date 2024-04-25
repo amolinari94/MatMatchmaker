@@ -4,8 +4,14 @@
 @using Structure
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
 @inject Structure.Roster rosterObj
+@using Structure
+@using System.ComponentModel.DataAnnotations
+@inject IWrestlerData _dba
 @rendermode InteractiveServer
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
 
 
 
@@ -25,45 +31,54 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in rosterObj.rosterList)
+        @if (rosterObj2 != null)
+        {
+            @foreach (var item in rosterObj2.rosterList)
             {
-                @if (!item.Value.editing){
-                    <tr  >
+                @if (!item.Value.editing)
+                {
+                    <tr >
                         <td>@item.Key</td>
                         <td>@item.Value.firstName</td>
                         <td>@item.Value.skill</td>
                         <td>@item.Value.grade</td>
-                        <td style="border: none"><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)">Edit</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)">Edit</button></td>
                     </tr>
                 }
-                else {
+                else
+                {
                     <tr>
                         <td><input class="input-2" type="text" @bind="item.Value.lastName"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.firstName"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.skill"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.grade"/></td>
-                        <td style="border: none" ><button class="btn btn-secondary" @onclick="()=>deleteWrestler(item.Value)" type="submit">Delete</button></td>
-                        <td style="border: none"><button class="btn btn-secondary" @onclick=" ()=>toggleEdit(item.Value)" type="submit">Submit</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick="() => deleteWrestler(item.Value)" type="submit">Delete</button></td>
+                        <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)" type="submit">Submit</button></td>
                     </tr>
-                    
+
                 }
             }
-            <tr id="addRow" style="@displayMode">
-                <td><input class="input-2" id="lastName" @bind="lastName" type="text" /></td>
-                <td><input class="input-2" id="firstName" type="text" @bind="firstName" /></td>
-                <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
-                <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
-                <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
-                
-                <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
-                <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
+        }
+        else
+        {
+            <p>loading roster data</p>
+        }
+        <tr id="addRow" style="@displayMode">
+            <td><input class="input-2" id="lastName" @bind="lastName" type="text"/></td>
+            <td><input class="input-2" id="firstName" type="text" @bind="firstName"/></td>
+            <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
+            <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
+            <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
 
-            </tr>
-            <tr>
-                
-                <td style="border: none"><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
-                
-            </tr>
+            <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
+            <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
+
+        </tr>
+        <tr>
+
+            <td style="border: none"><button class="btn btn-primary" href="" @onclick="displayNewRow" type="submit">Add</button></td>
+
+        </tr>
         </tbody>
         
     </table>
@@ -73,6 +88,15 @@
 
 
 @code{
+    //Roster roster = new Roster();
+    private Structure.Roster rosterObj2;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        // Call CreateRoster to initialize rosterObj2
+        await CreateRoster(_dba);
+    }
+
     
     [Parameter]
     public EventCallback<bool> Edit{get;set;}
@@ -83,23 +107,80 @@
     public string grade { get; set; }
     public string gender { get; set; }
     public string schoolName { get; set; }
-
-    private void deleteWrestler(Wrestler wrestler) {
-        rosterObj.rosterList.Remove(wrestler.lastName);
-        deleteButtonDisplayMode = "display: none;";
-        StateHasChanged();
-    }
     
-    private void addWrestler() {
-        
-        Wrestler wrestler = new Wrestler(firstName,lastName,int.Parse(grade),int.Parse(skill),gender, rosterObj.schoolName);
-        rosterObj.rosterList.Add(wrestler.lastName,wrestler);
-        rosterObj.rosterList[lastName].editing = false;
-        displayMode = "display: none;";
 
+    
+    
+    private async Task deleteWrestler(Wrestler wrestler)
+    {
+        try
+        {
+            // Debugging statement to print the wrestler's ID
+            Console.WriteLine($"Deleting wrestler with ID: {wrestler.wrestlerID}");
+            
+            // Remove the wrestler from the roster list
+            rosterObj2.rosterList.Remove(wrestler.lastName);
 
+            // Update UI
+            deleteButtonDisplayMode = "display: none;";
+            StateHasChanged();
+            
+            // Debugging statement: Print SQL query being executed
+            Console.WriteLine($"Executing SQL query to delete wrestler with ID: {wrestler.wrestlerID}");
 
+            // Delete the wrestler from the database
+            await _dba.DeleteWrestler(wrestler.wrestlerID);
+            
+            // Debugging statement: Print confirmation message after deletion
+            Console.WriteLine("Wrestler deleted successfully!");
+        }
+        catch (Exception ex)
+        {
+            // Handle any potential errors
+            Console.WriteLine($"An error occurred while deleting the wrestler: {ex.Message}");
+        }
     }
+
+    
+    private async Task addWrestler()
+    {
+        try
+        {
+            // Retrieve the user's email
+            string email = await GetSavedEmail();
+            email = email?.Trim('"');
+
+            // Create a new WrestlerModel instance with the provided data
+            WrestlerModel newWrestler = new WrestlerModel()
+            {
+                
+                Email = email,
+                FirstName = firstName,
+                LastName = lastName,
+                Grade = int.Parse(grade),
+                Skill = int.Parse(skill),
+                Gender = gender,
+                SchoolName = schoolName
+            };
+
+            // Insert the new wrestler into the database
+            int wrestlerID = await _dba.InsertWrestler(newWrestler);
+
+            // Update the roster list
+            rosterObj.AddWrestler(wrestlerID, email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
+
+            // Update UI
+            rosterObj.rosterList[lastName].editing = false;
+            displayMode = "display: none;";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            // Handle any potential errors
+            Console.WriteLine($"An error occurred while adding the wrestler: {ex.Message}");
+        }
+    }
+
     string deleteButtonDisplayMode = "display: none;";
 
     private void cancelAdd() {
@@ -124,10 +205,20 @@
     }
 
     //changed from 'private async Task' to 'private void'
-    private void toggleEdit(Wrestler wrestler) {
+    private async void toggleEdit(Wrestler wrestler) {
         
         wrestler.editing=!wrestler.editing;
-        
+        WrestlerModel newWrestler = new WrestlerModel() {
+            Email = wrestler.email,
+            FirstName = wrestler.firstName,
+            LastName = wrestler.lastName,
+            Gender = wrestler.gender,
+            Grade = wrestler.grade,
+            SchoolName = wrestler.schoolName,
+            Skill = wrestler.skill,
+            WrestlerID = wrestler.wrestlerID
+        };
+        await _dba.UpdateWrestler(newWrestler);
         StateHasChanged();
         
     }
@@ -141,6 +232,39 @@
             
         }
     }
+    
+    private async Task<string> GetSavedEmail()
+    {
+        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "email");
+    }
+    
+    private async Task CreateRoster(IWrestlerData db)
+    {
+        try
+        {
+            // Retrieve the email of the current user
+            string email = await GetSavedEmail();
+            email = email?.Trim('"');
+
+            // Create a roster object
+            rosterObj2 = new Structure.Roster("schoolname");
+
+            // Retrieve wrestlers from the database based on the user's email
+            var wrestlers = await _dba.GetWrestlersByEmail(email);
+
+            // Add retrieved wrestlers to the roster
+            foreach (var wrestler in wrestlers)
+            {
+                rosterObj2.AddWrestler(wrestler.WrestlerID, wrestler.Email, wrestler.FirstName, wrestler.LastName, wrestler.Skill, wrestler.Grade, wrestler.Gender);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions that may occur
+            Console.WriteLine("An error occurred: " + ex.Message);
+        }
+    }
+    
     
     /*
     public EventCallback Editing(string lastName){

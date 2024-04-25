@@ -5,6 +5,7 @@
 @using DataAccessLibrary
 @inject IProfileData _db
 
+@rendermode InteractiveServer
 
 
 
@@ -16,7 +17,7 @@
 
 <body class="SignUp-body">
 
-<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
+@**<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
     <InputText id ="Email" @bind-Value="newProfile.Email"/>
     <InputText id ="Username" @bind-Value="newProfile.Username"/>
     <InputText id ="City" @bind-Value="newProfile.City"/>
@@ -29,44 +30,48 @@
 
 
 </EditForm>
+**@
           
-@**<form method="post" @onsubmit="HandleSubmit">
+<Form>
 
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
-
-            <td ><input placeholder="Email" class="input-SignUp" @bind="UserProfile.Email"/></td>
+            <td ><InputText placeholder="Email" class="input-SignUp" @bind-Value="localEmail"/></td>
         </tr>
         <tr>
-
-            <td><input placeholder="Username" class="input-SignUp" @bind="UserProfile.Username"/></td>
+            <td><InputText placeholder="Username" class="input-SignUp" @bind-Value="localUserName"/></td>
         </tr>
         <tr>
-
-            <td><input placeholder="City" class="input-SignUp" @bind="UserProfile.City"/></td>
+            <td><InputText placeholder="City" class="input-SignUp" @bind-Value="localCity"/></td>
         </tr>
         <tr>
-            <td><input placeholder="State" class="input-SignUp" @bind="UserProfile.State"/></td>
-
+            <td><InputText placeholder="State" class="input-SignUp" @bind-Value="localState"/></td>
         </tr>
         <tr>
-
-            <td><input placeholder="School Name" class="input-SignUp" @bind="UserProfile.SchoolName"/></td>
+            <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="localSchoolName"/></td>
         </tr>
         <tr>
-
+            <td><InputText placeholder="Password" class="input-SignUp" @bind-Value="passwordTemp1"/></td>
+        </tr>
+        <tr>
+            <td><InputText id="confirmPass" placeholder=@confirmPass class="input-SignUp" @bind-Value="passwordTemp2"/></td>
+        </tr>
+        <tr>
             <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
-                <button class="btn btn-primary" @onclick="HandleSubmit" type="submit">Submit</button>
+                <button class="btn btn-primary" @onclick="CheckPasswords" >Submit</button>
             </td>
         </tr>
     </table>
 
-</form>
-**@
+</Form>
+
 
 </body> 
 
 @code {
+    
+    
+    private string localEmail, localUserName, localCity, localState, localSchoolName, passwordTemp1, passwordTemp2;
     private List<ProfileModel> profile;
     private DisplayProfileModel newProfile = new DisplayProfileModel();
 
@@ -76,21 +81,43 @@
         profile = await _db.GetProfile();
     }
 
-    private async Task InsertProfile() {
-        ProfileModel p = new ProfileModel(newProfile.Email, newProfile.Username, newProfile.City, newProfile.State,newProfile.SchoolName,
-            newProfile.PasswordHash)
-        {
-            Email = newProfile.Email,
-            City = newProfile.City,
-            Username = newProfile.Username,
-            State = newProfile.State,
-            SchoolName = newProfile.SchoolName,
-            PasswordHash = newProfile.PasswordHash
+    //private string passwordTemp1, passwordTemp2;
 
-        };
-        Console.WriteLine($"Profile email: {p.Email}");
+    private string confirmPass = "Confirm Password";
+
+
+    private async Task CheckPasswords() {
+        if (passwordTemp1 == passwordTemp2) {
+            await InsertProfile();
+        }else {
+            confirmPass = "**Passwords must match**";
+            passwordTemp2 = "";
+        }
+    }
+    
+    
+    private async Task InsertProfile() {
         
-        await _db.InsertProfile(p);
+            newProfile.Email = localEmail;
+            newProfile.Username = localUserName;
+            newProfile.City = localCity;
+            newProfile.State = localState;
+            newProfile.SchoolName = localSchoolName;
+            ProfileModel p = new ProfileModel(newProfile.Email, newProfile.Username, newProfile.City, newProfile.State,newProfile.SchoolName,
+                passwordTemp1)
+            {
+                Email = newProfile.Email,
+                City = newProfile.City,
+                Username = newProfile.Username,
+                State = newProfile.State,
+                SchoolName = newProfile.SchoolName,
+                PasswordHash = passwordTemp1
+
+            };
+            
+            Console.WriteLine($"Profile email: {p.Email}");
+        
+            await _db.InsertProfile(p);   
     }
 
 }

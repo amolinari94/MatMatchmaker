@@ -5,6 +5,13 @@
 @inject IProfileData _db
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Antiforgery
+@using Structure
+@using Microsoft.JSInterop
+@using System.Text.Json
+@using Blazored.LocalStorage
+@rendermode InteractiveServer
+@inject ILocalStorageService _localStorage
+
 
 <PageTitle>Login Page</PageTitle>
 
@@ -34,14 +41,7 @@
             text-align: center;
         }
 
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+        
 
         input[type="submit"] {
             width: 100%;
@@ -59,14 +59,15 @@
     </style>
 <body>
 <div class="center">
-    <h2>Welcome to MatMatchmaker! Please login or create an account!</h2>
+    <h2>Welcome to MatMatchmaker! <br/>Please login or create an account!</h2>
 </div>
 <div class="container">
     <h1>Login</h1>
     <form @onsubmit="@_Login">
-        <input type="text" name="email" placeholder="Email" @bind="email" required>
-        <input type="password" name="password" placeholder="Password" @bind="password" required>
-        <input type="submit" value="Login">
+        <input class="input-SignUp" type="text" name="email" placeholder="Email" @bind="email" required>
+        <input class="input-SignUp" type="password" name="password" placeholder="Password" @bind="password" required>
+        <br><br/>
+        <button type="submit" class="btn btn-primary">Login</button>
         <p><a href="/SignUp">Create an account</a></p>
         
     </form>
@@ -80,6 +81,9 @@
     protected IAntiforgery _antiforgery { get; set; }
     private string email;
     private string password;
+    
+    [Inject]
+    protected IJSRuntime _jsRuntime { get; set; }
 
     private async Task _Login()
     {
@@ -94,7 +98,30 @@
 
         if (userProfile != null && userProfile.PasswordHash == password)
         {
-            // Authentication successful, redirect to the desired page
+            // Store authentication token/session information (if applicable)
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "email", JsonSerializer.Serialize(userProfile.Email));
+            //await _localStorage.SetItemAsync("email", email);
+          /*  // Authentication successful, redirect to the desired page
+            
+            //initialize local profile object from user's database access
+            string schoolName = "sql call goes here";
+            string city = "sql call goes here";
+            string state = "sql call goes here";
+            string address = "sql call goes here";
+            
+            
+            Profile profile = new Profile(email, schoolName, city, state, address);
+            //List<Wrestler> wrestlerList = new List<Wrestler>();
+            /*
+             * populate wrestlerList from database
+             */
+            //foreach (var wrestler in wrestlerList) {
+                //profile.school.roster.rosterList.Add(wrestler.lastName, new Wrestler());
+          //  }
+            
+            
+            
+            
             NavigationManager.NavigateTo("/Roster");
         }
         else
