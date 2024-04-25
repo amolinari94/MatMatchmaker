@@ -5,7 +5,7 @@
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
 @inject Structure.Roster rosterObj
-@inject Structure.Event currentEvent
+@inject Structure.Event testEvent
 @rendermode InteractiveServer
 
 
@@ -75,7 +75,7 @@
         <br>
         <button type="submit" class="btn btn-primary">Submit</button>
         <div>
-        <table  class="table" style="width: 100%; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227);  ">
+        <table  class="table" style="width: 100%; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227); " ondragover="event.preventDefault();">
         <thead>
             <tr>
                 <th></th>
@@ -90,6 +90,32 @@
             </tr>
         </thead>
         <tbody>
+            @foreach(var item in Models.OrderBy(x => x.Order)){
+                 
+                <tr @key="item" class="pb-2 relative" @ondragstart="() => draggingModel = item" @ondragend="()=> draggingModel = null" draggable="true"  @ondrop="()=>HandleDrop(item)">
+                    
+                        <td></td>
+                        <td>@item.match[0].firstName</td>
+                        <td>@item.match[0].gender</td>
+                        <td>@item.match[0].weight</td>
+                        <td>@item.match[0].skill</td>
+                        <td>@item.match[0].grade</td>
+          	
+			
+                    @* <tr> 
+                        <td></td>
+                        <td>@testEvent.matchList[i][1].firstName</td>
+                        <td>@testEvent.matchList[i][1].gender</td>
+                        <td>@testEvent.matchList[i][1].weight</td>
+                        <td>@testEvent.matchList[i][1].skill</td>
+                        <td>@testEvent.matchList[i][1].grade</td>
+                        <td></td>
+                    </tr>*@
+                   
+                </tr> 
+                
+                
+            }    
              
         </tbody>
         </table>
@@ -117,7 +143,51 @@
     public int weightMax {get;set;}
 
     public int weightMin{get;set;}
+    public int index=0;
+    
 
+     private List<Model> Models { get; } = [];
+
+	private class Model
+	{
+		public int Order { get; set; }
+		public string Name { get; set; } = "";
+		public bool IsDragOver { get; set; }
+        protected internal Wrestler[] match {get;set;}=[];
+	}
+    private Model? draggingModel;//the model that is being dragged
+
+	protected override void OnInitialized()
+	{//fill names wit "random" string
+		for (var i = 0; i < testEvent.matchList.Length; i++)
+		{
+			Model m = new() { Order = i, Name = $"Item {i}", match=testEvent.matchList[i]};
+			Models.Add(m);
+		}
+		base.OnInitialized();
+	}
+    private void HandleDrop(Model landingModel)
+	{//landing model -> where the drag happened
+		Console.WriteLine($"handle drop");
+		
+		if (draggingModel is null)
+		{
+			Console.WriteLine("Null issue");
+			return;
+			
+		}
+		
+		int originalOrderLanding = landingModel.Order;//keep the original order for later
+															//increase model uned by 1
+		Models.Where(x => x.Order >= landingModel.Order).ToList().ForEach(x => x.Order++);
+		draggingModel.Order = originalOrderLanding;//replace landing model
+		int ii = 0;
+		foreach (var model in Models.OrderBy(x => x.Order).ToList())
+		{
+			model.Order = ii++;//keep the numbers from 0 to size-1
+			model.IsDragOver = false;//remove drag over.
+		}
+	}
     
    
     @* public Wrestler[][] fillMatchlist(){
@@ -193,10 +263,10 @@
 
     }
 
+   
+
         
 
 
         
-    }
-    
-}
+   }

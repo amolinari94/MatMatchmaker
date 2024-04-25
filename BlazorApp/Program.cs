@@ -46,6 +46,22 @@ builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
 
 });
 
+Structure.School TestSchool = new Structure.School("lune","test SchoolName","kc","mo");
+Structure.Event testEvent = new Structure.Event(TestSchool,DateTime.Today);
+builder.Services.AddSingleton<Structure.Event>(ServiceProvider =>{
+    
+    Wrestler jim=new Structure.Wrestler("Jim", "Smith", 7, 5, "male", "test",true, 95);
+    Wrestler John=new Structure.Wrestler("John", "Green", 6, 2, "male","test",false,100);
+    Wrestler Jack=new Structure.Wrestler("Jack", "Taylor", 6, 3, "male","test",true,85);
+    Wrestler Jessica=new Structure.Wrestler("Jessica", "Graham", 7, 4, "female","test",true,75);
+    Wrestler Tom=new Structure.Wrestler("Tom", "Phillips", 5, 5, "male","test",false,100);
+    Wrestler Simon=new Structure.Wrestler("Simon", "Jefferson", 6, 3, "male","test",true,90);
+    Wrestler Frank=new Structure.Wrestler("Frank", "Linberg", 6, 2, "male","test",true,80);
+    Wrestler Tina=new Structure.Wrestler("Tina", "Tomlinson", 7, 1, "female","test",false,85);
+    testEvent.matchList=[[jim,John],[Jack,Jessica],[Tom, Simon],[Frank,Tina]];
+    return testEvent;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

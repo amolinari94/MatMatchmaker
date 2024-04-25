@@ -20,6 +20,7 @@ namespace Structure
             this.lastName=lastName;
             this.grade=grade;
             this.skill=skill;
+            this.weight=weight;
             this.gender=gender;
             this.schoolName=schoolName;
             this.editing = false;
@@ -135,7 +136,7 @@ namespace Structure
         public School host;
         public School[] guests;
         
-        Wrestler[][] matchList;
+        protected internal Wrestler[][] matchList;
 
         DateTime date;
         protected internal Event(School host, DateTime date){

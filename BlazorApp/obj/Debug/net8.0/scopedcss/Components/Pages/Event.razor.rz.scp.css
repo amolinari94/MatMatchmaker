@@ -1,0 +1,13 @@
+.text_input[b-h1srcbhccm]{
+    border: solid;
+    border-radius: 50px;
+}
+
+th[b-h1srcbhccm], td[b-h1srcbhccm]{
+    height: 25px;
+    border: solid;
+    border-left: none;
+    border-right: none;
+    
+    border-color: #636464;
+}
