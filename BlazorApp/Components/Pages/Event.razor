@@ -20,12 +20,17 @@
 
 
 <PageTitle> Event Creator </PageTitle>
-
+<!--<link rel="stylesheet" href="~BlazorApp/wwwroot/app.css" />-->
 <body>
-    <h3 class="main-title">Event Creator</h3>
+    
 
-            <!--<input class="text_input" type="text" id="school" name="school"/>-->
-            
+<!--<input class="text_input" type="text" id="school" name="school"/>-->
+
+<div>
+    <h3 class="main-title">Event Creator</h3>
+    
+</div>
+
             <label>Add Guests: </label>
             
             <div class="dropdown">
@@ -37,35 +42,13 @@
                     }
                 </div>
             </div>  
-            
-            
-            
-            <table  style="display: flex; margin-left: 90%; border: solid; border-color: #ededed; border-collapse: collapse" >
-                    <thead>Guests</thead>
-                    <tbody>
-                        
-                    @if (newEvent.guestList.Count > 0) {
-                        @foreach (var guest in newEvent.guestList) {
-                            <tr>
-                                <td>@(newEvent.guestList.IndexOf(guest) + 1)</td>
-                                <td>@guest</td>
-                            </tr>
-                        }
-                        @for (int i = 0; i < emptySpaces; i++) {
-                            <tr><td></td><td></td></tr>
-                            <tr><td></td><td></td></tr>
-                            
-                        }
-                    }
 
-                    </tbody>
-                </table>
+
             
             
-
-        
-
-    <table cellpadding="30px" style="width: 65%; height: fit-content;  border-collapse: collapse;">
+<div class="table-container">
+            
+    <table cellpadding="30px" style="width: 60%; height: fit-content;  border-collapse: collapse;">
         <tr height="20px">
             <td><label id="matchminl" for="matchmin">Number of Matches: </label></td>
             <td><input class="text_input" placeholder="Min" type="text" id="matchmin" name="matchmin"/></td>
@@ -84,7 +67,7 @@
             <td></td>
             <td></td>
         </tr>
-        
+
         <tr>
             <td><label id="matsl" for="mats">Number of Mats: </label></td>
             <td><input class="text_input" type="text" id="mats" name="mats"/></td>
@@ -92,6 +75,35 @@
             <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool"/></td>
         </tr>
     </table>
+    
+    <table style="caption-side: top; text-align: center;  width: 15%; border-left-style: solid; border-color: #ededed; border-right: none; border-top: none; border-color: #ededed; border-collapse: collapse">
+                    
+        <caption class="main-title" style=" font-family: 'Helvetica Neue',serif; text-align: center; border-top-style: none; border-right: none">
+        Guests
+        </caption>
+        <tbody>
+        
+        @if (newEvent.guestList.Count > 0) {
+            @foreach (var guest in newEvent.guestList) {
+
+
+                <tr style="background-color: azure ">
+                    <td>@(newEvent.guestList.IndexOf(guest) + 1)</td>
+                    <td>@guest</td>
+                </tr>
+            }
+
+        }
+        @for (int i = 0; i < emptySpaces; i++) {
+            <tr><td></td><td></td></tr>
+        }
+        </tbody>
+    </table>
+    
+                
+                
+</div>
+
     <h2> Match Criteria</h2>
     <label id="weightminl" for="weightmin">Weight Limits:</label>
     <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
@@ -110,6 +122,8 @@
 </body>
 
 @code {
+
+    
 
     protected async Task AddToList() {
         newEvent.addToGuestList("test");
