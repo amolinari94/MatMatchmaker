@@ -1,5 +1,6 @@
 @page "/Event"
 @using BlazorApp.Models
+@using System.Linq
 @using DataAccessLibrary
 @using Microsoft.AspNetCore.Antiforgery
 @inject IProfileData _db
@@ -12,23 +13,55 @@
 @using DataAccessLibrary.Models
 @rendermode InteractiveServer
 @inject ILocalStorageService _localStorage
-@inject IEventData eventData
+@inject DataAccessLibrary.IEventData eventData
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
+@inject Structure.Event newEvent
+
 
 
 <PageTitle> Event Creator </PageTitle>
 
 <body>
-<h3>Event set up:</h3>
+    <h3 class="main-title">Event Creator</h3>
 
-    
+            <!--<input class="text_input" type="text" id="school" name="school"/>-->
+            
+            <label>Add Guests: </label>
+            
+            <div class="dropdown">
+                <input @bind="searchTerm" @oninput="OnInput" class="text_input" type="text" placeholder="Search Schools..." />
+                <div class="dropdown-content" style="@DisplayMode">
+                    
+                    @foreach (var item in FilteredItems) {
+                        <button @onclick=" () => SelectItem(item)">@item</button>
+                    }
+                </div>
+            </div>  
+            
+            
+            
+            <table  style="display: flex; margin-left: 90%; border: solid; border-color: #ededed; border-collapse: collapse" >
+                    <thead>Guests</thead>
+                    <tbody>
+                        
+                    @if (newEvent.guestList.Count > 0) {
+                        @foreach (var guest in newEvent.guestList) {
+                            <tr>
+                                <td>@(newEvent.guestList.IndexOf(guest) + 1)</td>
+                                <td>@guest</td>
+                            </tr>
+                        }
+                        @for (int i = 0; i < emptySpaces; i++) {
+                            <tr><td></td><td></td></tr>
+                            <tr><td></td><td></td></tr>
+                            
+                        }
+                    }
 
-
-        
-            <label id="school" for="school"> Enter School Name:</label>
-            <input class="text_input" type="text" id="school" name="school"/>
-        
-        <h2>Event details: </h2>
+                    </tbody>
+                </table>
+            
+            
 
         
 
@@ -37,14 +70,19 @@
             <td><label id="matchminl" for="matchmin">Number of Matches: </label></td>
             <td><input class="text_input" placeholder="Min" type="text" id="matchmin" name="matchmin"/></td>
             <td><input class="text_input" placeholder="Max" type="text" id="matchmax" name="matchmax"/></td>
+            <td></td>
         </tr>
         <tr>
             <td><label id="skillL" for="skill">Skill level Difference: </label></td>
             <td><input class="text_input" type="text" id="skill" name="skill"/></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
             <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
             <td><input class="text_input" type="text" id="grade" name="grade"/></td>
+            <td></td>
+            <td></td>
         </tr>
         
         <tr>
@@ -54,24 +92,45 @@
             <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool"/></td>
         </tr>
     </table>
-            <h2> Match Criteria</h2>
-            <label id="weightminl" for="weightmin">Weight Limits:</label>
-            <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
-            <label class="text_input" id="weightmaxl" for="weightmax"> </label>
-            <input class="text_input" placeholder="Max" type="text" id="weightmax" name="weightmax"/>
-            <label id="diffL" for="diff">Max Weight Difference:</label>
-            <input class="text_input" type="text" id="diff" name="diff"/>
+    <h2> Match Criteria</h2>
+    <label id="weightminl" for="weightmin">Weight Limits:</label>
+    <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
+    <label class="text_input" id="weightmaxl" for="weightmax"> </label>
+    <input class="text_input" placeholder="Max" type="text" id="weightmax" name="weightmax"/>
+    <label id="diffL" for="diff">Max Weight Difference:</label>
+    <input class="text_input" type="text" id="diff" name="diff"/>
 
 
         
         
-        <button class="btn btn-secondary">Add Match</button>
-        <br>
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <button class="btn btn-secondary">Add Match</button>
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+
 </body>
 
 @code {
-    private Structure.Event newEvent;
+
+    protected async Task AddToList() {
+        newEvent.addToGuestList("test");
+        StateHasChanged();
+    }
+    
+    
+    private string DisplayMode = "display: none;";
+
+    
+    private List<string>LocalGuestList = new List<string>();
+    
+    private void addToLocalGuests(string guestName) {
+        LocalGuestList.Add(guestName);
+        StateHasChanged();
+    }
+
+    private void addToGuests(string guestName) {
+        newEvent.guestList.Add(guestName);
+    }
+    
     
     private async Task<string> GetSavedEmail()
     {
@@ -82,7 +141,7 @@
     private async void addEvent() {
         
         string email = await GetSavedEmail();
-        newEvent.addGuest(email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
+        newEvent.addGuest()
         
         rosterObj.rosterList[lastName].editing = false;
         displayMode = "display: none;";
@@ -96,12 +155,43 @@
             Skill = int.Parse(skill)
         };
         await _dba.InsertWrestler(newWrestler);
-        
-        
-
-
     }
     */
+    private int counter = 0;
+    private string searchTerm = "";
+    private List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
+    private List<string> FilteredItems = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        //newEvent.guestList.Add("Middle Missouri");
+        //LocalGuestList.Add("Mid Missouri");
+        FilteredItems = SchoolsList;
+        
+    }
+
+    private void OnInput(ChangeEventArgs e)
+    {
+        searchTerm = e.Value?.ToString() ?? "";
+        FilteredItems = SchoolsList.Where(i => i.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+        DisplayMode = "";
+    }
+
+    public int emptySpaces = 10;
+    private async Task SelectItem(string item)
+    {
+        Console.WriteLine($"Selected: {item}");
+        searchTerm = item;
+        FilteredItems.Clear();
+        //addToLocalGuests(item);
+        //addToGuests(item);
+        newEvent.addToGuestList(searchTerm);
+        counter++;
+        emptySpaces--;
+        
+        StateHasChanged();
+    }
+    
             
     /*Event Database table:
      *---------------------------------------------------------------------------------------------------
