@@ -155,6 +155,7 @@ namespace Structure
         School host;
         string guestListID;
         protected School[] guests;
+        public List<string> guestList = new List<string>();
         DateTime date;
         
         protected internal Event(String Id, School host, string guestListId, DateTime date) {
@@ -162,6 +163,11 @@ namespace Structure
             this.host=host;
             this.guestListID = guestListId;
             this.date=date;
+            
+        }
+
+        protected internal void addToGuestList(string guestName) {
+            guestList.Add(guestName);
         }
 
         protected internal void addGuest(School guestSchool){

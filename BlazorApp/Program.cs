@@ -26,6 +26,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
+builder.Services.AddTransient<IEventData, EventData > ();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredSessionStorage(config => {
         config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
@@ -64,6 +65,12 @@ builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
     return rosterObj;
     
 
+});
+
+builder.Services.AddSingleton<Structure.Event>(ServiceProvider => {
+    Structure.Event newEvent = new Structure.Event("testID", new School("testID", "cityt", "statet","addresst"), "guestListTest",
+    DateTime.Now);
+    return newEvent;
 });
 
 var app = builder.Build();
