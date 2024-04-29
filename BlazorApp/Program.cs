@@ -23,6 +23,7 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
