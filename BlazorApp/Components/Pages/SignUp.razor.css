@@ -35,7 +35,7 @@
 
 .input-table{
     display: grid;
-    padding-top: 50px;
+    padding-top: 20px;
     
     place-items: center;
     vertical-align: auto;
@@ -44,7 +44,7 @@
 }
 
 .input-table td{
-    padding: 10px 0;
+    padding: 10px;
 }
 
 
