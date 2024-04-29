@@ -31,17 +31,9 @@
     
 </div>
 
-            <label>Add Guests: </label>
+
             
-            <div class="dropdown">
-                <input @bind="searchTerm" @oninput="OnInput" class="text_input" type="text" placeholder="Search Schools..." />
-                <div class="dropdown-content" style="@DisplayMode">
-                    
-                    @foreach (var item in FilteredItems) {
-                        <button @onclick=" () => SelectItem(item)">@item</button>
-                    }
-                </div>
-            </div>  
+            
 
 
             
@@ -76,11 +68,22 @@
         </tr>
     </table>
     
-    <table style="caption-side: top; text-align: center;  width: 15%; border-left-style: solid; border-color: #ededed; border-right: none; border-top: none; border-color: #ededed; border-collapse: collapse">
+    <table style="caption-side: top; text-align: center;  width: 25%; border-left-style: solid; border-color: #ededed; border-right: none; border-top: none; border-color: #ededed; border-collapse: collapse">
                     
         <caption class="main-title" style=" font-family: 'Helvetica Neue',serif; text-align: center; border-top-style: none; border-right: none">
-        Guests
+            <div>Guests</div>
+            
+            <div class="dropdown">
+                <input @ref="searchBox" @bind="searchTerm" @oninput="OnInput" class="text_input" type="text" placeholder="Search Schools..."/>
+                <div class="dropdown-content" style="@DisplayMode">
+
+                    @foreach (var item in FilteredItems) {
+                        <button @onclick=" () => SelectItem(item)">@item</button>
+                    }
+                </div>
+            </div>
         </caption>
+         
         <tbody>
         
         @if (newEvent.guestList.Count > 0) {
@@ -171,6 +174,7 @@
         await _dba.InsertWrestler(newWrestler);
     }
     */
+    private ElementReference searchBox;
     private int counter = 0;
     private string searchTerm = "";
     private List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
@@ -200,6 +204,7 @@
         //addToLocalGuests(item);
         //addToGuests(item);
         newEvent.addToGuestList(searchTerm);
+        searchTerm = String.Empty;
         counter++;
         emptySpaces--;
         
