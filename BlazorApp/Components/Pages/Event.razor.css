@@ -4,6 +4,20 @@
     position: relative;
     display: inline-block;
 }
+.table-container{
+    display: flex;
+}
+
+.guest-table{
+    border-color: rgb(227,227,227);
+    border: 2px solid;
+    box-shadow: 2px 2px 30px lightgray;
+    text-align-all: center;
+    font-size: 1.2rem;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
 
 .dropdown-content {
     #display: none; 
@@ -45,4 +59,16 @@ th, td{
     border-right: none;
 
     border-color: #EDEDED;
+}
+
+
+.main-title{
+    /* background-image: linear-gradient(#063970, #010e1b); */
+    color: #063970;
+    -webkit-background-clip: text;
+    background-clip: text;
+    /*color: transparent; /* Makes the text itself transparent, showing the background */
+    /*display: inline-block;*/
+
+
 }
