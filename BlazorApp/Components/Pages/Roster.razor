@@ -235,8 +235,24 @@
     
     private async Task<string> GetSavedEmail()
     {
-        return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "email");
+        string cookieName = "email";
+
+        try
+        {
+            // Invoke the 'getCookie' JavaScript function to retrieve the email cookie value
+            string emailCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+
+            // Return the retrieved email cookie value (or null if not found)
+            return emailCookie;
+        }
+        catch (Exception ex)
+        {
+            // Handle any JavaScript interop invocation errors
+            Console.WriteLine($"Error retrieving cookie: {ex.Message}");
+            return null;
+        }
     }
+
     
     private async Task CreateRoster(IWrestlerData db)
     {
