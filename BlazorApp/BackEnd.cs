@@ -12,6 +12,8 @@ namespace Structure
         public String firstName, lastName, gender,schoolName, email;
         public bool editing;
         public int wrestlerID;
+        public double weight;
+        public bool sameGenderOnly;
 
         //made public for testing 
         public int grade, skill;
@@ -31,6 +33,16 @@ namespace Structure
         
         
 
+    }
+
+    public class WrestlerEventInstance {
+        protected internal Wrestler wrestler;
+        protected internal int allowedMatches;
+
+        public WrestlerEventInstance(Wrestler wrestler, int allowedMatches) {
+            this.wrestler = wrestler;
+            this.allowedMatches = allowedMatches;
+        }
     }
     
     /* Class ROSTER
@@ -147,12 +159,18 @@ namespace Structure
     }
 
     public class Match {
-        private string ID { get; set; }
-        protected Wrestler wrestler1;
-        protected Wrestler wrestler2;
-        
-        
 
+        protected internal string EventID;
+        protected internal int ID { get; set; }
+        protected internal WrestlerEventInstance wrestler1;
+        protected internal WrestlerEventInstance wrestler2;
+
+        public Match(String EventID,int id, WrestlerEventInstance wrestler1, WrestlerEventInstance wrestler2) {
+            this.EventID = EventID;
+            this.ID = id;
+            this.wrestler1 = wrestler1;
+            this.wrestler2 = wrestler2;
+        }
     }
 
     /*Class EVENT
@@ -165,12 +183,14 @@ namespace Structure
         protected School[] guests;
         public List<string> guestList = new List<string>();
         DateTime date;
-        
-        protected double weightMin, weightMax;
-        protected int numMats, skillGap, gradeGap;
-        protected bool internalMatches;
+        protected internal int allowedMatches;
 
-        private LinkedList<Match> matchList;
+        protected internal double weightDiff;
+        protected internal int numMats, skillGap, gradeGap, minMatches, maxMatches;
+        protected internal bool internalMatches;
+        
+
+        protected internal LinkedList<Match> matchList;
         
         protected internal Event(String Id, School host, string guestListId, DateTime date) {
             this.ID = Id;
