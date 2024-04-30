@@ -13,12 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Structure;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -28,6 +30,7 @@ builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
 builder.Services.AddTransient<IEventData, EventData > ();
+builder.Services.AddTransient<IMatchesData, MatchesData > ();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredSessionStorage(config => {
         config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
@@ -68,11 +71,13 @@ builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
 
 });
 
+/*
 builder.Services.AddSingleton<Structure.Event>(ServiceProvider => {
     Structure.Event newEvent = new Structure.Event("testID", new School("testID", "cityt", "statet","addresst"), "guestListTest",
     DateTime.Now);
     return newEvent;
 });
+*/
 
 var app = builder.Build();
 

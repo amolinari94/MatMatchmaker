@@ -115,10 +115,10 @@ namespace Structure
      *
      */
     public class Profile{
-        private string email,city,state,schoolName;
+        internal string email,city,state,schoolName;
         internal School school;
         private string address;
-        private List<string> Events;
+        public LinkedList<Event> Events;
 
         protected internal Profile(string email, string schoolName, string city, string state, string address) {
             this.email = email;
@@ -139,11 +139,19 @@ namespace Structure
         */
 
 
-        private void addEvent(string eventID){
-            Events.Add(eventID);
-            
+        protected void addEvent(Event e) {
+            Events.Append(e);
         }
 
+
+    }
+
+    public class Match {
+        private string ID { get; set; }
+        protected Wrestler wrestler1;
+        protected Wrestler wrestler2;
+        
+        
 
     }
 
@@ -157,6 +165,12 @@ namespace Structure
         protected School[] guests;
         public List<string> guestList = new List<string>();
         DateTime date;
+        
+        protected double weightMin, weightMax;
+        protected int numMats, skillGap, gradeGap;
+        protected bool internalMatches;
+
+        private LinkedList<Match> matchList;
         
         protected internal Event(String Id, School host, string guestListId, DateTime date) {
             this.ID = Id;
@@ -172,7 +186,7 @@ namespace Structure
 
         protected internal void addGuest(School guestSchool){
            guests.Append(guestSchool);
-           guestListID = $"{host.Name}_EVNT_{host.totalEvents + 1}";//sets the event name to "SchoolName_EVNT_1"
+           guestListID = $"{host.Name}_EVENT_{host.totalEvents + 1}";//sets the event name to "SchoolName_EVNT_1"
            /*add db call to add guest email/info to guest list table in DB*/
         }
 
