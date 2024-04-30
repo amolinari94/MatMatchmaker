@@ -1,4 +1,5 @@
 using System;
+using DataAccessLibrary.Models;
 
 public class EventModel
 {
@@ -9,6 +10,7 @@ public class EventModel
     public string Result { get; set; }
     public int Wrestler1ID { get; set; }
     public int Wrestler2ID { get; set; }
+    public List<MatchModel> Matches { get; set; }
     
     
    /* public int EventID { get; set; }
