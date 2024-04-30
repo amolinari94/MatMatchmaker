@@ -32,7 +32,6 @@ input::placeholder {
     position: relative;
 }
 
-.container__left,
 .container__right {
     flex: 1;
     display: flex;
