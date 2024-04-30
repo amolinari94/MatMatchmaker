@@ -34,18 +34,11 @@
     <h3 class="main-title">Match Info:</h3>
 </div>
 
-
-            
-            
-
-
-            
-            
 <div class="table-container">
             
     <table cellpadding="30px" style="width: 60%; height: fit-content;  border-collapse: collapse;">
         <tr height="20px">
-            <td><label id="matchminl"  for="matchmin">Number of Matches: </label></td>
+            <td><label id="matchminl"  for="matchmin">Number of Matches Per Wrestler: </label></td>
             <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);"  TValue="int" @bind-Value="@_matchMin"/></td>
             <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" class="text-input" TValue="int" @bind-Value="@_matchMax" /></td>
             <td></td>
@@ -185,28 +178,34 @@
         
     }
 
-    Profile profile;
+    
+
+    Profile hostProfile;
+    Roster[] GuestRosters;
+    
     
     
     private async void addEvent() {
         string email = await GetSavedEmail();
-        string EventID = $"{profile.schoolName}_Event{profile.Events.Count + 1}";
+        string EventID = $"{hostProfile.schoolName}_Event{hostProfile.Events.Count + 1}";
         string guestListID = $"{EventID}_GuestList";
-        Structure.Event e = new Structure.Event(EventID, profile.school, guestListID, selectedDate);
-        double weightMinDouble = Double.Parse(_weightMin);
-        double weightMaxDouble = Double.Parse(_weightMax);
+        Structure.Event evt = new Structure.Event(EventID, hostProfile.school, guestListID, selectedDate);
+        //double weightMinDouble = Double.Parse(_weightMin);
+        //double weightMaxDouble = Double.Parse(_weightMax);
         double weightDiffDouble = Double.Parse(_weightDiff);
-        int numMatsInt = _numMats;
-        int skillGapInt = _skillGap;
-        int gradeGapInt = _gradeGap;
-        int matchMinInt = _matchMin;
-        int matchMaxInt = _matchMax;
-        
-        
-        
-        
-        
-        e.guestList = LocalGuestList;
+        //evt.weightMax = weightMaxDouble;
+        //evt.weightMin = weightMinDouble;
+        evt.gradeGap = _gradeGap;
+        evt.minMatches = _matchMin;
+        evt.maxMatches = _matchMax;
+        evt.skillGap = _skillGap;
+        evt.weightDiff = weightDiffDouble;
+        evt.numMats = _numMats;
+        evt.allowedMatches = _matchMax;
+        evt.internalMatches = _internalMatches;
+        evt.guestList = LocalGuestList;
+        //MatchGenerator matchGen = new MatchGenerator();
+        //evt.matchList = matchGen.GenerateMatches(false, evt.allowedMatches);
     }
     
     private ElementReference searchBox;
