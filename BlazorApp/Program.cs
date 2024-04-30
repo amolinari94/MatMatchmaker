@@ -28,6 +28,7 @@ builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
 builder.Services.AddTransient<IEventData, EventData > ();
+builder.Services.AddTransient<IMatchesData, MatchesData > ();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredSessionStorage(config => {
         config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
