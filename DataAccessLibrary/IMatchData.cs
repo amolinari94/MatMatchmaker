@@ -2,7 +2,7 @@ using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary;
 
-public interface IMatchesData
+public interface IMatchData
 {
     Task<List<MatchModel>> GetMatches();
     Task<int> InsertMatch(MatchModel match);

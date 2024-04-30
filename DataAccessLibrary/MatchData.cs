@@ -4,11 +4,11 @@ using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary
 {
-    public class MatchesData : IMatchesData
+    public class MatchData : IMatchData
     {
         private readonly ISqlDataAccess _dba;
 
-        public MatchesData(ISqlDataAccess db)
+        public MatchData(ISqlDataAccess db)
         {
             _dba = db;
         }

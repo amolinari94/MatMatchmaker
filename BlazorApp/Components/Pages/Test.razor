@@ -2,7 +2,7 @@
 @using DataAccessLibrary.Models
 @using DataAccessLibrary
 @using Microsoft.AspNetCore.Antiforgery
-@inject IMatchesData _dba
+@inject IMatchData _dba
 @using Microsoft.JSInterop
 @inject IJSRuntime jsRuntime
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
@@ -12,11 +12,12 @@
 @using System.Text.Json
 @using Blazored.LocalStorage
 @inject IEventData eventData
+@inject IEventData _db
 @rendermode InteractiveServer
 
 <h3>Test Events</h3>
 
-<button @onclick="InsertEvent">Insert Test Event</button>
+<button @onclick="InsertTestEvent">Insert Test Event</button>
 
 @if (events != null && events.Any())
 {
@@ -24,40 +25,56 @@
     <ul>
         @foreach (var ev in events)
         {
-            <li>@ev.EventDate - @ev.Location - @ev.Result</li>
+            <li>@ev.EventDate.ToShortDateString() - @ev.Location - @ev.Result</li>
+            @if (ev.Matches != null && ev.Matches.Any())
+            {
+                <ul>
+                    @foreach (var match in ev.Matches)
+                    {
+                        <li>Match: Wrestler1ID=@match.Wrestler1ID, Wrestler2ID=@match.Wrestler2ID, Result=@match.Result</li>
+                    }
+                </ul>
+            }
         }
     </ul>
 }
 
 @code {
     private List<EventModel> events;
+    private string debugMessage = "";
 
-    private async Task InsertEvent()
+    private async Task InsertTestEvent()
     {
-        int wrestler1ID = 3;
-        int wrestler2ID = 4;
-        Console.WriteLine($"Wrestler1ID: {wrestler1ID}, Wrestler2ID: {wrestler2ID}");
-
-        
+        debugMessage = "Inserting test event...";
         EventModel newEvent = new EventModel
         {
             EventDate = DateTime.Now,
             Location = "Test Location",
             Result = "Test Result",
-            MatchId = 1,  // Replace with a valid MatchId from your database
-            Wrestler1ID = wrestler1ID,
-            Wrestler2ID = wrestler2ID
+            Matches = new List<MatchModel>
+            {
+                
+                new MatchModel { Wrestler1ID = 3, Wrestler2ID = 4, Result = "Match 1 Result" },
+                new MatchModel { Wrestler1ID = 8, Wrestler2ID = 9, Result = "Match 2 Result" }
+                
+            }
         };
         
-        Console.WriteLine($"New Event: EventDate={newEvent.EventDate}, Location={newEvent.Location}, Result={newEvent.Result}, Wrestler1ID={newEvent.Wrestler1ID}, Wrestler2ID={newEvent.Wrestler2ID}");
+        foreach (var match in newEvent.Matches)
+        {
+            Console.WriteLine($"Adding match: Wrestler1ID={match.Wrestler1ID}, Wrestler2ID={match.Wrestler2ID}, Result={match.Result}");
+        }
+
 
         try
         {
             await eventData.InsertEvent(newEvent);
             await LoadEvents();
+            // Optionally, set a success message or perform additional actions after successful insertion
         }
         catch (Exception ex)
         {
+            // Log or handle the exception appropriately
             Console.WriteLine($"Error inserting event: {ex.Message}");
         }
     }
