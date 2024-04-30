@@ -1,45 +1,74 @@
 @page "/Test"
+@using DataAccessLibrary.Models
+@using DataAccessLibrary
+@using Microsoft.AspNetCore.Antiforgery
+@inject IMatchesData _dba
 @using Microsoft.JSInterop
 @inject IJSRuntime jsRuntime
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Antiforgery
+@using Structure
+@using Microsoft.JSInterop
+@using System.Text.Json
+@using Blazored.LocalStorage
+@inject IEventData eventData
+@rendermode InteractiveServer
 
-<h1>Login Page</h1>
+<h3>Test Events</h3>
 
+<button @onclick="InsertEvent">Insert Test Event</button>
 
-<button @onclick="SetEmailCookie">Set Email Cookie</button>
-<button @onclick="GetEmailCookie">Get Email Cookie</button>
-<p>@EmailCookieValue</p>
-
+@if (events != null && events.Any())
+{
+    <h4>Events:</h4>
+    <ul>
+        @foreach (var ev in events)
+        {
+            <li>@ev.EventDate - @ev.Location - @ev.Result</li>
+        }
+    </ul>
+}
 
 @code {
-    private async Task SetEmailCookie()
+    private List<EventModel> events;
+
+    private async Task InsertEvent()
     {
-        string email = "test@test.com";
+        int wrestler1ID = 3;
+        int wrestler2ID = 4;
+        Console.WriteLine($"Wrestler1ID: {wrestler1ID}, Wrestler2ID: {wrestler2ID}");
+
+        
+        EventModel newEvent = new EventModel
+        {
+            EventDate = DateTime.Now,
+            Location = "Test Location",
+            Result = "Test Result",
+            MatchId = 1,  // Replace with a valid MatchId from your database
+            Wrestler1ID = wrestler1ID,
+            Wrestler2ID = wrestler2ID
+        };
+        
+        Console.WriteLine($"New Event: EventDate={newEvent.EventDate}, Location={newEvent.Location}, Result={newEvent.Result}, Wrestler1ID={newEvent.Wrestler1ID}, Wrestler2ID={newEvent.Wrestler2ID}");
 
         try
         {
-            // Invoke the setCookie JavaScript function
-            await jsRuntime.InvokeVoidAsync("setCookie", "email", email);
-            Console.WriteLine($"Cookie 'email' set with value: {email}");
+            await eventData.InsertEvent(newEvent);
+            await LoadEvents();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error setting cookie: {ex.Message}");
+            Console.WriteLine($"Error inserting event: {ex.Message}");
         }
     }
-    private string EmailCookieValue { get; set; }
 
-    private async Task GetEmailCookie()
+    private async Task LoadEvents()
     {
-        string cookieName = "email";
-        string cookieValue = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+        events = await eventData.GetEvents();
+    }
 
-        if (!string.IsNullOrEmpty(cookieValue))
-        {
-            EmailCookieValue = $"Value of 'email' cookie: {cookieValue}";
-        }
-        else
-        {
-            EmailCookieValue = "Cookie 'email' not found.";
-        }
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEvents();
     }
 }
