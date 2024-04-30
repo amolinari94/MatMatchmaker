@@ -13,12 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Structure;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -68,11 +70,13 @@ builder.Services.AddSingleton<Structure.Roster>(ServiceProvider =>{
 
 });
 
+/*
 builder.Services.AddSingleton<Structure.Event>(ServiceProvider => {
     Structure.Event newEvent = new Structure.Event("testID", new School("testID", "cityt", "statet","addresst"), "guestListTest",
     DateTime.Now);
     return newEvent;
 });
+*/
 
 var app = builder.Build();
 

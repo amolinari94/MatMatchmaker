@@ -3,6 +3,7 @@
 @using System.Linq
 @using DataAccessLibrary
 @using Microsoft.AspNetCore.Antiforgery
+@using Microsoft.AspNetCore.Components.Forms
 @inject IProfileData _db
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 @using Microsoft.AspNetCore.Antiforgery
@@ -15,7 +16,9 @@
 @inject ILocalStorageService _localStorage
 @inject DataAccessLibrary.IEventData eventData
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
-@inject Structure.Event newEvent
+
+
+
 
 
 
@@ -27,8 +30,8 @@
 <!--<input class="text_input" type="text" id="school" name="school"/>-->
 
 <div>
-    <h3 class="main-title">Event Creator</h3>
-    
+    <h2 class="main-title" style="text-align: center">Event Creator</h2>
+    <h3 class="main-title">Match Info:</h3>
 </div>
 
 
@@ -42,29 +45,36 @@
             
     <table cellpadding="30px" style="width: 60%; height: fit-content;  border-collapse: collapse;">
         <tr height="20px">
-            <td><label id="matchminl" for="matchmin">Number of Matches: </label></td>
-            <td><input class="text_input" placeholder="Min" type="text" id="matchmin" name="matchmin"/></td>
-            <td><input class="text_input" placeholder="Max" type="text" id="matchmax" name="matchmax"/></td>
+            <td><label id="matchminl"  for="matchmin">Number of Matches: </label></td>
+            <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);"  TValue="int" @bind-Value="@_matchMin"/></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" class="text-input" TValue="int" @bind-Value="@_matchMax" /></td>
             <td></td>
         </tr>
         <tr>
             <td><label id="skillL" for="skill">Skill level Difference: </label></td>
-            <td><input class="text_input" type="text" id="skill" name="skill"/></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_skillGap"/></td>
             <td></td>
             <td></td>
         </tr>
         <tr>
             <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
-            <td><input class="text_input" type="text" id="grade" name="grade"/></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_gradeGap" id="grade" name="grade"/></td>
             <td></td>
             <td></td>
         </tr>
 
         <tr>
             <td><label id="matsl" for="mats">Number of Mats: </label></td>
-            <td><input class="text_input" type="text" id="mats" name="mats"/></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
             <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
-            <td><input class="text_input" type="checkbox" id="matchschool" name="matchschool"/></td>
+            <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
+        </tr>
+        <tr style="height: auto">
+            
+            <td><label>Match Date: </label></td>
+            <!--<td> <TelerikDateTimePicker Format="dd/MM/yyyy HH:mm" Width="200px"></TelerikDateTimePicker> </td>-->
+            <td><InputDate @bind-Value="selectedDate" ></InputDate></td>
+            
         </tr>
     </table>
     
@@ -86,12 +96,12 @@
          
         <tbody>
         
-        @if (newEvent.guestList.Count > 0) {
-            @foreach (var guest in newEvent.guestList) {
+        @if (LocalGuestList.Count > 0) {
+            @foreach (var guest in LocalGuestList) {
 
 
                 <tr style="background-color: azure ">
-                    <td>@(newEvent.guestList.IndexOf(guest) + 1)</td>
+                    <td>@(LocalGuestList.IndexOf(guest) + 1)</td>
                     <td>@guest</td>
                 </tr>
             }
@@ -107,31 +117,44 @@
                 
 </div>
 
-    <h2> Match Criteria</h2>
-    <label id="weightminl" for="weightmin">Weight Limits:</label>
-    <input class="text_input" placeholder="Min" type="text" id="weighthmin" name="weightmin"/>
+    <h3 class="main-title"> Weight Options: </h3>
+    <label id="weightminl" >Weight Limits:</label>
+    <input class="text_input" placeholder="Min" type="text" @bind="_weightMin" id="weighthmin" name="weightmin"/>
     <label class="text_input" id="weightmaxl" for="weightmax"> </label>
-    <input class="text_input" placeholder="Max" type="text" id="weightmax" name="weightmax"/>
+    <input class="text_input" placeholder="Max" type="text" @bind="_weightMax" id="weightmax" name="weightmax"/>
     <label id="diffL" for="diff">Max Weight Difference:</label>
-    <input class="text_input" type="text" id="diff" name="diff"/>
+    <input class="text_input" type="text" @bind="_weightDiff" id="diff" name="diff"/>
 
 
         
         
-    <button class="btn btn-secondary">Add Match</button>
+    <!--button class="btn btn-secondary">Add Match</!--button-->
     <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" @onclick="addEvent">Add Event</button>
 
 </body>
 
 @code {
 
     
+    private DateTime selectedDate = new DateTime();
+    
+    
+    private string _weightMin, _weightMax, _weightDiff;//doubles
+    private int _matchMin = 1;
+    private int _matchMax = 10;
+    private int _skillGap = 0;
+    private int _gradeGap = 0;
+    private int _numMats = 1;
+    private bool _internalMatches;//bool
+    
 
+    /*
     protected async Task AddToList() {
-        newEvent.addToGuestList("test");
+        e.addToGuestList("test");
         StateHasChanged();
     }
+    */
     
     
     private string DisplayMode = "display: none;";
@@ -144,36 +167,48 @@
         StateHasChanged();
     }
 
+    /*
     private void addToGuests(string guestName) {
-        newEvent.guestList.Add(guestName);
+        e.guestList.Add(guestName);
     }
+    */
     
     
     private async Task<string> GetSavedEmail()
     {
         return await jsRuntime.InvokeAsync<string>("localStorage.getItem", "email");
     }
-    
-    /*
-    private async void addEvent() {
-        
+
+    private async void getProfile() {
         string email = await GetSavedEmail();
-        newEvent.addGuest()
+        //profile = (/*db call to get the profile info*/)
         
-        rosterObj.rosterList[lastName].editing = false;
-        displayMode = "display: none;";
-        WrestlerModel newWrestler = new WrestlerModel() {
-            Email = email,
-            FirstName = firstName,
-            LastName = lastName,
-            Gender = gender,
-            Grade = int.Parse(grade),
-            SchoolName = schoolName,
-            Skill = int.Parse(skill)
-        };
-        await _dba.InsertWrestler(newWrestler);
     }
-    */
+
+    Profile profile;
+    
+    
+    private async void addEvent() {
+        string email = await GetSavedEmail();
+        string EventID = $"{profile.schoolName}_Event{profile.Events.Count + 1}";
+        string guestListID = $"{EventID}_GuestList";
+        Structure.Event e = new Structure.Event(EventID, profile.school, guestListID, selectedDate);
+        double weightMinDouble = Double.Parse(_weightMin);
+        double weightMaxDouble = Double.Parse(_weightMax);
+        double weightDiffDouble = Double.Parse(_weightDiff);
+        int numMatsInt = _numMats;
+        int skillGapInt = _skillGap;
+        int gradeGapInt = _gradeGap;
+        int matchMinInt = _matchMin;
+        int matchMaxInt = _matchMax;
+        
+        
+        
+        
+        
+        e.guestList = LocalGuestList;
+    }
+    
     private ElementReference searchBox;
     private int counter = 0;
     private string searchTerm = "";
@@ -185,7 +220,9 @@
         //newEvent.guestList.Add("Middle Missouri");
         //LocalGuestList.Add("Mid Missouri");
         FilteredItems = SchoolsList;
-        
+        //Structure.Event e;
+        selectedDate = DateTime.Now;
+
     }
 
     private void OnInput(ChangeEventArgs e)
@@ -201,9 +238,9 @@
         Console.WriteLine($"Selected: {item}");
         searchTerm = item;
         FilteredItems.Clear();
-        //addToLocalGuests(item);
+        addToLocalGuests(searchTerm);
         //addToGuests(item);
-        newEvent.addToGuestList(searchTerm);
+        //newEvent.addToGuestList(searchTerm);
         searchTerm = String.Empty;
         counter++;
         emptySpaces--;
