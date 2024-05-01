@@ -1,55 +1,52 @@
-using System.Drawing;
-using DataAccessLibrary.Models;
 using System.Threading.Tasks;
+using DataAccessLibrary.Models;
 
-namespace DataAccessLibrary;
-
-public class ProfileData : IProfileData
+namespace DataAccessLibrary
 {
-    private readonly ISqlDataAccess _db;
-    public ProfileData(ISqlDataAccess db)
+    public class ProfileData : IProfileData
     {
-        _db = db;
-    }
+        private readonly ISqlDataAccess _db;
 
-    public Task<List<ProfileModel>> GetProfile()
-    {
-        string sql = "select * from dbo.Profile";
-
-        return _db.LoadData<ProfileModel, dynamic>(sql, new { });
-    }
-
-    public Task InsertProfile(ProfileModel profile)
-    {
-        string sql = @"insert into dbo.Profile (Email, Username, City, State, SchoolName, PasswordHash) 
-                      values (@Email, @Username, @City, @State, @SchoolName, @PasswordHash);";
-
-        return _db.SaveData(sql, profile);
-    }
-    
-    public async Task<ProfileModel> AuthenticateUser(string email, string password)
-    {
-        // Query the database to check if the provided email and password are valid
-        string sql = @"SELECT * FROM dbo.Profile WHERE Email = @Email AND PasswordHash = @PasswordHash;";
-
-        var parameters = new
+        public ProfileData(ISqlDataAccess db)
         {
-            Email = email,
-            PasswordHash = password // Directly using the provided password for now, update this when  implement password hashing
-        };
-
-        try
-        {
-            var userProfileList = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
-            Console.WriteLine($"user profile email: {userProfileList.FirstOrDefault().Email}");
-            return userProfileList.FirstOrDefault(); // Return the first matching user profile, or null if not found
+            _db = db;
         }
-        catch (Exception ex)
+
+        public async Task<List<ProfileModel>> GetProfiles()
         {
-            // Handle any exceptions (e.g., database error)
-            Console.WriteLine("Error in AuthenticateUser: " + ex.Message);
-            return null;
+            string sql = "SELECT * FROM dbo.Profile;";
+            return await _db.LoadData<ProfileModel, dynamic>(sql, new { });
+        }
+
+        public async Task InsertProfile(ProfileModel profile)
+        {
+            string sql = @"INSERT INTO dbo.Profile (email, password, schoolName, city, state) 
+                           VALUES (@email, @password, @schoolName, @city, @state);";
+
+            await _db.SaveData(sql, profile);
+        }
+
+        public async Task<ProfileModel> AuthenticateUser(string Email, string Password)
+        {
+            string sql = @"SELECT * FROM dbo.Profile WHERE Email = @email AND Password = @password;";
+
+            var parameters = new
+            {
+                email = Email,
+                password = Password // For demo purposes; you should use password hashing for production
+            };
+
+            try
+            {
+                var userProfileList = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
+                return userProfileList.FirstOrDefault(); // Return the first matching user profile, or null if not found
+            }
+            catch (Exception ex)
+            {
+                // Properly handle the exception (e.g., log, rethrow, return null, etc.)
+                Console.WriteLine("Error in AuthenticateUser: " + ex.Message);
+                return null;
+            }
         }
     }
-
 }

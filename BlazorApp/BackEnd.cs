@@ -7,33 +7,42 @@ namespace Structure
     /* Class WRESTLER
      * Holds information for each student/wrestler
      */
-    public class Wrestler{
-        //made public for testing
-        public String firstName, lastName, gender,schoolName, email;
-        public bool editing;
-        public int wrestlerID;
-        public double weight;
-        public bool sameGenderOnly;
+    public class Wrestler
+    {
+        public int wrestler_id { get; set; } // Maps to wrestler_id in the database
+        public int profile_id { get; set; } // Maps to profile_id in the database
+        public string firstName { get; set; } // Maps to firstName in the database
+        public string lastName { get; set; } // Maps to lastName in the database
+        public int weight { get; set; } // Maps to weight in the database
+        public int skillLevel { get; set; } // Maps to skillLevel in the database
+        public int grade { get; set; } // Maps to grade in the database
+        public string gender { get; set; } // Maps to gender in the database
+        public bool sameGenderOnly { get; set; } // Maps to genderPreference in the database
+        public bool editing { get; set; } // Indicates if the wrestler is being edited
+        
 
-        //made public for testing 
-        public int grade, skill;
-        //changed from protected internal to public for testing
-        public Wrestler(int wrestlerId, String email, String firstName, String lastName, int grade, int skill, String gender, String schoolName)
+        // Default constructor (empty)
+        public Wrestler()
         {
-            this.wrestlerID = wrestlerId;
-            this.email = email;
-            this.firstName=firstName;
-            this.lastName=lastName;
-            this.grade=grade;
-            this.skill=skill;
-            this.gender=gender;
-            this.schoolName=schoolName;
-            this.editing = false;
+            // Initialize properties if needed
         }
-        
-        
 
+        // Constructor with parameters matching database columns
+        public Wrestler(int wrestler_id, int profile_id, string firstName, string lastName, int weight, int skillLevel, int grade, string gender, bool genderPreference)
+        {
+            this.wrestler_id = wrestler_id;
+            this.profile_id = profile_id;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.weight = weight;
+            this.skillLevel = skillLevel;
+            this.grade = grade;
+            this.gender = gender;
+            this.sameGenderOnly = sameGenderOnly;
+            this.editing = false; // Initialize editing state
+        }
     }
+
 
     public class WrestlerEventInstance {
         protected internal Wrestler wrestler;
@@ -62,14 +71,30 @@ namespace Structure
         }
 
         //Add Wrestler Method
-        protected internal void AddWrestler(int wrestlerID,
-            String email,
-            String firstName,
-            String lastName,
-            int grade,
+        protected internal void AddWrestler(
+            int wrestlerID,
+            int profileID,
+            string firstName,
+            string lastName,
+            int weight,
             int skill,
-            String gender){
-            Wrestler newWrestler = new Wrestler(wrestlerID, email, firstName,lastName,grade,skill,gender, this.schoolName );
+            int grade,
+            string gender,
+            bool sameGenderOnly)
+        {
+            Wrestler newWrestler = new Wrestler()
+            {
+                wrestler_id = wrestlerID,
+                profile_id = profileID, // Assign profile_id accordingly; not specified in parameters
+                firstName = firstName,
+                lastName = lastName,
+                weight = weight,
+                skillLevel = skill,
+                grade = grade,
+                gender = gender,
+                sameGenderOnly = sameGenderOnly,
+                editing = false // Set default editing state
+            };
             try{
                 rosterList.Add(lastName, newWrestler);
                 count++;

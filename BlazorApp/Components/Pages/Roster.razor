@@ -40,7 +40,7 @@
                     <tr >
                         <td>@item.Key</td>
                         <td>@item.Value.firstName</td>
-                        <td>@item.Value.skill</td>
+                        <td>@item.Value.skillLevel</td>
                         <td>@item.Value.grade</td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)">Edit</button></td>
                     </tr>
@@ -50,7 +50,7 @@
                     <tr>
                         <td><input class="input-2" type="text" @bind="item.Value.lastName"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.firstName"/></td>
-                        <td><input class="input-2" type="text" @bind="item.Value.skill"/></td>
+                        <td><input class="input-2" type="text" @bind="item.Value.skillLevel"/></td>
                         <td><input class="input-2" type="text" @bind="item.Value.grade"/></td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick="() => deleteWrestler(item.Value)" type="submit">Delete</button></td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)" type="submit">Submit</button></td>
@@ -108,6 +108,7 @@
     public string gender { get; set; }
     public string schoolName { get; set; }
     
+    
 
     
     
@@ -116,7 +117,7 @@
         try
         {
             // Debugging statement to print the wrestler's ID
-            Console.WriteLine($"Deleting wrestler with ID: {wrestler.wrestlerID}");
+            Console.WriteLine($"Deleting wrestler with ID: {wrestler.wrestler_id}");
             
             // Remove the wrestler from the roster list
             rosterObj2.rosterList.Remove(wrestler.lastName);
@@ -126,10 +127,10 @@
             StateHasChanged();
             
             // Debugging statement: Print SQL query being executed
-            Console.WriteLine($"Executing SQL query to delete wrestler with ID: {wrestler.wrestlerID}");
+            Console.WriteLine($"Executing SQL query to delete wrestler with ID: {wrestler.wrestler_id}");
 
             // Delete the wrestler from the database
-            await _dba.DeleteWrestler(wrestler.wrestlerID);
+            await _dba.DeleteWrestler(wrestler.wrestler_id);
             
             // Debugging statement: Print confirmation message after deletion
             Console.WriteLine("Wrestler deleted successfully!");
@@ -141,43 +142,48 @@
         }
     }
 
-    
+
     private async Task addWrestler()
     {
         try
         {
-            // Retrieve the user's email
-            string email = await GetSavedEmail();
-            email = email?.Trim('"');
+            // Retrieve the profile ID from the cookie
+            int? profileId = await GetSavedProfileID();
 
-            // Create a new WrestlerModel instance with the provided data
-            WrestlerModel newWrestler = new WrestlerModel()
+            // Print the retrieved profile ID for debugging
+            if (profileId.HasValue)
             {
-                
-                Email = email,
-                FirstName = firstName,
-                LastName = lastName,
-                Grade = int.Parse(grade),
-                Skill = int.Parse(skill),
-                Gender = gender,
-                SchoolName = schoolName
-            };
+                Console.WriteLine($"Retrieved profile ID: {profileId.Value}");
 
-            // Insert the new wrestler into the database
-            int wrestlerID = await _dba.InsertWrestler(newWrestler);
+                // Create a new WrestlerModel instance with the provided data
+                WrestlerModel newWrestler = new WrestlerModel()
+                {
+                    profile_id = profileId.Value,
+                    firstName = firstName,
+                    lastName = lastName,
+                    weight = 100, // Adjust weight value as needed
+                    skillLevel = 1, // Adjust skillLevel value as needed
+                    grade = int.Parse(grade),
+                    gender = gender,
+                    sameGenderOnly = false // Adjust sameGenderOnly value as needed
+                };
 
-            // Update the roster list
-            rosterObj.AddWrestler(wrestlerID, email, firstName,lastName,int.Parse(grade),int.Parse(skill),gender);
+                // Insert the new wrestler into the database
+                int wrestlerID = await _dba.InsertWrestler(newWrestler);
 
-            // Update UI
-            rosterObj.rosterList[lastName].editing = false;
-            displayMode = "display: none;";
-            StateHasChanged();
+                // Optionally, perform additional actions after successful insertion
+                Console.WriteLine($"New wrestler inserted with ID: {wrestlerID}");
+            }
+            else
+            {
+                Console.WriteLine("Invalid or missing profile ID.");
+                // Optionally, display a message to the user or perform error handling
+            }
         }
         catch (Exception ex)
         {
-            // Handle any potential errors
-            Console.WriteLine($"An error occurred while adding the wrestler: {ex.Message}");
+            Console.WriteLine($"Error adding wrestler: {ex.Message}");
+            // Handle any exceptions that occur during the database operation
         }
     }
 
@@ -207,16 +213,18 @@
     //changed from 'private async Task' to 'private void'
     private async void toggleEdit(Wrestler wrestler) {
         
+        
         wrestler.editing=!wrestler.editing;
         WrestlerModel newWrestler = new WrestlerModel() {
-            Email = wrestler.email,
-            FirstName = wrestler.firstName,
-            LastName = wrestler.lastName,
-            Gender = wrestler.gender,
-            Grade = wrestler.grade,
-            SchoolName = wrestler.schoolName,
-            Skill = wrestler.skill,
-            WrestlerID = wrestler.wrestlerID
+            profile_id = wrestler.profile_id,
+            firstName = wrestler.firstName,
+            lastName = wrestler.lastName,
+            weight = wrestler.weight,
+            skillLevel = wrestler.skillLevel,
+            grade = wrestler.grade,
+            gender = wrestler.gender,
+            sameGenderOnly = wrestler.sameGenderOnly,
+            wrestler_id = wrestler.wrestler_id
         };
         await _dba.UpdateWrestler(newWrestler);
         StateHasChanged();
@@ -233,45 +241,63 @@
         }
     }
     
-    private async Task<string> GetSavedEmail()
+    private async Task<int?> GetSavedProfileID()
     {
-        string cookieName = "email";
+        string cookieName = "profile_id";
 
         try
         {
-            // Invoke the 'getCookie' JavaScript function to retrieve the email cookie value
-            string emailCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+            // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
+            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
 
-            // Return the retrieved email cookie value (or null if not found)
-            return emailCookie;
+            if (int.TryParse(profileIDCookie, out int profileID))
+            {
+                // Successful parsing: return the parsed profile ID
+                return profileID;
+            }
+            else
+            {
+                // Invalid cookie value: log an error and return null
+                Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
+                return null;
+            }
         }
         catch (Exception ex)
         {
             // Handle any JavaScript interop invocation errors
-            Console.WriteLine($"Error retrieving cookie: {ex.Message}");
+            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
             return null;
         }
     }
+
+
 
     
     private async Task CreateRoster(IWrestlerData db)
     {
         try
         {
-            // Retrieve the email of the current user
-            string email = await GetSavedEmail();
-            email = email?.Trim('"');
+            // Retrieve the profile ID of the current user
+            int? profileID = await GetSavedProfileID();
 
-            // Create a roster object
-            rosterObj2 = new Structure.Roster("schoolname");
-
-            // Retrieve wrestlers from the database based on the user's email
-            var wrestlers = await _dba.GetWrestlersByEmail(email);
-
-            // Add retrieved wrestlers to the roster
-            foreach (var wrestler in wrestlers)
+            if (profileID.HasValue)
             {
-                rosterObj2.AddWrestler(wrestler.WrestlerID, wrestler.Email, wrestler.FirstName, wrestler.LastName, wrestler.Skill, wrestler.Grade, wrestler.Gender);
+                // Create a roster object
+                rosterObj2 = new Structure.Roster("schoolname");
+
+                // Retrieve wrestlers from the database based on the user's profile ID
+                var wrestlers = await _dba.GetWrestlersByProfileID(profileID.Value);
+
+                // Add retrieved wrestlers to the roster
+                foreach (var wrestler in wrestlers)
+                {
+                    rosterObj2.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid or missing profile ID.");
             }
         }
         catch (Exception ex)
@@ -280,6 +306,7 @@
             Console.WriteLine("An error occurred: " + ex.Message);
         }
     }
+
     
     
     /*
