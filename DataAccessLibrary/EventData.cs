@@ -4,7 +4,7 @@ using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary
 {
-    public class EventData : IEventData
+   /* public class EventData : IEventData
     {
         private readonly ISqlDataAccess _db;
 
@@ -13,7 +13,7 @@ namespace DataAccessLibrary
             _db = db;
         }
 
-        public async Task<List<EventModel>> GetEvents()
+        /*public async Task<List<EventModel>> GetEvents()
         {
             string sql = "SELECT * FROM dbo.Events";
             var events = await _db.LoadData<EventModel, dynamic>(sql, new { });

@@ -16,7 +16,7 @@
 @rendermode InteractiveServer
 
 <h3>Test Events</h3>
-
+@**
 <button @onclick="InsertTestEvent">Insert Test Event</button>
 
 @if (events != null && events.Any())
@@ -38,8 +38,8 @@
         }
     </ul>
 }
-
-@code {
+**@
+@code {/*
     private List<EventModel> events;
     private string debugMessage = "";
 
@@ -87,5 +87,5 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadEvents();
-    }
+    }*/
 }
