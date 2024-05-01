@@ -115,7 +115,7 @@ public class MatchGenerator {
                                 if (!checkAvailability(visitor)) {
                                     continue;
                                 }
-                                if (int.Abs(visitor.wrestler.skill - homeWrestler.wrestler.skill) > skillGap) {
+                                if (int.Abs(visitor.wrestler.skillLevel - homeWrestler.wrestler.skillLevel) > skillGap) {
                                     continue;
                                 }
                                 if (int.Abs(visitor.wrestler.grade - homeWrestler.wrestler.grade) > gradeGap) {
