@@ -1,4 +1,5 @@
 using System;
+using DataAccessLibrary;
 using Microsoft.AspNetCore.Components;
 //backend
 namespace Structure
@@ -126,7 +127,8 @@ namespace Structure
     /*Class PROFILE
      *
      */
-    public class Profile{
+    public class Profile {
+        protected internal int id;
         internal string email,city,state,schoolName;
         internal School school;
         private string address;
@@ -177,12 +179,17 @@ namespace Structure
      * Object for creating wrestling meet event
      */
     public class Event {
-        protected string EventID;
-        School host;
+        protected int EventID;
+        
+        //initial constructing parameters
+        protected internal int host; //Primary key for Profiles.
+        protected internal DateTime date; //Date of Event.
+        
+        
         string guestListID;
         protected internal Roster[] guestRosters;
         public List<string> guestList = new List<string>();
-        DateTime date;
+        
         protected internal int allowedMatches;
 
         protected internal double weightDiff;
@@ -191,13 +198,14 @@ namespace Structure
 
         protected internal string matchListID;
         protected internal LinkedList<Match> matchList;
+
         
         
         
-        protected internal Event(String Id, School host, string guestListId, DateTime date) {
-            this.EventID = Id;
+        
+        public Event(int id, int host, DateTime date) {
+            this.EventID = id;
             this.host=host;
-            this.guestListID = guestListId;
             this.date=date;
             
         }
@@ -209,10 +217,10 @@ namespace Structure
             //addGuest(/*TODO: db call to get School Object from guest name (see method below)*/);
         }
 
-        protected internal void addGuest(Roster guestSchoolRoster){
-           guestRosters.Append(guestSchoolRoster);
-           guestListID = $"{host.Name}_EVENT_{host.totalEvents + 1}";//sets the event name to "SchoolName_EVNT_1"
-           /*add db call to add guest email/info to guest list table in DB*/
+        protected internal void addGuest(string schoolName){
+           //guestRosters.Append(guestSchoolRoster);
+           
+           
         }
 
         private void sendEventNotice(School[] schools){
