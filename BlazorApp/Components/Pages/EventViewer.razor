@@ -1,0 +1,115 @@
+@page "/EventViewer"
+@using System.Linq
+@using DataAccessLibrary
+@using Structure
+@using System.Collections.Generic
+
+
+
+
+
+<h3>EventViewer</h3>
+
+
+
+
+<body>
+<div>
+<table class="table" style="caption-side: top; ">
+    <caption content="Events" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
+        <h2>Events</h2>
+    </caption>
+
+    <tbody>
+
+    @if (events != null && events.Count > 0) {
+        @foreach (var e in events) {
+            <tr style="background-color: azure ">
+
+                <td>@(events.ToList().IndexOf(e) + 1)</td>
+                <td> <button class="btn btn-primary" @onclick="showEventCriteria">@e.date</button></td>
+                <td><!--db.loadData(SELECT schoolName from PROFILES where ID == @e.host--></td>
+            </tr>
+        }
+    }
+
+    </tbody>
+</table>
+</div>
+<div>
+    <table  cellpadding="30px" style=" @DisplayMode; width:  60%; height: fit-content;  border-collapse: collapse;">
+        <tr height="20px">
+                    <td><label id="matchminl"  for="matchmin">Number of Matches Per Wrestler: </label></td>
+                    <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);"  TValue="int" @bind-Value="@_matchMin"/></td>
+                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" class="text-input" TValue="int" @bind-Value="@_matchMax" /></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><label id="skillL" for="skill">Skill level Difference: </label></td>
+                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_skillGap"/></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
+                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_gradeGap" id="grade" name="grade"/></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+        
+                <tr>
+                    <td><label id="matsl" for="mats">Number of Mats: </label></td>
+                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
+                    <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
+                    <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
+                </tr>
+    </table>
+</div>
+
+
+
+</body>
+
+
+
+@code {
+
+    List<Structure.Event> events;
+    private int testEventId = 1;
+    private int testEventID2 = 2;
+    private int testHostID = 1;
+    private int testHostID2 = 2;
+    private DateTime testDate = DateTime.Now;
+    private DateTime testDate2 = DateTime.Now;
+    private string DisplayMode = "display: none;";
+    
+    
+    //***local event parameters (linked to input components)***
+    private string _weightMin, _weightMax, _weightDiff;//doubles
+    private int _matchMin = 1;
+    private int _matchMax = 10;
+    private int _skillGap = 0;
+    private int _gradeGap = 0;
+    private int _numMats = 1;
+    private bool _internalMatches;//bool
+
+    protected override void OnInitialized()
+    {
+        
+        Structure.Event testEvent1 = new Structure.Event(testEventId, testHostID, testDate);
+        Structure.Event testEvent2 = new Structure.Event(testEventID2, testHostID2, testDate2);
+        events = new List<Structure.Event>();
+        events.Add(testEvent1);
+        events.Add(testEvent2);
+
+    }
+
+    
+    private void showEventCriteria() {
+        DisplayMode = "";
+    }
+    
+
+
+
+}
