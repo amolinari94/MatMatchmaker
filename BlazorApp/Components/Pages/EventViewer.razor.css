@@ -1,0 +1,32 @@
+.table{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: medium;
+    text-align-all: center;
+    horiz-align: center;
+    caption-side: top;
+    text-align: center;
+    width: 25%;
+    border: solid;
+    border-color: #ededed;
+    border-collapse: collapse;
+    border-radius: 50px;
+}
+
+.td {
+    text-align-all: center;
+    border-radius: 50px;
+    align-self: center;
+}
+
+.main-title{
+    background-image: linear-gradient(#063970, #010e1b);
+    
+    color: #063970;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* Makes the text itself transparent, showing the background */
+    display: inline-block;
+
+
+}

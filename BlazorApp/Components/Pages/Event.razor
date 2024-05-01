@@ -16,6 +16,9 @@
 @inject ILocalStorageService _localStorage
 @inject DataAccessLibrary.IEventData eventData
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
+@inject ISqlDataAccess sql
+@inject IProfileData profileData
+
 
 
 
@@ -37,35 +40,10 @@
 <div class="table-container">
             
     <table cellpadding="30px" style="width: 60%; height: fit-content;  border-collapse: collapse;">
-        <tr height="20px">
-            <td><label id="matchminl"  for="matchmin">Number of Matches Per Wrestler: </label></td>
-            <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);"  TValue="int" @bind-Value="@_matchMin"/></td>
-            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" class="text-input" TValue="int" @bind-Value="@_matchMax" /></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><label id="skillL" for="skill">Skill level Difference: </label></td>
-            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_skillGap"/></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
-            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_gradeGap" id="grade" name="grade"/></td>
-            <td></td>
-            <td></td>
-        </tr>
-
-        <tr>
-            <td><label id="matsl" for="mats">Number of Mats: </label></td>
-            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
-            <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
-            <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
-        </tr>
+        
         <tr style="height: auto">
             
             <td><label>Match Date: </label></td>
-            <!--<td> <TelerikDateTimePicker Format="dd/MM/yyyy HH:mm" Width="200px"></TelerikDateTimePicker> </td>-->
             <td><InputDate @bind-Value="selectedDate" ></InputDate></td>
             
         </tr>
@@ -73,7 +51,7 @@
     
     <table style="caption-side: top; text-align: center;  width: 25%; border-left-style: solid; border-color: #ededed; border-right: none; border-top: none; border-color: #ededed; border-collapse: collapse">
                     
-        <caption class="main-title" style=" font-family: 'Helvetica Neue',serif; text-align: center; border-top-style: none; border-right: none">
+        <caption  class="main-title" style=" text-align: center !important; display: table-caption !important;  font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
             <div>Guests</div>
             
             <div class="dropdown">
@@ -128,11 +106,15 @@
 </body>
 
 @code {
-
-    
-    private DateTime selectedDate = new DateTime();
     
     
+    private List<string>LocalGuestList = new List<string>();//local copy of guestlist
+    
+    private string DisplayMode = "display: none;";
+    
+    
+    
+    //***local event parameters (linked to input components)***
     private string _weightMin, _weightMax, _weightDiff;//doubles
     private int _matchMin = 1;
     private int _matchMax = 10;
@@ -140,31 +122,19 @@
     private int _gradeGap = 0;
     private int _numMats = 1;
     private bool _internalMatches;//bool
+    private DateTime selectedDate = new DateTime(); 
     
-
-    /*
-    protected async Task AddToList() {
-        e.addToGuestList("test");
-        StateHasChanged();
-    }
-    */
-    
-    
-    private string DisplayMode = "display: none;";
-
-    
-    private List<string>LocalGuestList = new List<string>();
     
     private void addToLocalGuests(string guestName) {
         LocalGuestList.Add(guestName);
         StateHasChanged();
     }
 
-    /*
-    private void addToGuests(string guestName) {
-        e.guestList.Add(guestName);
+    
+    private void addToGuests(Structure.Event evt, string guestName) {
+        
     }
-    */
+    
     
     
     private async Task<string> GetSavedEmail()
@@ -178,23 +148,45 @@
         
     }
 
-    
+    private void buildRosterObj(string schoolName) {
+        
+        
+        
+    }
 
+
+
+    
     Profile hostProfile;
     Roster[] GuestRosters;
     
     
     
+    
+    
     private async void addEvent() {
         string email = await GetSavedEmail();
-        string EventID = $"{hostProfile.schoolName}_Event{hostProfile.Events.Count + 1}";
-        string guestListID = $"{EventID}_GuestList";
-        Structure.Event evt = new Structure.Event(EventID, hostProfile.school, guestListID, selectedDate);
-        //double weightMinDouble = Double.Parse(_weightMin);
-        //double weightMaxDouble = Double.Parse(_weightMax);
+        int EventID = 1;//placeholder for testing
+        int LocalHostID = hostProfile.id;
+        
+        /* **CALL DB TO ACCESS EVENTS TABLE
+         *
+         * Add event to table:
+         * 
+         ***** INSERT into EVENTS (HostID, Date);
+         *
+         * Get Event ID from Database to construct Local Event Object:
+         * 
+         *****[ SELECT id FROM Events WHERE (HostID == LocalHostID); ]
+         */
+        
+        
+        Structure.Event evt = new Structure.Event(EventID, LocalHostID, selectedDate);
+        
+        
+        
+        
         double weightDiffDouble = Double.Parse(_weightDiff);
-        //evt.weightMax = weightMaxDouble;
-        //evt.weightMin = weightMinDouble;
         evt.gradeGap = _gradeGap;
         evt.minMatches = _matchMin;
         evt.maxMatches = _matchMax;
@@ -204,8 +196,41 @@
         evt.allowedMatches = _matchMax;
         evt.internalMatches = _internalMatches;
         evt.guestList = LocalGuestList;
-        //MatchGenerator matchGen = new MatchGenerator();
+        
+        
+        
+
+        /*
+        * uncomment this block when'getRosterBySchoolName' can populate a roster from a given guest school name
+        */
+        for (int i = 0; i < evt.guestList.Count; i++) {
+            
+            //evt.guests[i] = new School(getRosterBySchoolName(evt.guestList[i]));
+        }
+
+        foreach (var school in evt.guestRosters) {
+            //school.roster = getRosterFromSchoolName(school.Name);
+        }
+        
+        
+        /*
+         * add dbcall to use guest schoolnames to get an array of guest rosters
+         */
+         
+        //MatchGenerator matchGen = new MatchGenerator(hostProfile.school.roster,);
         //evt.matchList = matchGen.GenerateMatches(false, evt.allowedMatches);
+        hostProfile.Events.Append(evt);//adds the event to the hosts profile object
+        
+        //Add DB call to add event ID to the Events list in guest Profiles
+        
+    }
+
+    private School getRosterBySchoolName(string schoolName) {
+        /**
+         * call DB to populate a School object with data from guest schools.
+         * access guest school info using schoolName
+         */
+        return null;
     }
     
     private ElementReference searchBox;
@@ -216,11 +241,9 @@
 
     protected override void OnInitialized()
     {
-        //newEvent.guestList.Add("Middle Missouri");
-        //LocalGuestList.Add("Mid Missouri");
         FilteredItems = SchoolsList;
-        //Structure.Event e;
         selectedDate = DateTime.Now;
+        ProfileData hostProfileData = new ProfileData(sql);
 
     }
 
