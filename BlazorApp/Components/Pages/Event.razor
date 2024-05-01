@@ -18,6 +18,7 @@
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @inject ISqlDataAccess sql
 @inject IProfileData profileData
+@inject IEventData _dbe
 
 
 
@@ -164,9 +165,27 @@
     
     
     
-    private async void addEvent() {
-        int EventID = 1;//placeholder for testing
-        int LocalHostID = hostProfile.id;
+    private async void addEvent()
+    {
+        // Placeholder for testing, replace with actual event date
+        DateTime eventDate = DateTime.Now;
+
+        // Retrieve host's profile ID asynchronously
+        int LocalHostID = await GetSavedProfileID();
+
+        // Call your database service to add the event
+        int eventId = await _dbe.AddEvent(eventDate, LocalHostID);
+
+        if (eventId > 0)
+        {
+            // Event added successfully
+            Console.WriteLine("Event added successfully with ID: {eventId}");
+        }
+        else
+        {
+            // Failed to add event
+            Console.WriteLine("Failed to add event.");
+        }
         
         /* **CALL DB TO ACCESS EVENTS TABLE
          *
@@ -180,7 +199,7 @@
          */
         
         
-        Structure.Event evt = new Structure.Event(EventID, LocalHostID, selectedDate);
+        Structure.Event evt = new Structure.Event(eventId, LocalHostID, selectedDate);
         
         
         
@@ -270,7 +289,7 @@
     }
     
     
-    private async Task<int?> GetSavedProfileID()
+    private async Task<int> GetSavedProfileID()
     {
         string cookieName = "profile_id";
 
@@ -287,18 +306,22 @@
             }
             else
             {
-                // Invalid cookie value: log an error and return null
+                // Invalid cookie value: log an error and return a default value
                 Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
-                return null;
+                return -1; // Return a default value (e.g., -1) for invalid profile ID
             }
         }
         catch (Exception ex)
         {
             // Handle any JavaScript interop invocation errors
             Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
-            return null;
+            return -1; // Return a default value (e.g., -1) in case of error
         }
     }
+
+    
+    
+
     
             
     /*Event Database table:

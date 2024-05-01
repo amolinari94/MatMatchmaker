@@ -12,42 +12,86 @@
 @using System.Text.Json
 @using Blazored.LocalStorage
 @inject IEventData eventData
-@inject IEventData _db
+@inject IEventData _dbe
 @inject DataAccessLibrary.IEventData EventData
 @rendermode InteractiveServer
 
-<h3>Test Events</h3>
-<h3>Test Add Event</h3>
+<h3>Events Test</h3>
 
 <div>
-    <label>Event Date:</label>
-    <input type="date" @bind="eventDate" />
+    <label for="hostId">Host Profile ID:</label>
+    <input type="number" id="hostId" @bind="@hostId" />
+    <button @onclick="LoadEvents">Load Events</button>
 </div>
 
-<div>
-    <label>Host Profile ID:</label>
-    <input type="number" @bind="hostProfileId" />
-</div>
-
-<button @onclick="AddEvent">Add Event</button>
-
-<p>@resultMessage</p>
+@if (events != null && events.Any())
+{
+    <h4>Events:</h4>
+    <ul>
+        @foreach (var ev in events)
+        {
+            <li>
+                Event ID: @ev.event_id, Host Profile ID: @ev.host_profile_id, 
+                Event Date: @(ev.event_date.HasValue ? ev.event_date.Value.ToShortDateString() : "N/A")
+            </li>
+        }
+    </ul>
+}
+else if (events != null)
+{
+    <p>No events found for the specified host profile ID.</p>
+}
 
 @code {
-    private DateTime eventDate;
-    private int hostProfileId;
-    private string resultMessage;
-
-    private async Task AddEvent()
+    int hostId;
+    private List<EventModel> events;
+    
+    protected override async Task OnInitializedAsync()
     {
-        int eventId = await _db.AddEvent(eventDate, hostProfileId);
-        if (eventId > 0)
+        // Initialize hostId asynchronously using GetSavedProfileID()
+        hostId = await GetSavedProfileID();
+    }
+
+    private async Task LoadEvents()
+    {
+        try
         {
-            resultMessage = $"Event added successfully with ID: {eventId}";
+            // Call the GetEventsByHostId method from IEventData to retrieve events
+            events = await eventData.GetEventsByHostId(hostId);
         }
-        else
+        catch (Exception ex)
         {
-            resultMessage = "Failed to add event.";
+            Console.WriteLine($"Error loading events: {ex.Message}");
+        }
+    }
+    
+    private async Task<int> GetSavedProfileID()
+    {
+        string cookieName = "profile_id";
+
+        try
+        {
+            // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
+            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
+
+            if (int.TryParse(profileIDCookie, out int profileID))
+            {
+                // Successful parsing: return the parsed profile ID
+                return profileID;
+            }
+            else
+            {
+                // Invalid cookie value: log an error and return a default value
+                Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
+                return -1; // Return a default value (e.g., -1) for invalid profile ID
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any JavaScript interop invocation errors
+            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
+            return -1; // Return a default value (e.g., -1) in case of error
         }
     }
 }
