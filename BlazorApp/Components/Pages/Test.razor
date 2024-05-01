@@ -21,62 +21,45 @@
 
 @if (events != null && events.Any())
 {
-    <h4>Events:</h4>
     <ul>
         @foreach (var ev in events)
         {
-            <li>@ev.EventDate.ToShortDateString() - @ev.Location - @ev.Result</li>
-            @if (ev.Matches != null && ev.Matches.Any())
-            {
-                <ul>
-                    @foreach (var match in ev.Matches)
-                    {
-                        <li>Match: Wrestler1ID=@match.Wrestler1ID, Wrestler2ID=@match.Wrestler2ID, Result=@match.Result</li>
-                    }
-                </ul>
-            }
+            <li>
+                @ev.EventDate.ToShortDateString() - @ev.Location - @ev.Result
+                @if (ev.Matches != null && ev.Matches.Any())
+                {
+                    <ul>
+                        @foreach (var match in ev.Matches)
+                        {
+                            <li>Match: Wrestler1ID=@match.Wrestler1ID, Wrestler2ID=@match.Wrestler2ID, Result=@match.Result</li>
+                        }
+                    </ul>
+                }
+                <button @onclick="() => LoadMatchesForEvent(ev.EventID)">Load Matches</button>
+            </li>
+        }
+    </ul>
+}
+
+@if (selectedEventId.HasValue && eventMatches != null && eventMatches.Any())
+{
+    <h4>Matches for Event: @selectedEventId</h4>
+    <ul>
+        @foreach (var match in eventMatches)
+        {
+            <li>Match: Wrestler1ID=@match.Wrestler1ID, Wrestler2ID=@match.Wrestler2ID, Result=@match.Result</li>
         }
     </ul>
 }
 
 @code {
     private List<EventModel> events;
-    private string debugMessage = "";
+    private int? selectedEventId;
+    private List<MatchModel> eventMatches;
 
-    private async Task InsertTestEvent()
+    protected override async Task OnInitializedAsync()
     {
-        debugMessage = "Inserting test event...";
-        EventModel newEvent = new EventModel
-        {
-            EventDate = DateTime.Now,
-            Location = "Test Location",
-            Result = "Test Result",
-            Matches = new List<MatchModel>
-            {
-                
-                new MatchModel { Wrestler1ID = 3, Wrestler2ID = 4, Result = "Match 1 Result" },
-                new MatchModel { Wrestler1ID = 8, Wrestler2ID = 9, Result = "Match 2 Result" }
-                
-            }
-        };
-        
-        foreach (var match in newEvent.Matches)
-        {
-            Console.WriteLine($"Adding match: Wrestler1ID={match.Wrestler1ID}, Wrestler2ID={match.Wrestler2ID}, Result={match.Result}");
-        }
-
-
-        try
-        {
-            await eventData.InsertEvent(newEvent);
-            await LoadEvents();
-            // Optionally, set a success message or perform additional actions after successful insertion
-        }
-        catch (Exception ex)
-        {
-            // Log or handle the exception appropriately
-            Console.WriteLine($"Error inserting event: {ex.Message}");
-        }
+        await LoadEvents();
     }
 
     private async Task LoadEvents()
@@ -84,8 +67,34 @@
         events = await eventData.GetEvents();
     }
 
-    protected override async Task OnInitializedAsync()
+    private async Task InsertTestEvent()
     {
-        await LoadEvents();
+        EventModel newEvent = new EventModel
+        {
+            EventDate = DateTime.Now,
+            Location = "Test Location",
+            Result = "Test Result",
+            Matches = new List<MatchModel>
+            {
+                new MatchModel { Wrestler1ID = 3, Wrestler2ID = 4, Result = "Match 1 Result" },
+                new MatchModel { Wrestler1ID = 8, Wrestler2ID = 9, Result = "Match 2 Result" }
+            }
+        };
+
+        try
+        {
+            await eventData.InsertEvent(newEvent);
+            await LoadEvents(); // Refresh the events list after insertion
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error inserting event: {ex.Message}");
+        }
+    }
+
+    private async Task LoadMatchesForEvent(int eventId)
+    {
+        eventMatches = await eventData.GetMatchesForEvent(eventId);
+        selectedEventId = eventId; // Set selected event ID to display matches
     }
 }

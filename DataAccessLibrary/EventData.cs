@@ -75,12 +75,7 @@ namespace DataAccessLibrary
         
 
         // Example method to retrieve events by MatchId (if needed)
-        public async Task<List<EventModel>> GetEventsByMatchId(int matchId)
-        {
-            string sql = "SELECT * FROM dbo.Events WHERE MatchId = @MatchId";
-
-            return await _db.LoadData<EventModel, dynamic>(sql, new { MatchId = matchId });
-        }
+        
         
         public async Task<List<MatchModel>> GetMatchesForEvent(int eventId)
         {
