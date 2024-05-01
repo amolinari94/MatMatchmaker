@@ -82,6 +82,8 @@
     private DateTime testDate = DateTime.Now;
     private DateTime testDate2 = DateTime.Now;
     private string DisplayMode = "display: none;";
+    private Profile testProfile;
+    private int hostID;
     
     
     //***local event parameters (linked to input components)***
@@ -95,13 +97,42 @@
 
     protected override void OnInitialized()
     {
-        
         Structure.Event testEvent1 = new Structure.Event(testEventId, testHostID, testDate);
         Structure.Event testEvent2 = new Structure.Event(testEventID2, testHostID2, testDate2);
         events = new List<Structure.Event>();
         events.Add(testEvent1);
         events.Add(testEvent2);
+        //code for integration with DB
+        /*
+        hostID = testProfile.id;
+        events = getEventsFromDB(hostID);
+        */
+    }
 
+    private List<Structure.Event> getEventsFromDB(int hostID) {
+        List<Structure.Event> events = new List<Structure.Event>();
+        
+        
+        
+        /*DB Call to populate a List<Event> with events from the database given the hosts id
+         *
+         * (SELECT * FROM Events WHERE Event.Hostid == @hostID OR FROM (SELECT * from  )
+         *
+         * or
+         *
+         * SELECT DISTINCT e.*
+           FROM Events e
+           LEFT JOIN EventGuests eg ON e.EventID = eg.EventID
+           WHERE e.HostID = @userID OR eg.GuestID = @userID;
+           
+           
+           TODO:***OR USE EventData.cs GetEvent METHOD*****
+         * 
+         */
+        
+        
+
+        return events;
     }
 
     
