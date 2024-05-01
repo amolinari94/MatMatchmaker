@@ -4,7 +4,7 @@ using DataAccessLibrary.Models;
 
 namespace DataAccessLibrary
 {
-   /* public class EventData : IEventData
+    public class EventData : IEventData
     {
         private readonly ISqlDataAccess _db;
 
@@ -12,6 +12,45 @@ namespace DataAccessLibrary
         {
             _db = db;
         }
+        
+        public async Task<int> AddEvent(DateTime eventDate, int hostProfileId)
+        {
+            try
+            {
+                // Insert event into the database
+                string sql = @"INSERT INTO Events (host_profile_id, event_date) 
+                               VALUES (@host_profile_id, @event_date);
+                               SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                // Parameters for SQL query
+                var parameters = new
+                {
+                    host_profile_id = hostProfileId,
+                    event_date = eventDate
+                };
+
+                int eventId = await _db.ExecuteScalar<int>(sql, parameters);
+
+                if (eventId > 0)
+                {
+                    // Event successfully added, return the event ID
+                    return eventId;
+                }
+                else
+                {
+                    // Failed to insert event
+                    return -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                Console.WriteLine($"Error adding event: {ex.Message}");
+                return -1;
+            }
+        }
+    }
+}
 
         /*public async Task<List<EventModel>> GetEvents()
         {
@@ -100,4 +139,3 @@ namespace DataAccessLibrary
 
         // You can add other methods here for updating, deleting, or querying events
     }*/
-}

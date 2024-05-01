@@ -165,7 +165,6 @@
     
     
     private async void addEvent() {
-        string email = await GetSavedEmail();
         int EventID = 1;//placeholder for testing
         int LocalHostID = hostProfile.id;
         
@@ -268,6 +267,37 @@
         emptySpaces--;
         
         StateHasChanged();
+    }
+    
+    
+    private async Task<int?> GetSavedProfileID()
+    {
+        string cookieName = "profile_id";
+
+        try
+        {
+            // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
+            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
+
+            if (int.TryParse(profileIDCookie, out int profileID))
+            {
+                // Successful parsing: return the parsed profile ID
+                return profileID;
+            }
+            else
+            {
+                // Invalid cookie value: log an error and return null
+                Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any JavaScript interop invocation errors
+            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
+            return null;
+        }
     }
     
             
