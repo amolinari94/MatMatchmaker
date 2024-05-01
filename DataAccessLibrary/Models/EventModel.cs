@@ -3,21 +3,15 @@ using DataAccessLibrary.Models;
 
 public class EventModel
 {
-    public int MatchId { get; set; }
-    public int EventID { get; set; }
-    public DateTime EventDate { get; set; }
-    public string Location { get; set; }
-    public string Result { get; set; }
-    public int Wrestler1ID { get; set; }
-    public int Wrestler2ID { get; set; }
-    public List<MatchModel> Matches { get; set; }
+    public int event_id { get; set; } // Maps to event_id in the database
+    public int host_profile_id { get; set; } // Maps to host_profile_id in the database
+    public DateTime? event_date { get; set; } // Maps to event_date in the database
     
+
     
-   /* public int EventID { get; set; }
-    public string Host { get; set; }
-    public string GuestListObjID { get; set; }
-    public string Date { get; set; }*/
-
-
+    public EventModel()
+    {
+        
+    }
 }
 
