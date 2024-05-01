@@ -6,11 +6,11 @@ public class DisplayProfileModel
 {
     //[Required]
     //[EmailAddress]
-    public string Email { get; set; }
-    public string Username { get; set; }
-    public string City { get; set; }
-    public string State { get; set; }
-    public string SchoolName { get; set; }
-    public string PasswordHash { get; set; }
+    public string email { get; set; }
+    
+    public string city { get; set; }
+    public string state { get; set; }
+    public string schoolName { get; set; }
+    public string password { get; set; }
     
 }

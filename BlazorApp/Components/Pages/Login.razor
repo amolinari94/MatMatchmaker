@@ -100,12 +100,13 @@
         var userProfile = await _db.AuthenticateUser(email, password);
         
         // Print out the userProfile for debugging
-        Console.WriteLine($"User Profile: {userProfile.Email}");
+        Console.WriteLine($"User Profile: {userProfile.email}");
 
-        if (userProfile != null && userProfile.PasswordHash == password)
+        if (userProfile != null && userProfile.password == password)
         {
+            string profileIdString = userProfile.profile_id.ToString();
             // Store authentication token/session information (if applicable)
-            await _jsRuntime.InvokeVoidAsync("setCookie", "email", JsonSerializer.Serialize(userProfile.Email));
+            await _jsRuntime.InvokeVoidAsync("setCookie", "profile_id", JsonSerializer.Serialize(profileIdString));
             //await _localStorage.SetItemAsync("email", email);
           /*  // Authentication successful, redirect to the desired page
             

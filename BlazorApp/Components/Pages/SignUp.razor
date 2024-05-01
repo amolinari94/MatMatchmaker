@@ -20,22 +20,21 @@
 
 <body class="SignUp-body">
 
-@**<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
-    <InputText id ="Email" @bind-Value="newProfile.Email"/>
-    <InputText id ="Username" @bind-Value="newProfile.Username"/>
-    <InputText id ="City" @bind-Value="newProfile.City"/>
-    <InputText id ="State" @bind-Value="newProfile.State"/>
-    <InputText id ="SchoolName" @bind-Value="newProfile.SchoolName"/>
-    <InputText id ="Password" @bind-Value="newProfile.PasswordHash"/>
+<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
+    <InputText id ="email" @bind-Value="newProfile.email"/>
+    <InputText id ="city" @bind-Value="newProfile.city"/>
+    <InputText id ="state" @bind-Value="newProfile.state"/>
+    <InputText id ="SchoolName" @bind-Value="newProfile.schoolName"/>
+    <InputText id ="Password" @bind-Value="newProfile.password"/>
     
     
     <button type="submit" class="btn btn-primary">Submit</button>
 
 
 </EditForm>
-**@
+
           
-<Form>
+@**<Form>
 
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
@@ -66,7 +65,7 @@
         </tr>
     </table>
 
-</Form>
+</Form> **@
 
 
 </body> 
@@ -74,54 +73,78 @@
 @code {
     
     
-    private string localEmail, localUserName, localCity, localState, localSchoolName, passwordTemp1, passwordTemp2;
+    //private string localEmail, localUserName, localCity, localState, localSchoolName, passwordTemp1, passwordTemp2;
     private List<ProfileModel> profile;
     private DisplayProfileModel newProfile = new DisplayProfileModel();
 
 
     protected override async Task OnInitializedAsync()
     {
-        profile = await _db.GetProfile();
+        profile = await _db.GetProfiles();
     }
 
     //private string passwordTemp1, passwordTemp2;
 
     private string confirmPass = "Confirm Password";
 
-    
-    private async Task CheckPasswords() {
+
+
+    /*private async Task CheckPasswords() {
+
         if (passwordTemp1 == passwordTemp2) {
             await InsertProfile();
         }else {
             confirmPass = "**Passwords must match**";
             passwordTemp2 = "";
         }
-    }
+    }*/
     
     
-    
-    private async Task InsertProfile() {
-        
-            newProfile.Email = localEmail;
-            newProfile.Username = localUserName;
-            newProfile.City = localCity;
-            newProfile.State = localState;
-            newProfile.SchoolName = localSchoolName;
-            ProfileModel p = new ProfileModel(newProfile.Email, newProfile.Username, newProfile.City, newProfile.State,newProfile.SchoolName,
-                passwordTemp1)
-            {
-                Email = newProfile.Email,
-                City = newProfile.City,
-                Username = newProfile.Username,
-                State = newProfile.State,
-                SchoolName = newProfile.SchoolName,
-                PasswordHash = passwordTemp1
 
+    private async Task InsertProfile()
+    {
+        // Create a new instance of ProfileModel with the provided data
+       /* ProfileModel newProfile = new ProfileModel
+        {
+            email = localEmail,
+            password = passwordTemp1, // Assuming passwordTemp1 is the hashed password
+            schoolName = localSchoolName,
+            city = localCity,
+            state = localState
+        }; */
+
+        try
+        {
+            // Create a ProfileModel instance from newProfile (DisplayProfileModel)
+            var profileModel = new ProfileModel
+
+            {
+                email = newProfile.email,
+                password = newProfile.password,
+                schoolName = newProfile.schoolName,
+                city = newProfile.city,
+                state = newProfile.state
             };
             
-            Console.WriteLine($"Profile email: {p.Email}");
-        
-            await _db.InsertProfile(p);   
+            // Call the method to insert the new profile into the database
+            await _db.InsertProfile(profileModel);
+
+            // Optionally, perform additional actions after successful insertion
+            Console.WriteLine($"Profile email: {newProfile.email}");
+
+            // Clear form fields or navigate to another page upon successful insertion
+            // Example: ClearForm();
+
+            // Redirect to another page (e.g., home page)
+             //NavigationManager.NavigateTo("/home");
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions (e.g., database error)
+            Console.WriteLine("Error inserting profile: " + ex.Message);
+            // Display error message to the user, log the error, or perform appropriate error handling
+        }
     }
+
 
 }
