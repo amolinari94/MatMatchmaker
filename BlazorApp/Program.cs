@@ -29,7 +29,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddTransient<IProfileData, ProfileData>();
 builder.Services.AddTransient<IWrestlerData, WrestlerData > ();
-//builder.Services.AddTransient<IEventData, EventData > ();
+builder.Services.AddTransient<IEventData, EventData > ();
 builder.Services.AddTransient<IMatchData, MatchData > ();
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddBlazoredSessionStorage(config => {
