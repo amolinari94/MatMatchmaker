@@ -16,6 +16,9 @@
 @inject ILocalStorageService _localStorage
 @inject DataAccessLibrary.IEventData eventData
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
+@inject ISqlDataAccess sql
+@inject IProfileData profileData
+
 
 
 
@@ -128,11 +131,15 @@
 </body>
 
 @code {
-
-    
-    private DateTime selectedDate = new DateTime();
     
     
+    private List<string>LocalGuestList = new List<string>();//local copy of guestlist
+    
+    private string DisplayMode = "display: none;";
+    
+    
+    
+    //***local event parameters (linked to input components)***
     private string _weightMin, _weightMax, _weightDiff;//doubles
     private int _matchMin = 1;
     private int _matchMax = 10;
@@ -140,31 +147,19 @@
     private int _gradeGap = 0;
     private int _numMats = 1;
     private bool _internalMatches;//bool
+    private DateTime selectedDate = new DateTime(); 
     
-
-    /*
-    protected async Task AddToList() {
-        e.addToGuestList("test");
-        StateHasChanged();
-    }
-    */
-    
-    
-    private string DisplayMode = "display: none;";
-
-    
-    private List<string>LocalGuestList = new List<string>();
     
     private void addToLocalGuests(string guestName) {
         LocalGuestList.Add(guestName);
         StateHasChanged();
     }
 
-    /*
-    private void addToGuests(string guestName) {
-        e.guestList.Add(guestName);
+    
+    private void addToGuests(Structure.Event evt, string guestName) {
+        
     }
-    */
+    
     
     
     private async Task<string> GetSavedEmail()
@@ -178,10 +173,19 @@
         
     }
 
-    
+    private void buildRosterObj(string schoolName) {
+        
+        
+        
+    }
 
+
+
+    
     Profile hostProfile;
     Roster[] GuestRosters;
+    
+    
     
     
     
@@ -195,6 +199,7 @@
         double weightDiffDouble = Double.Parse(_weightDiff);
         //evt.weightMax = weightMaxDouble;
         //evt.weightMin = weightMinDouble;
+        
         evt.gradeGap = _gradeGap;
         evt.minMatches = _matchMin;
         evt.maxMatches = _matchMax;
@@ -204,8 +209,38 @@
         evt.allowedMatches = _matchMax;
         evt.internalMatches = _internalMatches;
         evt.guestList = LocalGuestList;
-        //MatchGenerator matchGen = new MatchGenerator();
+
+        /**
+        * uncomment this block when'getRosterBySchoolName' can populate a roster from a given guest school name
+        */
+        for (int i = 0; i < evt.guestList.Count; i++) {
+            
+            //evt.guests[i] = new School(getRosterBySchoolName(evt.guestList[i]));
+        }
+
+        foreach (var school in evt.guestRosters) {
+            //school.roster = getRosterFromSchoolName(school.Name);
+        }
+        
+        
+        /**
+         * add dbcall to use guest schoolnames to get an array of guest rosters
+         */
+         
+        //MatchGenerator matchGen = new MatchGenerator(hostProfile.school.roster,);
         //evt.matchList = matchGen.GenerateMatches(false, evt.allowedMatches);
+        hostProfile.Events.Append(evt);//adds the event to the hosts profile object
+        
+        //Add DB call to add event ID to the Events list in guest Profiles
+        
+    }
+
+    private School getRosterBySchoolName(string schoolName) {
+        /**
+         * call DB to populate a School object with data from guest schools.
+         * access guest school info using schoolName
+         */
+        return null;
     }
     
     private ElementReference searchBox;
@@ -216,11 +251,9 @@
 
     protected override void OnInitialized()
     {
-        //newEvent.guestList.Add("Middle Missouri");
-        //LocalGuestList.Add("Mid Missouri");
         FilteredItems = SchoolsList;
-        //Structure.Event e;
         selectedDate = DateTime.Now;
+        ProfileData hostProfileData = new ProfileData(sql);
 
     }
 

@@ -177,10 +177,10 @@ namespace Structure
      * Object for creating wrestling meet event
      */
     public class Event {
-        protected string ID;
+        protected string EventID;
         School host;
         string guestListID;
-        protected School[] guests;
+        protected internal Roster[] guestRosters;
         public List<string> guestList = new List<string>();
         DateTime date;
         protected internal int allowedMatches;
@@ -188,12 +188,14 @@ namespace Structure
         protected internal double weightDiff;
         protected internal int numMats, skillGap, gradeGap, minMatches, maxMatches;
         protected internal bool internalMatches;
-        
 
+        protected internal string matchListID;
         protected internal LinkedList<Match> matchList;
         
+        
+        
         protected internal Event(String Id, School host, string guestListId, DateTime date) {
-            this.ID = Id;
+            this.EventID = Id;
             this.host=host;
             this.guestListID = guestListId;
             this.date=date;
@@ -202,10 +204,13 @@ namespace Structure
 
         protected internal void addToGuestList(string guestName) {
             guestList.Add(guestName);
+            
+            
+            //addGuest(/*TODO: db call to get School Object from guest name (see method below)*/);
         }
 
-        protected internal void addGuest(School guestSchool){
-           guests.Append(guestSchool);
+        protected internal void addGuest(Roster guestSchoolRoster){
+           guestRosters.Append(guestSchoolRoster);
            guestListID = $"{host.Name}_EVENT_{host.totalEvents + 1}";//sets the event name to "SchoolName_EVNT_1"
            /*add db call to add guest email/info to guest list table in DB*/
         }

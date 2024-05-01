@@ -115,9 +115,16 @@ public class MatchGenerator {
                                 if (!checkAvailability(visitor)) {
                                     continue;
                                 }
+                                if (int.Abs(visitor.wrestler.skill - homeWrestler.wrestler.skill) > skillGap) {
+                                    continue;
+                                }
+                                if (int.Abs(visitor.wrestler.grade - homeWrestler.wrestler.grade) > gradeGap) {
+                                    continue;
+                                }
                                 matchCount++;//increment match count.
                                 matchList.Append(new Match(eventID,matchCount, homeWrestler, visitor));//add match.
                             }
+                            
                         }
                         MatchesGeneratedPerHomeWrestler++;
                     }
