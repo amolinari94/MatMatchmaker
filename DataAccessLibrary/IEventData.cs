@@ -7,7 +7,7 @@ public interface IEventData
 {
     Task<int> AddEvent(DateTime eventDate, int hostProfileId);
 
-    Task<List<EventModel>> GetEventsByHostId(int hostId);
+    Task<List<EventModel>> GetEventsByUserProfileID(int userProfileID);
     
     /* public  Task<List<EventModel>> GetEvents();
      public Task<int> InsertEvent(EventModel eventModel);
