@@ -47,7 +47,7 @@
 
                 <td>@(events.ToList().IndexOf(e) + 1)</td>
                 <td> <button class="btn btn-primary"  @onclick="@(()=> linkEventID(e))">@e.date</button></td>
-                <td><!--db.loadData(SELECT schoolName from PROFILES where ID == @e.host--><!--/td>
+                <td>db.loadData(SELECT schoolName from PROFILES where ID == @e.host--><!--/td>
             </tr> -->
 
         }
@@ -115,8 +115,8 @@
 
 
 @code {
+    Structure.Roster[] guestRosters = new[] {new Structure.Roster(testSchoolName2)};
     private Structure.Roster hostRoster = new Structure.Roster("test");
-    private List<Structure.Roster> hostRosters = new List<Structure.Roster>();
     private bool isVisible = false;
     private string tableStyle => isVisible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
 
@@ -147,7 +147,7 @@
     private int _skillGap = 0;
     private int _gradeGap = 0;
     private int _numMats = 1;
-    private bool _internalMatches;//bool
+    private bool _internalMatches = false;//bool
     private int allowedMatches;
 
     protected override async Task OnInitializedAsync()
@@ -170,7 +170,13 @@
             {
                 hostRoster.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
             }
-            
+            foreach (var r in hostRoster.rosterList.Values)
+            {
+                
+                    Console.WriteLine(r);
+               
+                
+            }
 
 
         }
@@ -193,7 +199,7 @@
         events = getEventsFromDB(hostID);*/
         
     }
-    
+    public List<Structure.Roster> guestRostersTest = new List<Structure.Roster>();
     private async Task HandleEventClick(Structure.Event selectedEvent)
     {
         try
@@ -202,8 +208,15 @@
             Console.WriteLine($"Clicked Event ID: {selectedEvent.EventID}");
             showEventCriteria(); 
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);
+            
+            Console.WriteLine("Guest Profile IDs:");
+            foreach (var guestProfileID in guestProfileIDs)
+            {
+                Console.WriteLine(guestProfileID);
+            }
             // Create and populate guest rosters based on guest profile IDs
-            List<Structure.Roster> guestRosters = new List<Structure.Roster>();
+            
+           
             
             foreach (int guestProfileID in guestProfileIDs)
             {
@@ -229,7 +242,17 @@
                 }
 
                 // Add the populated guest roster to the list of guest rosters
-                guestRosters.Add(guestRoster);
+                guestRostersTest.Add(guestRoster);
+                
+            }
+
+            foreach (var r in guestRosters)
+            {
+                foreach (var wrestler in r.rosterList)
+                {
+                    Console.WriteLine(wrestler);
+                }
+                
             }
             // Perform actions for the clicked event
             
@@ -275,25 +298,34 @@
     }
 
     private static string testSchoolName = "test";
-    private static string testSchoolName2 = "test2";
+    private static string testSchoolName2 = "email";
     
     Structure.Roster roster = new Structure.Roster(testSchoolName);
     // Populate host roster with wrestlers for the host profile
     
-    Structure.Roster[] guestRosters = new[] {new Structure.Roster(testSchoolName2)};
     
-    private void GenerateMatches() {
+    
+    private void GenerateMatches()
+    {
+        Structure.Roster[] guestRosterArray = new[] { guestRostersTest[0] };
+        Console.WriteLine($"Wrestlers in Guest Roster:{guestRosters[0].rosterList.Count}");
         //instantiating new MatchGenerator Object
-        MatchGenerator matchGen = new MatchGenerator(roster, guestRosters, _weightDiff,
+        Console.WriteLine("Started generating");
+        MatchGenerator matchGen = new MatchGenerator(hostRoster, guestRosterArray, _weightDiff,
             _numMats, _matchMin, _matchMax, _skillGap, _gradeGap, _internalMatches, SelectedEventID);
-        
+        Console.WriteLine("Initializing");
         //matchGet.GenerateMatches returns a LinkedList<Match> of all generated matches
-        LinkedList<Match> matchList = matchGen.GenerateMatches(false, 3);
-
-        
-
-        
+        LinkedList<Match> matchList = matchGen.GenerateMatches(false, 1);
+        Console.WriteLine("Generated");
+        Console.WriteLine(matchList.Count);
         foreach (var match in matchList) {
+            Console.WriteLine($"{match.wrestler1} ({match.wrestler1.wrestler.weight}lbs) vs {match.wrestler2} ({match.wrestler2.wrestler.weight})lbs ");
+        } 
+
+        
+
+        
+       // foreach (var match in matchList) {
             /*DB CALL TO INSERT EACH MATCH FROM MATCHLIST INTO DB MATCHES TABLE
              *
              *Add individual matches per loop iteration:
@@ -302,7 +334,7 @@
              * 
              */
             //
-        }
+      //  }
 
         navManager.NavigateTo("/MatchViewer");
     }
