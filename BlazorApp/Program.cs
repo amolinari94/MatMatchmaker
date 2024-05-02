@@ -4,6 +4,8 @@ using BlazorApp.Components.Pages;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BlazorApp.EmailSystem.Model;
+using BlazorApp.EmailSystem.Services;
 using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using DataAccessLibrary;
@@ -11,6 +13,7 @@ using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Structure;
 
 
@@ -44,6 +47,8 @@ builder.Services.AddBlazoredSessionStorage(config => {
         config.JsonSerializerOptions.WriteIndented = false;
     }
 );
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddScoped<IMailService, MailService>();
 
 
 builder.Services.AddAntiforgery(options =>

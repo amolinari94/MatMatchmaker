@@ -1,4 +1,5 @@
 using System;
+using BlazorApp;
 using DataAccessLibrary;
 using Microsoft.AspNetCore.Components;
 //backend
@@ -190,17 +191,28 @@ namespace Structure
 
     public class Match {
 
+        public int Order { get; set; }
+        protected internal string Name { get; set; } = "";
+        public bool IsDragOver { get; set; }
+            
+            
         protected internal int EventID;
         protected internal int ID { get; set; }
-        protected internal WrestlerEventInstance wrestler1;
-        protected internal WrestlerEventInstance wrestler2;
+        protected internal WrestlerEventInstance? wrestler1;
+        protected internal WrestlerEventInstance? wrestler2;
+        
+        
 
         public Match(int EventID,int id, WrestlerEventInstance wrestler1, WrestlerEventInstance wrestler2) {
             this.EventID = EventID;
             this.ID = id;
             this.wrestler1 = wrestler1;
             this.wrestler2 = wrestler2;
+            this.Name = $"{this.wrestler1.wrestler.firstName} {this.wrestler1.wrestler.lastName} vs " +
+                        $"{this.wrestler2.wrestler.firstName} {this.wrestler2.wrestler.lastName}";
         }
+
+        public Match(){}
     }
 
     /*Class EVENT

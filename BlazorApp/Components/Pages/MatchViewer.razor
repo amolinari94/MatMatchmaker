@@ -13,42 +13,34 @@
 
 
 <div>
-        <table  class="table" style="width: 100%; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227); " ondragover="event.preventDefault();">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Gndr</th>
-                <th>Wgt</th>
-                <th>Skill</th>
-                <th>Grade</th>
-                <th></th>
-                
-                
-            </tr>
-        </thead>
+    <table class="table" style="caption-side: top; width: auto; height: 20px; text-align: center; margin-left: auto; margin-right: auto; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227); " ondragover="event.preventDefault();">
+        <caption  class="main-title" style=" text-align: center !important; display: table-caption !important;  font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
+            <div style=" background:none;  text-align: center; border-radius: 20px;">Matches</div>
+        </caption>
+        
         <tbody>
-            @foreach(var item in Models.OrderBy(x => x.Order)){
-                 
-                <tr @key="item" class="pb-2 relative" @ondragstart="() => draggingModel = item" @ondragend="()=> draggingModel = null" draggable="true"  @ondrop="()=>HandleDrop(item)">
-                    
-                        <td></td>
-                        <td>@item.Name@*.match[0].firstName</td>
+        @foreach (var item in matches.OrderBy(x => x.Order)) {
+
+            <tr style="@elementStyle" @key="item"  @ondragstart="() => { draggingMatch = item; displayColor(true); }" @ondragend="() => { draggingMatch = null; displayColor(false); }" draggable="true" @ondrop="() => HandleDrop(item)">
+
+                <td style="@elementStyle">@(item.Order)</td>
+                <td style="@elementStyle">@item.Name@*.match[0].firstName</td>
                         <td>@item.match[0].gender</td>
                         <td>@item.match[0].weight</td>
                         <td>@item.match[0].skill</td>
                         <td>@item.match[0].grade*@</td>
-          	
-			
-                  
-                   
-                </tr> 
-                
-                
-            }    
-             
+                <td><button style="height: 50%; vertical-align: bottom;" content="▼" @onclick="(()=> shiftDown(item))"></button><button style="height: 50%; vertical-align: top;" content="▲" @onclick="(()=> shiftUp(item))" ></button> </td>
+
+
+
+
+            </tr>
+
+
+        }
+
         </tbody>
-        </table>
+    </table>
         </div>
 
 
@@ -77,6 +69,30 @@
     public int index=0;
      private List<Model> Models { get; } = [];
 
+     private void shiftDown(Match match) {
+         if (match.Order < matches.Count) {
+             //Match temp = matches.ToList()[match.Order + 1];
+             matches.ToList()[match.Order].Order--;
+             match.Order++;
+         }
+         
+         
+     }
+     
+     private void shiftUp(Match match) {
+         if (match.Order > 1) {
+             //match.Order--;
+             Match temp = matches.ToList()[match.Order - 1];
+             temp.Order++;
+             match.Order--;
+             matches.ToList()[match.Order + 1] = temp;
+             
+         }
+         
+     }
+     
+     
+
      private class Model
      {
          public int Order { get; set; }
@@ -84,34 +100,64 @@
          public bool IsDragOver { get; set; }
          @*protected internal Wrestler[] match {get;set;}=[];*@
      }
+     
      private Model? draggingModel;//the model that is being dragged
-
-     protected override void OnInitialized()
-     {//fill names wit "random" string
+     private Match? draggingMatch;
+     LinkedList<Match> matches = new LinkedList<Match>();
+     protected override void OnInitialized() {//fill names wit "random" string
+         
+         
+         for (int i = 1; i <= 5; i++) // Assuming you want 5 test matches
+         {
+             matches.AddLast(new Match
+             {
+                 Order = i,
+                 Name = $"firstnameTest{i} lastnameTest{i} vs firstnameTest{i + 1} lastnameTest{i + 1}",
+                 //IsDragOver = false
+             });
+             
+             
+         }
+         
+         
+         /*
          for (var i = 0; i < 10 @*testEvent.matchList.Length*@; i++)
          {
              Model m = new() { Order = i, Name = $"Item {i}"@*, match=testEvent.matchList[i]*@};
              Models.Add(m);
          }
+         */
+         
          base.OnInitialized();
      }
-     private void HandleDrop(Model landingModel)
+
+     private string elementStyle = "";
+     private void displayColor(bool condition) {
+         if (condition) {
+             elementStyle = "background-color: #7eb1de; border: solid; border-radius: 20px; border-color: #0E88AE;";
+         }
+         else {
+             elementStyle = "";
+         }
+         
+     }
+     private void HandleDrop(Match landingMatch)
      {//landing model -> where the drag happened
 		
 		
-         if (draggingModel is null)
+         if (draggingMatch is null)
          {
              Console.WriteLine("Null issue");
              return;
 			
          }
 		
-         int originalOrderLanding = landingModel.Order;//keep the original order for later
+         int originalOrderLanding = landingMatch.Order;//keep the original order for later
          //increase model uned by 1
-         Models.Where(x => x.Order >= landingModel.Order).ToList().ForEach(x => x.Order++);
-         draggingModel.Order = originalOrderLanding;//replace landing model
-         int ii = 0;
-         foreach (var model in Models.OrderBy(x => x.Order).ToList())
+         matches.Where(x => x.Order >= landingMatch.Order).ToList().ForEach(x => x.Order++);
+         draggingMatch.Order = originalOrderLanding;//replace landing model
+         int ii = 1;//used to be 0 
+         foreach (var model in matches.OrderBy(x => x.Order).ToList())
          {
              model.Order = ii++;//keep the numbers from 0 to size-1
              model.IsDragOver = false;//remove drag over.
