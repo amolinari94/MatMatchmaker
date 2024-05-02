@@ -101,29 +101,32 @@ public class MatchGenerator {
                     //trying different approach>>
                         foreach (var wrestler in hostRoster.rosterList.Values) {
                             WrestlerEventInstance homeWrestler = new WrestlerEventInstance(wrestler, allowedMatches);
-                            foreach (var visitor in visitingWrestlers) {
-                                if (double.Abs(visitor.wrestler.weight - homeWrestler.wrestler.weight) > weightDiff) {
-                                    continue;
+                            if (!internalMatches) {
+                                foreach (var visitor in visitingWrestlers) {
+                                    if (double.Abs(visitor.wrestler.weight - homeWrestler.wrestler.weight) > weightDiff) {
+                                        continue;
+                                    }
+                                    if (homeWrestler.wrestler.sameGenderOnly && homeWrestler.wrestler.gender != visitor.wrestler.gender) {
+                                        continue;
+                                    }
+                                    if (visitor.wrestler.sameGenderOnly &&
+                                        homeWrestler.wrestler.gender != visitor.wrestler.gender) {
+                                        continue;
+                                    }
+                                    if (!checkAvailability(visitor)) {
+                                        continue;
+                                    }
+                                    if (int.Abs(visitor.wrestler.skillLevel - homeWrestler.wrestler.skillLevel) > skillGap) {
+                                        continue;
+                                    }
+                                    if (int.Abs(visitor.wrestler.grade - homeWrestler.wrestler.grade) > gradeGap) {
+                                        continue;
+                                    }
+                                    matchCount++;//increment match count.
+                                    matchList.Append(new Match(eventID,matchCount, homeWrestler, visitor));//add match.
                                 }
-                                if (homeWrestler.wrestler.sameGenderOnly && homeWrestler.wrestler.gender != visitor.wrestler.gender) {
-                                    continue;
-                                }
-                                if (visitor.wrestler.sameGenderOnly &&
-                                    homeWrestler.wrestler.gender != visitor.wrestler.gender) {
-                                    continue;
-                                }
-                                if (!checkAvailability(visitor)) {
-                                    continue;
-                                }
-                                if (int.Abs(visitor.wrestler.skillLevel - homeWrestler.wrestler.skillLevel) > skillGap) {
-                                    continue;
-                                }
-                                if (int.Abs(visitor.wrestler.grade - homeWrestler.wrestler.grade) > gradeGap) {
-                                    continue;
-                                }
-                                matchCount++;//increment match count.
-                                matchList.Append(new Match(eventID,matchCount, homeWrestler, visitor));//add match.
                             }
+                            
                             
                         }
                         MatchesGeneratedPerHomeWrestler++;
