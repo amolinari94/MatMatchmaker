@@ -1,0 +1,13 @@
+.table{
+    border-color: rgb(227,227,227);
+    border: 2px solid;
+    box-shadow: 2px 2px 30px lightgray;
+    text-align-all: center;
+    font-size: 1.2rem;
+
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
