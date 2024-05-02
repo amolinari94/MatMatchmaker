@@ -12,42 +12,33 @@
 @using System.Text.Json
 @using Blazored.LocalStorage
 @inject IEventData eventData
-@inject IEventData _db
+@inject IEventData _dbe
 @inject DataAccessLibrary.IEventData EventData
 @rendermode InteractiveServer
 
-<h3>Test Events</h3>
-<h3>Test Add Event</h3>
 
-<div>
-    <label>Event Date:</label>
-    <input type="date" @bind="eventDate" />
-</div>
+@inject IProfileData profileData
 
-<div>
-    <label>Host Profile ID:</label>
-    <input type="number" @bind="hostProfileId" />
-</div>
+@inject IEventGuestsData eventGuestData
 
-<button @onclick="AddEvent">Add Event</button>
+<h3>Test Page: Insert Guest</h3>
 
-<p>@resultMessage</p>
+<button @onclick="InsertGuest">Insert Guest</button>
 
 @code {
-    private DateTime eventDate;
-    private int hostProfileId;
-    private string resultMessage;
-
-    private async Task AddEvent()
+    private async Task InsertGuest()
     {
-        int eventId = await _db.AddEvent(eventDate, hostProfileId);
-        if (eventId > 0)
+        try
         {
-            resultMessage = $"Event added successfully with ID: {eventId}";
+            int eventId = 1; // Replace with actual event ID
+            int guestProfileId = 5; // Replace with actual guest profile ID
+
+            await eventGuestData.InsertGuest(eventId, guestProfileId);
+            Console.WriteLine("Guest inserted successfully!");
         }
-        else
+        catch (Exception ex)
         {
-            resultMessage = "Failed to add event.";
+            Console.WriteLine($"Error inserting guest: {ex.Message}");
         }
     }
 }

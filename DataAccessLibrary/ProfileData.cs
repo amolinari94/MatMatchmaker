@@ -48,5 +48,26 @@ namespace DataAccessLibrary
                 return null;
             }
         }
+        
+        public async Task<List<ProfileModel>> GetProfilesBySchoolNames(List<string> schoolNames)
+        {
+            List<ProfileModel> profiles = new List<ProfileModel>();
+
+            foreach (var schoolName in schoolNames)
+            {
+                string sql = "SELECT * FROM dbo.Profile WHERE schoolName = @SchoolName";
+                var parameters = new { SchoolName = schoolName };
+
+                ProfileModel profile = await _db.LoadSingleRecord<ProfileModel, dynamic>(sql, parameters);
+
+                if (profile != null)
+                {
+                    profiles.Add(profile);
+                }
+                // Handle case where profile is not found or other error scenarios
+            }
+
+            return profiles;
+        }
     }
 }

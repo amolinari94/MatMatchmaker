@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataAccessLibrary.Models;
+using NUnit.Framework.Internal.Execution;
 
 namespace DataAccessLibrary
 {
     public class EventData : IEventData
     {
-        private readonly ISqlDataAccess _db;
+        private readonly ISqlDataAccess _dbe;
 
         public EventData(ISqlDataAccess db)
         {
-            _db = db;
+            _dbe = db;
         }
         
         public async Task<int> AddEvent(DateTime eventDate, int hostProfileId)
@@ -29,7 +30,7 @@ namespace DataAccessLibrary
                     event_date = eventDate
                 };
 
-                int eventId = await _db.ExecuteScalar<int>(sql, parameters);
+                int eventId = await _dbe.ExecuteScalar<int>(sql, parameters);
 
                 if (eventId > 0)
                 {
@@ -49,6 +50,29 @@ namespace DataAccessLibrary
                 return -1;
             }
         }
+        
+        public async Task<List<EventModel>> GetEventsByHostId(int hostId)
+        {
+            try
+            {
+                string sql = "SELECT event_id, host_profile_id, event_date FROM Events WHERE host_profile_id = @HostId " +
+                             "ORDER BY event_id DESC"; // Sort by event_id in descending order
+
+                var parameters = new { HostId = hostId };
+
+                // Retrieve events with sorting applied
+                List<EventModel> events = await _dbe.LoadData<EventModel, object>(sql, parameters);
+
+                return events;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving events by host ID: {ex.Message}");
+                return new List<EventModel>(); // Return an empty list or handle error gracefully
+            }
+        }
+
+
     }
 }
 

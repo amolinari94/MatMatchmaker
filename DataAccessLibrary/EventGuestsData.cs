@@ -13,6 +13,57 @@ namespace DataAccessLibrary
         {
             _db = db;
         }
+        
+        public async Task InsertGuest(int eventId, int guestProfileId)
+        {
+            try
+            {
+                string sql = @"
+                INSERT INTO dbo.EventGuests (event_id, guest_profile_id, accepted)
+                VALUES (@EventID, @GuestProfileID, NULL);
+            ";
+
+                var parameters = new
+                {
+                    EventID = eventId,
+                    GuestProfileID = guestProfileId
+                };
+
+                await _db.ExecuteAsync(sql, parameters);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions
+                Console.WriteLine($"Error inserting guest: {ex.Message}");
+                throw; // Optionally handle or rethrow the exception
+            }
+        }
+        
+        public async Task AcceptInvite(int eventGuestId)
+        {
+            try
+            {
+                string sql = @"
+            UPDATE dbo.EventGuests
+            SET accepted = 1
+            WHERE id = @EventGuestID;
+        ";
+
+                var parameters = new
+                {
+                    EventGuestID = eventGuestId
+                };
+
+                await _db.ExecuteAsync(sql, parameters); // Execute the SQL query to update acceptance status
+                Console.WriteLine("Guest invitation accepted successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error accepting guest invitation: {ex.Message}");
+                throw; // Optionally handle or rethrow the exception
+            }
+        }
+
 
         public async Task<List<EventGuestsModel>> GetEventGuestsByEventId(int eventId)
         {

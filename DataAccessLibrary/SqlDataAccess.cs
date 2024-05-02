@@ -53,5 +53,25 @@ namespace DataAccessLibrary
                 return await connection.ExecuteScalarAsync<T>(sql, parameters);
             }
         }
+        public async Task<T> LoadSingleRecord<T, U>(string sql, U parameters)
+        {
+            string connectionString = _config.GetConnectionString("DefaultConnection");
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                var data = await connection.QueryFirstOrDefaultAsync<T>(sql, parameters);
+
+                return data;
+            }
+        }
+        public async Task<int> ExecuteAsync(string sql, object parameters = null)
+        {
+            string connectionString = _config.GetConnectionString("DefaultConnection");
+
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                return await connection.ExecuteAsync(sql, parameters);
+            }
+        }
     }
 }

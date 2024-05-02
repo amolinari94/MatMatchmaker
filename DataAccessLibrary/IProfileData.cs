@@ -7,6 +7,7 @@ namespace DataAccessLibrary
         Task<List<ProfileModel>> GetProfiles();
         Task InsertProfile(ProfileModel profile);
         Task<ProfileModel> AuthenticateUser(string email, string password);
-        
+        Task<List<ProfileModel>> GetProfilesBySchoolNames(List<string> schoolNames);
+
     }
 }
