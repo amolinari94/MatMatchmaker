@@ -27,7 +27,8 @@
                 <th>First Name</th>
                 <th>Skill level</th>
                 <th>Grade</th>
-                <th></th>
+                <th>Weight</th>
+                <th>Gender</th>
                 
             </tr>
         </thead>
@@ -43,16 +44,19 @@
                         <td>@item.Value.firstName</td>
                         <td>@item.Value.skillLevel</td>
                         <td>@item.Value.grade</td>
+                        <td>@item.Value.weight</td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)">Edit</button></td>
                     </tr>
                 }
                 else
                 {
                     <tr>
-                        <td><input class="input-2" type="text" @bind="item.Value.lastName"/></td>
-                        <td><input class="input-2" type="text" @bind="item.Value.firstName"/></td>
-                        <td><input class="input-2" type="text" @bind="item.Value.skillLevel"/></td>
-                        <td><input class="input-2" type="text" @bind="item.Value.grade"/></td>
+                        <td><input placeholder="last name" class="input-2" type="text" @bind="item.Value.lastName"/></td>
+                        <td><input placeholder="first name" class="input-2" type="text" @bind="item.Value.firstName"/></td>
+                        <td><input placeholder="skill level" class="input-2" type="text" @bind="item.Value.skillLevel"/></td>
+                        <td><input placeholder="grade" class="input-2" type="text" @bind="item.Value.grade"/></td>
+                        <td><input placeholder="weight" class="input-2" type="text" @bind="item.Value.weight"/></td>
+                        <td><input placeholder="gender" class="input-2" type="text" @bind="item.Value.gender"/></td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick="() => deleteWrestler(item.Value)" type="submit">Delete</button></td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)" type="submit">Submit</button></td>
                     </tr>
@@ -65,11 +69,12 @@
             <p>loading roster data</p>
         }
         <tr id="addRow" style="@displayMode">
-            <td><input class="input-2" id="lastName" @bind="lastName" type="text"/></td>
-            <td><input class="input-2" id="firstName" type="text" @bind="firstName"/></td>
-            <td><input class="input-2" id="skill" type="text" @bind="skill"/> </td>
-            <td><input class="input-2" id="grade" type="text" @bind="grade"></td>
-            <td><input class="input-2" id="gender" type="text" @bind="gender"></td>
+            <td><input class="input-2" placeholder="last name" id="lastName" @bind="lastName" type="text"/></td>
+            <td><input class="input-2" placeholder="first name" id="firstName" type="text" @bind="firstName"/></td>
+            <td><input class="input-2" placeholder="skill level" id="skill" type="text" @bind="skill"/> </td>
+            <td><input class="input-2" placeholder="grade" id="grade" type="text" @bind="grade"></td>
+            <td><input class="input-2" placeholder="weight" id="weight" type="text" @bind="weight"></td>
+            <td><input class="input-2" placeholder="gender" id="gender" type="text" @bind="gender"></td>
 
             <td><button @onclick="addWrestler" class="btn btn-primary" type="submit">Done</button></td>
             <td><button @onclick="cancelAdd" class="btn-secondary" type="submit">cancel</button></td>
@@ -107,6 +112,7 @@
     public string skill { get; set; }
     public string grade { get; set; }
     public string gender { get; set; }
+    public string weight { get; set; }
     public string schoolName { get; set; }
     
     

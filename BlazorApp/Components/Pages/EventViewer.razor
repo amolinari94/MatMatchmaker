@@ -5,6 +5,7 @@
 @using System.Collections.Generic
 @using Microsoft.EntityFrameworkCore.ChangeTracking.Internal
 @inject NavigationManager navManager
+@inject EmailSystem.Services.IMailService mailService
 
 
 
@@ -12,6 +13,7 @@
 
 <h3>EventViewer</h3>
 
+<button @onclick="sendTestEmail"></button>
 
 
 
@@ -27,7 +29,7 @@
             <tr style="background-color: azure ">
 
                 <td>@(events.ToList().IndexOf(e) + 1)</td>
-                <td> <button class="btn btn-primary" @onclick="showEventCriteria" @onclick="linkEventID(@e)">@e.date</button></td>
+                <td> <button class="btn btn-primary"  @onclick="@(()=> linkEventID(e))">@e.date</button></td>
                 <td><!--db.loadData(SELECT schoolName from PROFILES where ID == @e.host--></td>
             </tr>
         }
@@ -204,6 +206,7 @@
     
     private void linkEventID(Structure.Event e) {
         SelectedEventID = e.EventID;
+        showEventCriteria();
 
 
     }
@@ -212,6 +215,12 @@
     private void showEventCriteria() {
         DisplayMode = "";
         ToggleTable();
+    }
+
+
+
+    private async void sendTestEmail() {
+        await mailService.SendEmailAsync("to.amolinari94@yahoo.com", "nice", "sick");
     }
     
 
