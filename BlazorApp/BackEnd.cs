@@ -204,7 +204,7 @@ namespace Structure
      * Object for creating wrestling meet event
      */
     public class Event {
-        protected int EventID;
+        protected internal int EventID;
         
         //initial constructing parameters
         protected internal int host; //Primary key for Profiles.
