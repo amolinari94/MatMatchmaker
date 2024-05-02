@@ -3,6 +3,7 @@
 @using DataAccessLibrary
 @using Structure
 @using System.Collections.Generic
+@inject NavigationManager navManager
 
 
 
@@ -14,14 +15,12 @@
 
 
 <body>
-<div>
-<table class="table" style="caption-side: top; ">
+<div class="table-container">
+<table class="table" style="caption-side: top; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
     <caption content="Events" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
         <h2>Events</h2>
     </caption>
-
     <tbody>
-
     @if (events != null && events.Count > 0) {
         @foreach (var e in events) {
             <tr style="background-color: azure ">
@@ -35,9 +34,8 @@
 
     </tbody>
 </table>
-</div>
-<div>
-    <table  cellpadding="30px" style=" @DisplayMode; width:  60%; height: fit-content;  border-collapse: collapse;">
+
+    <table  cellpadding="10px" class="table" style=" @tableStyle; width:  70%; height: fit-content;  border-collapse: collapse;">
         <tr height="20px">
                     <td><label id="matchminl"  for="matchmin">Number of Matches Per Wrestler: </label></td>
                     <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);"  TValue="int" @bind-Value="@_matchMin"/></td>
@@ -57,13 +55,36 @@
                     <td></td>
                 </tr>
         
-                <tr>
-                    <td><label id="matsl" for="mats">Number of Mats: </label></td>
-                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
-                    <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
-                    <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
-                </tr>
+        <tr>
+            <td><label id="matsl" for="mats">Number of Mats: </label></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
+            <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
+            <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
+        </tr>
+        
+        <h3 class="main-title"> Weight Options: </h3>
+        <tr>
+            <td><label id="weightminl" >Weight Limits:</label></td><td><input class="text_input" placeholder="Min" type="text" @bind="_weightMin" id="weighthmin" name="weightmin"/></td>
+            <td><label class="text_input" id="weightmaxl" for="weightmax"> </label></td><td><input class="text_input" placeholder="Max" type="text" @bind="_weightMax" id="weightmax" name="weightmax"/></td>
+        </tr>
+        <tr>
+            <td><label id="diffL" for="diff">Max Weight Difference:</label></td><td><InputNumber class="text_input" TValue="int" @bind-Value="_weightDiff" id="diff" name="diff"/></td>
+        </tr>
+        
+        <tr>
+            <td><label>Matches Per Wrestlers: </label></td>
+            <td><input class="text_input" @bind="allowedMatches" id="allowedMatches" name="allowedMatches"/></td>
+            <td><Button @onclick="GenerateMatches">Generate Matches</Button></td>
+        </tr>
+                
+                
+                
+        
+        
+        
+        
     </table>
+    
 </div>
 
 
@@ -73,6 +94,14 @@
 
 
 @code {
+    
+    private bool isVisible = false;
+    private string tableStyle => isVisible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
+
+    private void ToggleTable()
+    {
+        isVisible = !isVisible;
+    }
 
     List<Structure.Event> events;
     private int testEventId = 1;
@@ -87,13 +116,15 @@
     
     
     //***local event parameters (linked to input components)***
-    private string _weightMin, _weightMax, _weightDiff;//doubles
+    private string _weightMin, _weightMax;
+    private int _weightDiff;//doubles
     private int _matchMin = 1;
     private int _matchMax = 10;
     private int _skillGap = 0;
     private int _gradeGap = 0;
     private int _numMats = 1;
     private bool _internalMatches;//bool
+    private int allowedMatches;
 
     protected override void OnInitialized()
     {
@@ -116,9 +147,9 @@
         
         /*DB Call to populate a List<Event> with events from the database given the hosts id
          *
-         * (SELECT * FROM Events WHERE Event.Hostid == @hostID OR FROM (SELECT * from  )
+         * 
          *
-         * or
+         * Add all events 
          *
          * SELECT DISTINCT e.*
            FROM Events e
@@ -135,9 +166,40 @@
         return events;
     }
 
+    private static string testSchoolName = "test";
+    private static string testSchoolName2 = "test2";
+    
+    Structure.Roster roster = new Structure.Roster(testSchoolName);
+    Structure.Roster[] guestRosters = new[] {new Structure.Roster(testSchoolName2)};
+    private void GenerateMatches() {
+        //instantiating new MatchGenerator Object
+        MatchGenerator matchGen = new MatchGenerator(roster, guestRosters, _weightDiff,
+            _numMats, _matchMin, _matchMax, _skillGap, _gradeGap, _internalMatches, testEventId);
+        
+        //matchGet.GenerateMatches returns a LinkedList<Match> of all generated matches
+        LinkedList<Match> matchList = matchGen.GenerateMatches(false, 3);
+
+        
+
+        
+        foreach (var match in matchList) {
+            /*DB CALL TO INSERT EACH MATCH FROM MATCHLIST INTO DB MATCHES TABLE
+             *
+             *Add individual matches per loop iteration:
+             * 
+             * INSERT INTO Matches (EventID2, Wrestler1ID, Wrestler2ID) VALUES (EventID, Wrestler1ID, Wrestler2ID);
+             * 
+             */
+            //
+        }
+
+        navManager.NavigateTo("/MatchViewer");
+    }
+
     
     private void showEventCriteria() {
         DisplayMode = "";
+        ToggleTable();
     }
     
 

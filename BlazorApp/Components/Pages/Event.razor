@@ -89,13 +89,7 @@
                 
 </div>
 
-    <h3 class="main-title"> Weight Options: </h3>
-    <label id="weightminl" >Weight Limits:</label>
-    <input class="text_input" placeholder="Min" type="text" @bind="_weightMin" id="weighthmin" name="weightmin"/>
-    <label class="text_input" id="weightmaxl" for="weightmax"> </label>
-    <input class="text_input" placeholder="Max" type="text" @bind="_weightMax" id="weightmax" name="weightmax"/>
-    <label id="diffL" for="diff">Max Weight Difference:</label>
-    <input class="text_input" type="text" @bind="_weightDiff" id="diff" name="diff"/>
+    
 
 
         
@@ -197,6 +191,17 @@
          * 
          *****[ SELECT id FROM Events WHERE (HostID == LocalHostID); ]
          */
+
+        /*
+        foreach (var guestSchoolName in LocalGuestList) {
+            DB CALL: Select * FROM Profiles WHERE Profile.schoolName == guestSchoolName;
+
+            Profile guestProfile = ConstructProfileObject();
+            
+            DB CALL: INSERT INTO GUESTS (EventID, GUESTPROFILEID) VALUES(@EventID, @guestProfile.id);
+        }
+        */
+        
         
         
         Structure.Event evt = new Structure.Event(eventId, LocalHostID, selectedDate);

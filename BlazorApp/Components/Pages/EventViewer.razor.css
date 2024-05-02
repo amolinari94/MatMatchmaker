@@ -7,9 +7,26 @@
     caption-side: top;
     text-align: center;
     width: 25%;
+    /*border: solid #ededed;
+    border-collapse: collapse;*/
+    border-radius: 50px;
+    -webkit-box-shadow: -1px 12px 32px -12px rgba(125,125,125,1);
+    -moz-box-shadow: -1px 12px 32px -12px rgba(125,125,125,1);
+    box-shadow: -1px 12px 32px -12px rgba(125,125,125,1);
+    
+}
+
+.table-container{
+    display: flex;
+    
+}
+
+
+
+.text_input{
     border: solid;
-    border-color: #ededed;
-    border-collapse: collapse;
+    height: 15px;
+    border-color: rgb(183, 183, 183);
     border-radius: 50px;
 }
 
