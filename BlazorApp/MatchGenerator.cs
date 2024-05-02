@@ -32,12 +32,14 @@ public class MatchGenerator {
         this.matchCount = 0;
         matchList = new LinkedList<Match>();
         visitingWrestlers = new LinkedList<WrestlerEventInstance>();
+        Console.WriteLine(guestRosters.Length);
         for (int i = 0; i < guestRosters.Length; i++) {
             foreach (var wrestler in guestRosters[i].rosterList.Values) {
                 WrestlerEventInstance wrestlerInstance = new WrestlerEventInstance(wrestler, allowedMatches);
-                visitingWrestlers.Append(wrestlerInstance);
+                visitingWrestlers.AddLast(wrestlerInstance);
             }
         }
+        Console.WriteLine(visitingWrestlers.Count);
     }
     
     private bool checkAvailability(WrestlerEventInstance wrestlerInst) {
@@ -65,10 +67,11 @@ public class MatchGenerator {
 
         if (randomize) {/*randomize visitors wrestler list before generating */ }
 
+        int attempts = 0;
         int MatchesGeneratedPerHomeWrestler = 0;
-        while (matchCount < matchMin) {
+        while (matchCount < matchMin && attempts<10) {
                 try {
-                    while (allowedMatches > MatchesGeneratedPerHomeWrestler) {
+                    //while (allowedMatches > MatchesGeneratedPerHomeWrestler) {
                         /*
                     foreach (var wrestler in hostRoster.rosterList.Values) {
                         WrestlerEventInstance homeWrestler = new WrestlerEventInstance(wrestler, allowedMatches);
@@ -104,36 +107,48 @@ public class MatchGenerator {
                             if (!internalMatches) {
                                 foreach (var visitor in visitingWrestlers) {
                                     if (double.Abs(visitor.wrestler.weight - homeWrestler.wrestler.weight) > weightDiff) {
+                                        Console.WriteLine("1");
                                         continue;
+                                        
                                     }
                                     if (homeWrestler.wrestler.sameGenderOnly && homeWrestler.wrestler.gender != visitor.wrestler.gender) {
+                                        Console.WriteLine("2");
                                         continue;
                                     }
                                     if (visitor.wrestler.sameGenderOnly &&
                                         homeWrestler.wrestler.gender != visitor.wrestler.gender) {
+                                        Console.WriteLine("3");
                                         continue;
                                     }
-                                    if (!checkAvailability(visitor)) {
+                                    /*if (!checkAvailability(visitor)) {
+                                        Console.WriteLine("4");
                                         continue;
-                                    }
+                                    }*/
                                     if (int.Abs(visitor.wrestler.skillLevel - homeWrestler.wrestler.skillLevel) > skillGap) {
+                                        Console.WriteLine("5");
                                         continue;
                                     }
                                     if (int.Abs(visitor.wrestler.grade - homeWrestler.wrestler.grade) > gradeGap) {
+                                        Console.WriteLine("6");
                                         continue;
                                     }
                                     matchCount++;//increment match count.
-                                    matchList.Append(new Match(eventID,matchCount, homeWrestler, visitor));//add match.
+                                    Console.WriteLine("Match Added");
+                                    matchList.AddLast(new Match(eventID,matchCount, homeWrestler, visitor));//add match.
+                                    MatchesGeneratedPerHomeWrestler++;
                                 }
                             }
                             
                             
                         }
-                        MatchesGeneratedPerHomeWrestler++;
-                    }
+                        attempts++;
+                        
+                //}
                 }catch (Exception e) {
                     Console.WriteLine(e);
                 }
+
+                
         }
 
         return matchList;
