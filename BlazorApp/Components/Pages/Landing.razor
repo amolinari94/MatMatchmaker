@@ -1,14 +1,12 @@
 @page "/"
 @layout BlazorApp.Components.Layout.LandingLayout
 
-
-
 <PageTitle>Home</PageTitle>
 <div class="background-image">
     <div class="container">
         <div class="container__left">
             <div class="content">
-                <h1>WRESTLING MEETS<br />MADE EASIER.</h1>
+                <h1>WRESTLING<br /> MEETS<br />MADE<br /> EASIER.</h1>
                 <p>
                     Welcome to Mat Matchmaker, the platform for youth wrestling management.
                     Schedule wrestling meets, invite other schools, generate matches, and keep
@@ -16,31 +14,15 @@
                     Simply input your roster and a few details, and we'll handle the rest!
                 </p>
                 <div class="btns">
-                    <button class="learn__more">Learn More</button>
+                    <a href="Login" class="login_button">Log In</a>
+                    <a href="SignUp" class="signup_button">Sign Up</a>
                 </div>
             </div>
         </div>
-        <div style="padding-top: 75px;">
-        <img src="Logo.png" width="600" height="400">
-        </div>
         <div class="container__right">
-            <form>
-                <h4>Ready to get started?</h4>
-                <div class="form__group">
-                    <label for="email">Email</label>
-                    <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        placeholder="Enter your email"/>
-                </div>
-                <div class="form__group">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Enter your password"/>
-                </div>
-                <button type="submit">Login</button>
-                <p>Don't have an account? <a href="@("/SignUp")">Click here</a> to sign up.</p>
-            </form>
+            <div>
+                <img src="Logo.png" width="600" height="400">
+            </div>
         </div>
     </div>
 </div>

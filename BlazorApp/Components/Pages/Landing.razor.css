@@ -8,41 +8,34 @@
     align-items: center; 
 }
 
-* {
+/** {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-}
-
-a {
-    text-decoration: none;
-}
-
-input::placeholder {
-    color: #f3f4f6;
-}
+}*/
 
 .container {
     display: flex;
-    min-height: 100vh;
-    max-width: 1300px;
-    margin: auto;
-    padding: 2rem;
-    padding-top: 50px; /*100*/
-    position: relative;
 }
 
 .container__right {
     flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    /*align-items: center;*/
 }
 
 .container__left .content {
-    max-width: 400px;
     display: grid;
+    max-width: 600px; 
     gap: 1rem;
+}
+
+.container__right img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%; /* Ensure the image doesn't exceed its container */
+    height: auto; /* Maintain aspect ratio */
 }
 
 .content h1 {
@@ -63,83 +56,25 @@ input::placeholder {
     gap: 1rem;
 }
 
-.btns button {
+.btns a {
     padding: 0.5rem 2rem;
-    color: #f3f4f6;
-    font-size: 1rem;
-    background-color: transparent;
+    color: black;
+    font-size: 1.5rem;
+    background-color: #D6553E;
     outline: none;
     border: 2px solid #f3f4f6;
     border-radius: 2rem;
     cursor: pointer;
     transition: 0.3s;
+    text-decoration: none;
 }
 
-button.learn__more {
+/*a.login_button {
     background-color: #f3f4f6;
     color: #333333;
-}
+}*/
 
-form {
-    width: 350px;
-    display: grid;
-    border-radius: 5px;
-    background-color: #ffffff33;
-    color: #f3f4f6;
-}
-
-form h4 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    padding: 2rem;
-}
-
-.form__group {
-    display: grid;
-    padding: 0 2rem;
-    margin-bottom: 1rem;
-}
-
-.form__group input {
-    padding: 0.5rem;
-    font-size: 1rem;
-    color: #f3f4f6;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    border-bottom: 2px solid #f3f4f6;
-}
-
-form button {
-    margin-top: 1rem;
-    padding: 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    background-color: #022733;
-    color: #f3f4f6;
-    cursor: pointer;
-}
-
-form p {
-    text-align: center;
-    font-size: 1rem !important;
-}
-
-form a {
-    color: #f3f4f6;
-    text-decoration: none;
-    position: relative;
-    font-weight: bold;
-}
-form a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 100%;
-    height: 2px;
-    background-color: #022733;
+.btns a:hover {
+    background-color: #f3f4f6;
+    color: black;
 }
