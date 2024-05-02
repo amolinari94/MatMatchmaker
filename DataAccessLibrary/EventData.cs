@@ -51,24 +51,30 @@ namespace DataAccessLibrary
             }
         }
         
-        public async Task<List<EventModel>> GetEventsByHostId(int hostId)
+        public async Task<List<EventModel>> GetEventsByUserProfileID(int userProfileID)
         {
             try
             {
-                string sql = "SELECT event_id, host_profile_id, event_date FROM Events WHERE host_profile_id = @HostId " +
-                             "ORDER BY event_id DESC"; // Sort by event_id in descending order
+                string sql = @"
+            SELECT e.event_id, e.host_profile_id, e.event_date
+            FROM dbo.Events e
+            WHERE e.host_profile_id = @UserProfileID
+            UNION
+            SELECT e.event_id, e.host_profile_id, e.event_date
+            FROM dbo.Events e
+            INNER JOIN dbo.EventGuests eg ON e.event_id = eg.event_id
+            WHERE eg.guest_profile_id = @UserProfileID;
+        ";
 
-                var parameters = new { HostId = hostId };
+                var parameters = new { UserProfileID = userProfileID };
 
-                // Retrieve events with sorting applied
-                List<EventModel> events = await _dbe.LoadData<EventModel, object>(sql, parameters);
-
+                var events = await _dbe.LoadData<EventModel, dynamic>(sql, parameters);
                 return events;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error retrieving events by host ID: {ex.Message}");
-                return new List<EventModel>(); // Return an empty list or handle error gracefully
+                Console.WriteLine($"Error retrieving events by UserProfileID: {ex.Message}");
+                return new List<EventModel>();
             }
         }
 

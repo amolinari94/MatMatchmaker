@@ -21,24 +21,38 @@
 
 @inject IEventGuestsData eventGuestData
 
-<h3>Test Page: Insert Guest</h3>
+<h3>User Events</h3>
 
-<button @onclick="InsertGuest">Insert Guest</button>
+@if (events != null && events.Any())
+{
+    <ul>
+        @foreach (var ev in events)
+        {
+            <li>Event ID: @ev.event_id, Host Profile ID: @ev.host_profile_id, Event Date: @(ev.event_date.HasValue ? ev.event_date.Value.ToShortDateString() : "N/A")</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No events found for this user.</p>
+}
 
 @code {
-    private async Task InsertGuest()
+    [Parameter]
+    public int userProfileID { get; set; } = 5; // Hardcoded profile ID for testing
+
+    private List<EventModel> events;
+
+    protected override async Task OnInitializedAsync()
     {
         try
         {
-            int eventId = 1; // Replace with actual event ID
-            int guestProfileId = 5; // Replace with actual guest profile ID
-
-            await eventGuestData.InsertGuest(eventId, guestProfileId);
-            Console.WriteLine("Guest inserted successfully!");
+            // Use the hardcoded profile ID (4) to retrieve events
+            events = await eventData.GetEventsByUserProfileID(userProfileID);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error inserting guest: {ex.Message}");
+            Console.WriteLine($"Error loading user events: {ex.Message}");
         }
     }
 }
