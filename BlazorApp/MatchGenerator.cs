@@ -7,17 +7,17 @@ public class MatchGenerator {
     private Roster hostRoster;
     private Roster[] guestRosters;
     private LinkedList<WrestlerEventInstance> visitingWrestlers;
-    private double weightDiff;
+    private int weightDiff;
     private int numMats, matchMin, matchMax, skillGap, gradeGap;
     private bool internalMatches;
-    private string eventID;
+    private int eventID;
     private int allowedMatches;
     private int matchCount;
 
     private LinkedList<Match> matchList;
     
-    public MatchGenerator(Roster hostRoster, Roster[] guestRosters, double weightDiff, int numMats, int matchMin,
-        int matchMax, int skillGap, int gradeGap, bool internalMatches, string eventID, int allowedMatches) {
+    public MatchGenerator(Roster hostRoster, Roster[] guestRosters, int weightDiff, int numMats, int matchMin,
+        int matchMax, int skillGap, int gradeGap, bool internalMatches, int eventID) {
         this.hostRoster = hostRoster;
         this.guestRosters = guestRosters;
         this.weightDiff = weightDiff;

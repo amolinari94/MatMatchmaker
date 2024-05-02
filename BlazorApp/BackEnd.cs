@@ -187,12 +187,12 @@ namespace Structure
 
     public class Match {
 
-        protected internal string EventID;
+        protected internal int EventID;
         protected internal int ID { get; set; }
         protected internal WrestlerEventInstance wrestler1;
         protected internal WrestlerEventInstance wrestler2;
 
-        public Match(String EventID,int id, WrestlerEventInstance wrestler1, WrestlerEventInstance wrestler2) {
+        public Match(int EventID,int id, WrestlerEventInstance wrestler1, WrestlerEventInstance wrestler2) {
             this.EventID = EventID;
             this.ID = id;
             this.wrestler1 = wrestler1;
