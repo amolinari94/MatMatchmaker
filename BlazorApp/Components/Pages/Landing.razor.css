@@ -7,13 +7,6 @@
     justify-content: center; 
     align-items: center; 
 }
-
-/** {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}*/
-
 .container {
     display: flex;
 }
@@ -34,8 +27,8 @@
 .container__right img {
     display: block;
     margin: 0 auto;
-    max-width: 100%; /* Ensure the image doesn't exceed its container */
-    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; 
+    height: auto;
 }
 
 .content h1 {
@@ -68,11 +61,6 @@
     transition: 0.3s;
     text-decoration: none;
 }
-
-/*a.login_button {
-    background-color: #f3f4f6;
-    color: #333333;
-}*/
 
 .btns a:hover {
     background-color: #f3f4f6;
