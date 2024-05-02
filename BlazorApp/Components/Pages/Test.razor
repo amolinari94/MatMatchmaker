@@ -16,82 +16,29 @@
 @inject DataAccessLibrary.IEventData EventData
 @rendermode InteractiveServer
 
-<h3>Events Test</h3>
 
-<div>
-    <label for="hostId">Host Profile ID:</label>
-    <input type="number" id="hostId" @bind="@hostId" />
-    <button @onclick="LoadEvents">Load Events</button>
-</div>
+@inject IProfileData profileData
 
-@if (events != null && events.Any())
-{
-    <h4>Events:</h4>
-    <ul>
-        @foreach (var ev in events)
-        {
-            <li>
-                Event ID: @ev.event_id, Host Profile ID: @ev.host_profile_id, 
-                Event Date: @(ev.event_date.HasValue ? ev.event_date.Value.ToShortDateString() : "N/A")
-            </li>
-        }
-    </ul>
-}
-else if (events != null)
-{
-    <p>No events found for the specified host profile ID.</p>
-}
+@inject IEventGuestsData eventGuestData
+
+<h3>Test Page: Insert Guest</h3>
+
+<button @onclick="InsertGuest">Insert Guest</button>
 
 @code {
-    int hostId;
-    private List<EventModel> events;
-    
-    protected override async Task OnInitializedAsync()
-    {
-        // Initialize hostId asynchronously using GetSavedProfileID()
-        hostId = await GetSavedProfileID();
-    }
-
-    private async Task LoadEvents()
+    private async Task InsertGuest()
     {
         try
         {
-            // Call the GetEventsByHostId method from IEventData to retrieve events
-            events = await eventData.GetEventsByHostId(hostId);
+            int eventId = 1; // Replace with actual event ID
+            int guestProfileId = 5; // Replace with actual guest profile ID
+
+            await eventGuestData.InsertGuest(eventId, guestProfileId);
+            Console.WriteLine("Guest inserted successfully!");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error loading events: {ex.Message}");
-        }
-    }
-    
-    private async Task<int> GetSavedProfileID()
-    {
-        string cookieName = "profile_id";
-
-        try
-        {
-            // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
-            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
-            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
-
-            if (int.TryParse(profileIDCookie, out int profileID))
-            {
-                // Successful parsing: return the parsed profile ID
-                return profileID;
-            }
-            else
-            {
-                // Invalid cookie value: log an error and return a default value
-                Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
-                return -1; // Return a default value (e.g., -1) for invalid profile ID
-            }
-        }
-        catch (Exception ex)
-        {
-            // Handle any JavaScript interop invocation errors
-            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
-            return -1; // Return a default value (e.g., -1) in case of error
+            Console.WriteLine($"Error inserting guest: {ex.Message}");
         }
     }
 }
