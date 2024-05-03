@@ -72,6 +72,25 @@ namespace DataAccessLibrary
 
             return profiles;
         }
+        public async Task<ProfileModel> GetProfileByID(int id) {
+            ProfileModel profile = new ProfileModel();
+
+            
+            string sql = "SELECT * FROM dbo.Profile WHERE profile_id = @id;";
+            var parameters = new { ID = id};
+
+            profile = await _db.LoadSingleRecord<ProfileModel, dynamic>(sql, parameters);
+
+            if (profile != null)
+            {
+                return profile;
+            }
+            // Handle case where profile is not found or other error scenarios
+
+            return null;
+            
+
+        }
         
         
     }

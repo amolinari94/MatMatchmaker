@@ -5,6 +5,7 @@
 @using System.Collections.Generic
 @using DataAccessLibrary.Models
 @using Microsoft.EntityFrameworkCore.ChangeTracking.Internal
+@using Microsoft.EntityFrameworkCore.Storage.ValueConversion
 @inject NavigationManager navManager
 @inject IEventData eventData
 @inject IWrestlerData _dba
@@ -13,6 +14,8 @@
 @inject EmailSystem.Services.IMailService mailService
 @inject IMatchData _dbm
 @inject IMatchData matchData
+@inject IProfileData pd
+
 
 
 
@@ -282,9 +285,11 @@
             {
                 // Retrieve wrestlers for the current guest profile ID
                 List<WrestlerModel> guestWrestlers = await _dba.GetWrestlersByProfileID(guestProfileID);
+                ProfileModel guestProfile = await pd.GetProfileByID(guestProfileID);
+                Structure.Roster guestRoster = new Structure.Roster(guestProfile.schoolName);
 
                 // Create a new guest roster and add wrestlers to it
-                Structure.Roster guestRoster = new Structure.Roster("email");
+                //Structure.Roster guestRoster = new Structure.Roster("email");
 
                 foreach (var wrestler in guestWrestlers)
                 {
@@ -393,7 +398,9 @@
             List<WrestlerModel> guestWrestlers = await _dba.GetWrestlersByProfileID(guestProfileID);
 
             // Create a new guest roster and add wrestlers to it
-            Structure.Roster guestRoster = new Structure.Roster("email");
+            //TODO: initialize the guest roster with the guests School Name
+            ProfileModel guestProfile = await pd.GetProfileByID(guestProfileID);
+            Structure.Roster guestRoster = new Structure.Roster(guestProfile.schoolName);
 
             foreach (var wrestler in guestWrestlers)
             {
@@ -508,8 +515,11 @@
         await mailService.SendEmailAsync("to.amolinari94@yahoo.com", "nice", "sick");
     }
     
+    
+    
     protected internal async Task<int> GetSavedProfileID()
     {
+        
         string cookieName = "profile_id";
 
         try

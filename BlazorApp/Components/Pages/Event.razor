@@ -205,9 +205,9 @@
         
         
         Structure.Event evt = new Structure.Event(eventId, LocalHostID, selectedDate);
-        
-        
-        
+        evt.guestList = LocalGuestList;
+
+
         /*
         double weightDiffDouble = Double.Parse(_weightDiff);
         evt.gradeGap = _gradeGap;
@@ -220,20 +220,20 @@
         evt.internalMatches = _internalMatches;
         evt.guestList = LocalGuestList;
         */
-        
+
 
         /*
         foreach (var school in evt.guestRosters) {
             /school.roster = getRosterFromSchoolName(school.Name);
         }
         */
-        
-        
+
+
         /*
          * add dbcall to use guest schoolnames to get an array of guest rosters
          */
-        
-        
+
+
     }
 
     private School getRosterBySchoolName(string schoolName) {
