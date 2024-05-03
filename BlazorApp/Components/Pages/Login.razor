@@ -102,39 +102,25 @@
         // Print out the userProfile for debugging
         Console.WriteLine($"User Profile: {userProfile.email}");
 
-        if (userProfile != null && userProfile.password == password)
+        if (userProfile != null)
         {
-            string profileIdString = userProfile.profile_id.ToString();
-            // Store authentication token/session information (if applicable)
-            await _jsRuntime.InvokeVoidAsync("setCookie", "profile_id", JsonSerializer.Serialize(profileIdString));
-            //await _localStorage.SetItemAsync("email", email);
-          /*  // Authentication successful, redirect to the desired page
+            Console.WriteLine($"User Profile: {userProfile.email}");
+
+            // Verify the password using bcrypt
+            if (BCrypt.Net.BCrypt.Verify(password, userProfile.password))
+            {
+                string profileIdString = userProfile.profile_id.ToString();
+                // Store authentication token/session information (if applicable)
+                await _jsRuntime.InvokeVoidAsync("setCookie", "profile_id", JsonSerializer.Serialize(profileIdString));
             
-            //initialize local profile object from user's database access
-            string schoolName = "sql call goes here";
-            string city = "sql call goes here";
-            string state = "sql call goes here";
-            string address = "sql call goes here";
+                // Redirect to the desired page after successful authentication
+                NavigationManager.NavigateTo("/Roster"); 
             
-            
-            Profile profile = new Profile(email, schoolName, city, state, address);
-            //List<Wrestler> wrestlerList = new List<Wrestler>();
-            /*
-             * populate wrestlerList from database
-             */
-            //foreach (var wrestler in wrestlerList) {
-                //profile.school.roster.rosterList.Add(wrestler.lastName, new Wrestler());
-          //  }
-            
-            
-            
-            
-            NavigationManager.NavigateTo("/Roster");
+                return; // Exit the method after successful authentication
+            }
         }
-        else
-        {
-            // Authentication failed, display an error message
-            Console.WriteLine("Invalid email or password.");
-        }
+    
+        // Authentication failed, display an error message
+        Console.WriteLine("Invalid email or password.");
     }
 }

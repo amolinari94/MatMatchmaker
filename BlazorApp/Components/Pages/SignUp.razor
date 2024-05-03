@@ -20,7 +20,7 @@
 
 <body class="SignUp-body">
 
-<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
+@*<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
     <InputText id ="email" @bind-Value="newProfile.email"/>
     <InputText id ="city" @bind-Value="newProfile.city"/>
     <InputText id ="state" @bind-Value="newProfile.state"/>
@@ -31,41 +31,42 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 
 
-</EditForm>
+</EditForm>*@
 
           
-@**<Form>
-
+<Form>
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
-            <td ><InputText placeholder="Email" class="input-SignUp" @bind-Value="localEmail"/></td>
+            <td><InputText placeholder="Email" class="input-SignUp" @bind-Value="newProfile.email" /></td>
         </tr>
         <tr>
-            <td><InputText placeholder="Username" class="input-SignUp" @bind-Value="localUserName"/></td>
+            <td><InputText placeholder="City" class="input-SignUp" @bind-Value="newProfile.city" /></td>
         </tr>
         <tr>
-            <td><InputText placeholder="City" class="input-SignUp" @bind-Value="localCity"/></td>
+            <td><InputText placeholder="State" class="input-SignUp" @bind-Value="newProfile.state" /></td>
         </tr>
         <tr>
-            <td><InputText placeholder="State" class="input-SignUp" @bind-Value="localState"/></td>
+            <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="newProfile.schoolName" /></td>
         </tr>
         <tr>
-            <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="localSchoolName"/></td>
+            <td><InputText placeholder="Password" class="input-SignUp" @bind-Value="newProfile.password" /></td>
         </tr>
         <tr>
-            <td><InputText placeholder="Password" class="input-SignUp" @bind-Value="passwordTemp1"/></td>
+            <td><InputText id="confirmPass" placeholder="confirmPass" class="input-SignUp" @bind-Value="passwordTemp2" /></td>
         </tr>
         <tr>
-            <td><InputText id="confirmPass" placeholder=@confirmPass class="input-SignUp" @bind-Value="passwordTemp2"/></td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align: center;"><!-- Adjust colspan as necessary -->
-                <button class="btn btn-primary" @onclick="CheckPasswords" >Submit</button>
+            <td colspan="2" style="text-align: center;">
+                <button class="btn btn-primary" @onclick="CheckPasswords">Submit</button>
             </td>
         </tr>
+        @if (!string.IsNullOrEmpty(confirmPass))
+        {
+            <tr>
+                <td colspan="2" style="text-align: center; color: red;">@confirmPass</td>
+            </tr>
+        }
     </table>
-
-</Form> **@
+</Form> 
 
 
 </body> 
@@ -77,6 +78,9 @@
     private List<ProfileModel> profile;
     private DisplayProfileModel newProfile = new DisplayProfileModel();
 
+    private string passwordTemp2;
+    private string confirmPass = "";
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,58 +89,53 @@
 
     //private string passwordTemp1, passwordTemp2;
 
-    private string confirmPass = "Confirm Password";
-
-
-
-    /*private async Task CheckPasswords() {
-
-        if (passwordTemp1 == passwordTemp2) {
-            await InsertProfile();
-        }else {
-            confirmPass = "**Passwords must match**";
-            passwordTemp2 = "";
-        }
-    }*/
-    
     
 
-    private async Task InsertProfile()
+
+    private async Task CheckPasswords()
     {
-        // Create a new instance of ProfileModel with the provided data
-       /* ProfileModel newProfile = new ProfileModel
+        // Store the entered password temporarily
+        string enteredPassword = newProfile.password;
+
+        // Check if passwords match
+        if (enteredPassword != passwordTemp2)
         {
-            email = localEmail,
-            password = passwordTemp1, // Assuming passwordTemp1 is the hashed password
-            schoolName = localSchoolName,
-            city = localCity,
-            state = localState
-        }; */
+            confirmPass = "**Passwords must match**";
+            return; // Exit the method without proceeding further
+        }
+        else
+        {
+            // Clear the error message if passwords match
+            confirmPass = string.Empty;
+        }
 
         try
         {
             // Create a ProfileModel instance from newProfile (DisplayProfileModel)
             var profileModel = new ProfileModel
-
             {
                 email = newProfile.email,
-                password = newProfile.password,
+                password = enteredPassword, // Use the entered password
                 schoolName = newProfile.schoolName,
                 city = newProfile.city,
                 state = newProfile.state
             };
-            
+
             // Call the method to insert the new profile into the database
             await _db.InsertProfile(profileModel);
 
             // Optionally, perform additional actions after successful insertion
             Console.WriteLine($"Profile email: {newProfile.email}");
 
-            // Clear form fields or navigate to another page upon successful insertion
-            // Example: ClearForm();
+            // Clear form fields upon successful insertion
+            newProfile = new DisplayProfileModel(); // Reset newProfile object
+
+            // Reset temporary password variables
+            passwordTemp2 = string.Empty;
+            confirmPass = string.Empty; // Clear any previous error message
 
             // Redirect to another page (e.g., home page)
-             //NavigationManager.NavigateTo("/home");
+            // NavigationManager.NavigateTo("/home");
         }
         catch (Exception ex)
         {
@@ -145,6 +144,7 @@
             // Display error message to the user, log the error, or perform appropriate error handling
         }
     }
+
 
 
 }
