@@ -261,14 +261,13 @@
     }
 
     protected internal List<MatchModel> LocalMatchList;
-    protected internal string matchListDisplay = "display: none;";
+    
     public List<Structure.Roster> guestRostersTest = new List<Structure.Roster>();
     
     
-    private async Task HandleEventClick(Structure.Event selectedEvent)
-    {
-        
-        
+    private async Task HandleEventClick(Structure.Event selectedEvent) {
+
+        localEventID = selectedEvent.EventID;
         try
         {
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);
@@ -305,7 +304,7 @@
                 guestRostersTest.Add(guestRoster);
             }
 
-            foreach (var r in guestRosters)
+            foreach (var r in guestRostersTest)
             {
                 foreach (var wrestler in r.rosterList)
                 {
@@ -324,7 +323,7 @@
             linkEventID(selectedEvent);
             getHostID(); //gets current users id
             localEventID = selectedEvent.EventID; //getting id of selected event
-            matchListDisplay = "display: none;";
+            
             LocalMatchList = await _dbm.GetMatchesByEvent(localEventID);//gets all matches from selected event 
             if (LocalMatchList.Count > 0) {//if the local match List<MatchModel> is populated, call showMatchList()
                 showMatchList(localEventID, LocalMatchList);
@@ -379,10 +378,9 @@
     
     
 
-    private async Task GenerateMatches()
-    {
-        List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(SelectedEventID);
-            
+    private async Task GenerateMatches() {
+        List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(localEventID);
+        
         Console.WriteLine("Guest Profile IDs:");
         foreach (var guestProfileID in guestProfileIDs)
         {
@@ -415,7 +413,7 @@
             guestRostersTest.Add(guestRoster);
         }
 
-        foreach (var r in guestRosters)
+        foreach (var r in guestRostersTest)
         {
             foreach (var wrestler in r.rosterList)
             {
@@ -435,7 +433,7 @@
          */
         //TODO: fix why guest roster list may not always be populated/initialized in certain conditions 
         Structure.Roster[] guestRosterArray = new[] { guestRostersTest[0] };
-        Console.WriteLine($"Wrestlers in Guest Roster:{guestRosters[0].rosterList.Count}");
+        Console.WriteLine($"Wrestlers in Guest Roster:{guestRostersTest[0].rosterList.Count}");
         //instantiating new MatchGenerator Object
         Console.WriteLine("Started generating");
         MatchGenerator matchGen = new MatchGenerator(hostRoster, guestRosterArray, _weightDiff,

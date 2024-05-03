@@ -117,7 +117,7 @@
     private int _gradeGap = 0;
     private int _numMats = 1;
     private bool _internalMatches;//bool
-    private DateTime selectedDate = new DateTime(); 
+    protected internal DateTime selectedDate; 
     
     
     private void addToLocalGuests(string guestName) {
@@ -161,23 +161,14 @@
     
     private async void addEvent()
     {
-
-        /* was going to use this to load in all school names in DB (probably going to remove
-        foreach (var schoolName in LocalGuestList) {
-        }
-        for (int i = 0; i < numGuests; i++) {
-            SchoolsList.Add(sql.LoadSingleRecord<string, dynamic>());
-        }
-        */
     
-        // Placeholder for testing, replace with actual event date
-        DateTime eventDate = DateTime.Now;
-
+        
+        
         // Retrieve host's profile ID asynchronously
         int LocalHostID = await GetSavedProfileID();
 
         // Call your database service to add the event
-        int eventId = await _dbe.AddEvent(eventDate, LocalHostID);
+        int eventId = await _dbe.AddEvent(selectedDate, LocalHostID);
 
         if (eventId > 0)
         {
@@ -230,16 +221,6 @@
         evt.guestList = LocalGuestList;
         */
         
-        
-        
-
-        /*
-        * uncomment this block when'getRosterBySchoolName' can populate a roster from a given guest school name
-        */
-        for (int i = 0; i < evt.guestList.Count; i++) {
-            
-            //evt.guests[i] = new School(getRosterBySchoolName(evt.guestList[i]));
-        }
 
         /*
         foreach (var school in evt.guestRosters) {
@@ -251,12 +232,7 @@
         /*
          * add dbcall to use guest schoolnames to get an array of guest rosters
          */
-         
-        //MatchGenerator matchGen = new MatchGenerator(hostProfile.school.roster,);
-        //evt.matchList = matchGen.GenerateMatches(false, evt.allowedMatches);
-        //hostProfile.Events.AddLast(evt);//adds the event to the hosts profile object ***ALEX UPDATED 5/2**** (addLast)
         
-        //Add DB call to add event ID to the Events list in guest Profiles
         
     }
 

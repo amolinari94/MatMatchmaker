@@ -2573,26 +2573,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\byrdd\\.nuget\\packages\\": {}
+    "/Users/alexmolinari/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\DataAccessLibrary\\DataAccessLibrary.csproj",
+      "projectUniqueName": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/DataAccessLibrary.csproj",
       "projectName": "DataAccessLibrary",
-      "projectPath": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\DataAccessLibrary\\DataAccessLibrary.csproj",
-      "packagesPath": "C:\\Users\\byrdd\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\byrdd\\RiderProjects\\MatMatchmaker\\DataAccessLibrary\\obj\\",
+      "projectPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/DataAccessLibrary.csproj",
+      "packagesPath": "/Users/alexmolinari/.nuget/packages/",
+      "outputPath": "/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\byrdd\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/alexmolinari/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2652,7 +2650,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
