@@ -1,5 +1,6 @@
-
 @page "/SignUp"
+@layout BlazorApp.Components.Layout.LandingLayout
+
 @using DataAccessLibrary.Models
 @using BlazorApp.Models
 @using DataAccessLibrary
@@ -7,33 +8,40 @@
 
 @rendermode InteractiveServer
 
-
-
 <PageTitle>SignUp</PageTitle>
-<head>
 
-</head>
 <div style="text-align: center;">
-    <img src="Logo.png" width="300" height="200" style="display: inline-block;">
+    <img src="Logo.png" width="250" height="150" style="display: inline-block; margin-top: 10px;">
 </div>
-<h1 class="center-title">Sign Up</h1>
 
-<body class="SignUp-body">
-
+<div class="signup-box">
 <EditForm Model="@newProfile" OnSubmit="@InsertProfile">
-    <InputText id ="email" @bind-Value="newProfile.email"/>
-    <InputText id ="city" @bind-Value="newProfile.city"/>
-    <InputText id ="state" @bind-Value="newProfile.state"/>
-    <InputText id ="SchoolName" @bind-Value="newProfile.schoolName"/>
-    <InputText id ="Password" @bind-Value="newProfile.password"/>
-    
-    
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-
+    <h1>Sign Up</h1>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <InputText id ="email" class="input-box" placeholder="Enter your email" @bind-Value="newProfile.email"/>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <InputText id="password" class="input-box" placeholder="Enter your password" @bind-Value="newProfile.password"/>
+    </div>
+    <div class="form-group">
+        <label for="SchoolName">School Name</label>
+        <InputText id="SchoolName" class="input-box" placeholder="Enter your school name" @bind-Value="newProfile.schoolName"/>
+    </div>
+    <div class="form-group">
+        <label for="city">City</label>
+        <InputText id="city" class="input-box" placeholder="Enter your city" @bind-Value="newProfile.city"/>
+    </div>
+    <div class="form-group">
+        <label for="state">State</label>
+        <InputText id="state" class="input-box" placeholder="Enter your state" @bind-Value="newProfile.state"/>
+    </div>
+    <button type="submit" class="submit-button">Submit</button>
 </EditForm>
+</div>
 
-          
+
 @**<Form>
 
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
@@ -66,9 +74,6 @@
     </table>
 
 </Form> **@
-
-
-</body> 
 
 @code {
     
