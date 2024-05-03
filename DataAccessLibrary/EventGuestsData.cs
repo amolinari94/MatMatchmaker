@@ -35,7 +35,7 @@ namespace DataAccessLibrary
             {
                 // Handle any exceptions
                 Console.WriteLine($"Error inserting guest: {ex.Message}");
-                throw; // Optionally handle or rethrow the exception
+                throw; 
             }
         }
         
@@ -60,7 +60,7 @@ namespace DataAccessLibrary
             catch (Exception ex)
             {
                 Console.WriteLine($"Error accepting guest invitation: {ex.Message}");
-                throw; // Optionally handle or rethrow the exception
+                throw; 
             }
         }
 

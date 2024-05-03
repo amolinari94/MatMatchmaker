@@ -21,38 +21,44 @@
 
 @inject IEventGuestsData eventGuestData
 
-<h3>User Events</h3>
+@inject IWrestlerData WrestlerData
 
-@if (events != null && events.Any())
+<h3>Wrestlers for Event</h3>
+
+@if (matchesForEvent != null && matchesForEvent.Any())
 {
-    <ul>
-        @foreach (var ev in events)
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Match ID</th>
+            <th>Wrestler 1</th>
+            <th>Wrestler 2</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var match in matchesForEvent)
         {
-            //<li>Event ID: @ev.event_id, Host Profile ID: @ev.host_profile_id, Event Date: @(ev.event_date.HasValue ? ev.event_date.Value.ToShortDateString() : "N/A")</li>
+            <tr>
+                <td>@match.match_id</td>
+                <td>@($"{match.Wrestler1FirstName} {match.Wrestler1LastName}, {match.Wrestler1Weight} lbs")</td>
+                <td>@($"{match.Wrestler2FirstName} {match.Wrestler2LastName}, {match.Wrestler2Weight} lbs")</td>
+
+            </tr>
         }
-    </ul>
+        </tbody>
+    </table>
 }
 else
 {
-    <p>No events found for this user.</p>
+    <p>No matches found for the specified event ID.</p>
 }
 
 @code {
-    [Parameter]
-    public int userProfileID { get; set; } = 5; // Hardcoded profile ID for testing
-
-    private List<EventModel> events;
+    private List<MatchModel> matchesForEvent = new List<MatchModel>();
+    public int eventId = 1;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            // Use the hardcoded profile ID (4) to retrieve events
-            events = await eventData.GetEventsByUserProfileID(userProfileID);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading user events: {ex.Message}");
-        }
+        matchesForEvent = await WrestlerData.GetMatchesForEvent(eventId);
     }
 }

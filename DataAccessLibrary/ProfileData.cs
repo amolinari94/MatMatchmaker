@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using DataAccessLibrary.Models;
+using BCrypt.Net;
 
 namespace DataAccessLibrary
 {
@@ -20,26 +21,48 @@ namespace DataAccessLibrary
 
         public async Task InsertProfile(ProfileModel profile)
         {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(profile.password);
+
             string sql = @"INSERT INTO dbo.Profile (email, password, schoolName, city, state) 
-                           VALUES (@email, @password, @schoolName, @city, @state);";
-
-            await _db.SaveData(sql, profile);
-        }
-
-        public async Task<ProfileModel> AuthenticateUser(string Email, string Password)
-        {
-            string sql = @"SELECT * FROM dbo.Profile WHERE Email = @email AND Password = @password;";
+                       VALUES (@Email, @Password, @SchoolName, @City, @State);";
 
             var parameters = new
             {
-                email = Email,
-                password = Password // For demo purposes; you should use password hashing for production
+                Email = profile.email,
+                Password = hashedPassword,
+                SchoolName = profile.schoolName,
+                City = profile.city,
+                State = profile.state
+            };
+
+            await _db.SaveData(sql, parameters);
+        }
+
+        public async Task<ProfileModel> AuthenticateUser(string email, string password)
+        {
+            string sql = @"SELECT * FROM dbo.Profile WHERE email = @Email;";
+
+            var parameters = new
+            {
+                Email = email
             };
 
             try
             {
-                var userProfileList = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
-                return userProfileList.FirstOrDefault(); // Return the first matching user profile, or null if not found
+                var userProfile = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
+        
+                if (userProfile != null && userProfile.Any())
+                {
+                    var storedHashedPassword = userProfile.First().password;
+
+                    // Verify the plaintext password against the stored hashed password
+                    if (BCrypt.Net.BCrypt.Verify(password, storedHashedPassword))
+                    {
+                        return userProfile.First(); // Return the user profile if authentication succeeds
+                    }
+                }
+
+                return null; // User not found or password does not match
             }
             catch (Exception ex)
             {
@@ -48,6 +71,7 @@ namespace DataAccessLibrary
                 return null;
             }
         }
+
         
         public async Task<List<ProfileModel>> GetProfilesBySchoolNames(List<string> schoolNames)
         {
@@ -64,10 +88,42 @@ namespace DataAccessLibrary
                 {
                     profiles.Add(profile);
                 }
-                // Handle case where profile is not found or other error scenarios
+                
             }
 
             return profiles;
+        }
+        
+        public async Task<bool> ResetPassword(string email, string newPassword)
+        {
+            string sql = @"
+            UPDATE dbo.Profile
+            SET password = @NewPassword
+            WHERE email = @Email";
+
+            int rowsAffected = await _db.ExecuteAsync(sql, new { NewPassword = newPassword, Email = email });
+            return rowsAffected > 0;
+        }
+        
+        public async Task<ProfileModel> GetUserByEmail(string email)
+        {
+            string sql = @"SELECT * FROM dbo.Profile WHERE email = @Email;";
+
+            var parameters = new
+            {
+                Email = email
+            };
+
+            try
+            {
+                var userProfile = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
+                return userProfile.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in GetUserByEmail: " + ex.Message);
+                return null;
+            }
         }
     }
 }
