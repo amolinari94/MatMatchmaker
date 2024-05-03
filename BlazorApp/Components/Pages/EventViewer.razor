@@ -12,6 +12,8 @@
 @inject IEventGuestsData eventGuestsData 
 @inject EmailSystem.Services.IMailService mailService
 @inject IMatchData _dbm
+@inject IMatchData matchData
+
 
 
 
@@ -376,7 +378,8 @@
     
     
     
-    private async void GenerateMatches()
+
+    private async Task GenerateMatches()
     {
         List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(SelectedEventID);
             
@@ -443,22 +446,44 @@
         Console.WriteLine("Generated");
         Console.WriteLine(matchList.Count);
         foreach (var match in matchList) {
-            Console.WriteLine($"{match.wrestler1} ({match.wrestler1.wrestler.weight}lbs) vs {match.wrestler2} ({match.wrestler2.wrestler.weight})lbs ");
+            // Retrieve wrestler 1 details
+            var wrestler1 = await _dba.GetWrestlerById(match.wrestler1.wrestler.wrestler_id);
+            if (wrestler1 != null)
+            {
+                match.Wrestler1FirstName = wrestler1.firstName;
+                match.Wrestler1LastName = wrestler1.lastName;
+                match.Wrestler1Weight = wrestler1.weight;
+                string wrestler1Info = $"{wrestler1.firstName} {wrestler1.lastName} ({wrestler1.weight} lbs)";
+                Console.WriteLine($"Wrestler 2: {wrestler1Info}");
+            }
+            
+            var wrestler2 = await _dba.GetWrestlerById(match.wrestler2.wrestler.wrestler_id);
+            if (wrestler2 != null)
+            {
+                match.Wrestler2FirstName = wrestler2.firstName;
+                match.Wrestler2LastName = wrestler2.lastName;
+                match.Wrestler2Weight = wrestler2.weight;
+                string wrestler2Info = $"{wrestler2.firstName} {wrestler2.lastName} ({wrestler2.weight} lbs)";
+                Console.WriteLine($"Wrestler 2: {wrestler2Info}");
+            }
+            
+            MatchModel newMatch = new MatchModel
+            {
+                event_id = SelectedEventID,
+                wrestler1_id = match.wrestler1.wrestler.wrestler_id,
+                wrestler2_id = match.wrestler2.wrestler.wrestler_id,
+               
+            };
+
+            // Insert the match into the database
+            int newMatchId = await matchData.InsertMatch(newMatch);
+            Console.WriteLine($"Match inserted with ID: {newMatchId}");
         } 
 
         
 
         
-       // foreach (var match in matchList) {
-            /*DB CALL TO INSERT EACH MATCH FROM MATCHLIST INTO DB MATCHES TABLE
-             *
-             *Add individual matches per loop iteration:
-             * 
-             * INSERT INTO Matches (EventID, Wrestler1ID, Wrestler2ID) VALUES (EventID, Wrestler1ID, Wrestler2ID);
-             * 
-             */
-            //
-      //  }
+       
 
         navManager.NavigateTo("/MatchViewer");
     }
