@@ -18,6 +18,7 @@ namespace DataAccessLibrary
             string sql = "SELECT MatchId, EventId, Wrestler1Id, Wrestler2Id, WinnerId, Result FROM dbo.Matches";
             return await _dba.LoadData<MatchModel, dynamic>(sql, new {});
         }
+        
 
         public async Task<int> InsertMatch(MatchModel match)
         {
@@ -44,6 +45,8 @@ namespace DataAccessLibrary
             string sql = "SELECT * FROM dbo.Matches WHERE event_id = @EventId";
             return await _dba.LoadData<MatchModel, dynamic>(sql, new { EventId = eventId });
         }
+        
+        
 
         public async Task UpdateMatch(MatchModel match)
         {

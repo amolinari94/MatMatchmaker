@@ -11,6 +11,8 @@ namespace DataAccessLibrary
         Task<T> LoadSingleRecord<T, U>(string sql, U parameters);
         Task<int> ExecuteAsync(string sql, object parameters = null);
 
+        //Task<List<string>> getSchoolNames(string sql, U parameters);
+
 
     }
 }

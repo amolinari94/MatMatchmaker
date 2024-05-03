@@ -1,5 +1,8 @@
+using System.Data;
 using System.Threading.Tasks;
+using Dapper;
 using DataAccessLibrary.Models;
+using Microsoft.Data.SqlClient;
 
 namespace DataAccessLibrary
 {
@@ -69,5 +72,7 @@ namespace DataAccessLibrary
 
             return profiles;
         }
+        
+        
     }
 }
