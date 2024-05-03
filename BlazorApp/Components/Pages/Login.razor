@@ -1,4 +1,5 @@
 @page "/Login"
+@layout BlazorApp.Components.Layout.LandingLayout
 @using BlazorApp.Models
 @using DataAccessLibrary
 @using Microsoft.AspNetCore.Antiforgery
@@ -15,8 +16,25 @@
 
 <PageTitle>Login Page</PageTitle>
 
+<div style="text-align: center;">
+    <img src="Logo.png" width="250" height="150" style="display: inline-block; margin-top: 10px;">
+</div>
 
-<style>
+<div class="login-box">
+    <form @onsubmit="@_Login">
+        <h1>Log In</h1>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input  id="email" class="input-box" type="text" placeholder="Enter your email" @bind="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" class="input-box" type="password" placeholder="Enter your password" @bind="password" required>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+    </form>
+</div>
+@**<style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -42,9 +60,7 @@
             text-align: center;
             font-size: 24px;
         }
-
         
-
         input[type="submit"] {
             width: 100%;
             background-color: #007bff;
@@ -65,7 +81,7 @@
 </div>
 
 <div class="center">
-    <h2>Welcome to MatMatchmaker! <br/>Please login or create an account!</h2>
+    <h2>Welcome to Mat Matchmaker! <br/>Please login or create an account!</h2>
 </div>
 <div class="container">
     <h1>Login</h1>
@@ -80,7 +96,7 @@
 
 
 </div>
-</body>
+</body>**@
 
 @code {
     [Inject]
