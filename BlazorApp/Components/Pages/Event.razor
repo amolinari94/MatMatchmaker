@@ -17,7 +17,7 @@
 @inject DataAccessLibrary.IEventData eventData
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @inject ISqlDataAccess sql
-@inject IProfileData _dbp
+@inject IProfileData profileData
 @inject IEventData _dbe
 
 
@@ -161,15 +161,6 @@
     
     private async void addEvent()
     {
-
-        /* was going to use this to load in all school names in DB (probably going to remove
-        foreach (var schoolName in LocalGuestList) {
-        }
-        for (int i = 0; i < numGuests; i++) {
-            SchoolsList.Add(sql.LoadSingleRecord<string, dynamic>());
-        }
-        */
-    
         // Placeholder for testing, replace with actual event date
         DateTime eventDate = DateTime.Now;
 
@@ -217,7 +208,7 @@
         
         
         
-        /*
+        
         double weightDiffDouble = Double.Parse(_weightDiff);
         evt.gradeGap = _gradeGap;
         evt.minMatches = _matchMin;
@@ -228,7 +219,6 @@
         evt.allowedMatches = _matchMax;
         evt.internalMatches = _internalMatches;
         evt.guestList = LocalGuestList;
-        */
         
         
         
@@ -241,11 +231,9 @@
             //evt.guests[i] = new School(getRosterBySchoolName(evt.guestList[i]));
         }
 
-        /*
         foreach (var school in evt.guestRosters) {
-            /school.roster = getRosterFromSchoolName(school.Name);
+            //school.roster = getRosterFromSchoolName(school.Name);
         }
-        */
         
         
         /*
@@ -254,7 +242,7 @@
          
         //MatchGenerator matchGen = new MatchGenerator(hostProfile.school.roster,);
         //evt.matchList = matchGen.GenerateMatches(false, evt.allowedMatches);
-        //hostProfile.Events.AddLast(evt);//adds the event to the hosts profile object ***ALEX UPDATED 5/2**** (addLast)
+        hostProfile.Events.Append(evt);//adds the event to the hosts profile object
         
         //Add DB call to add event ID to the Events list in guest Profiles
         
@@ -271,28 +259,14 @@
     private ElementReference searchBox;
     private int counter = 0;
     private string searchTerm = "";
-    
-    protected internal List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
-    
+    private List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
     private List<string> FilteredItems = new List<string>();
 
-    public int localHostIdNew;
-    protected internal async void getHostID() {
-        localHostIdNew = await GetSavedProfileID();
-    }
-
-    protected override async void OnInitialized() {
-        getHostID();
-        ProfileData hostProfileData = new ProfileData(sql);
-        
-        
-        string query = "SELECT schoolName FROM Profile WHERE profile_id != @localHostidNew";
-        
-        var parameter = new {localHostIdNew = localHostIdNew};
-        SchoolsList = await sql.LoadData<string, dynamic>(query,parameter);
+    protected override void OnInitialized()
+    {
         FilteredItems = SchoolsList;
         selectedDate = DateTime.Now;
-        
+        ProfileData hostProfileData = new ProfileData(sql);
 
     }
 
@@ -303,12 +277,9 @@
         DisplayMode = "";
     }
 
-    public int numGuests = 0;
     public int emptySpaces = 10;
-    
-    
-    private async Task SelectItem(string item) {
-        numGuests++;
+    private async Task SelectItem(string item)
+    {
         Console.WriteLine($"Selected: {item}");
         searchTerm = item;
         FilteredItems.Clear();
