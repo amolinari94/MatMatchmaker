@@ -190,6 +190,12 @@ namespace Structure
     }
 
     public class Match {
+        public string Wrestler1FirstName { get; set; }
+        public string Wrestler1LastName { get; set; }
+        public int Wrestler1Weight { get; set; }
+        public string Wrestler2FirstName { get; set; }
+        public string Wrestler2LastName { get; set; }
+        public int Wrestler2Weight { get; set; }
 
         public int Order { get; set; }
         protected internal string Name { get; set; } = "";
