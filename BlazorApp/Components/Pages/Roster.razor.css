@@ -41,7 +41,7 @@ td:last-child{
 
 
 .input-2{
-    width: auto; /* Adjust width as needed */
+    width: 150px; /* Adjust width as needed */
     border: solid;
     border-radius: 50px;
     border-color: rgb(183, 183, 183);
