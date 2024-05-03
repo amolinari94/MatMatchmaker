@@ -104,5 +104,26 @@ namespace DataAccessLibrary
             int rowsAffected = await _db.ExecuteAsync(sql, new { NewPassword = newPassword, Email = email });
             return rowsAffected > 0;
         }
+        
+        public async Task<ProfileModel> GetUserByEmail(string email)
+        {
+            string sql = @"SELECT * FROM dbo.Profile WHERE email = @Email;";
+
+            var parameters = new
+            {
+                Email = email
+            };
+
+            try
+            {
+                var userProfile = await _db.LoadData<ProfileModel, dynamic>(sql, parameters);
+                return userProfile.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in GetUserByEmail: " + ex.Message);
+                return null;
+            }
+        }
     }
 }

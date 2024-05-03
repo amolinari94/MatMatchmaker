@@ -11,6 +11,7 @@ using Blazored.SessionStorage;
 using DataAccessLibrary;
 using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,9 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<ProfileData>();
+
 
 
 builder.Services.AddTransient<ISqlDataAccess, SqlDataAccess>();

@@ -1,5 +1,18 @@
 @page "/"
+@using System.Text.Json
 @layout BlazorApp.Components.Layout.LandingLayout
+@using BlazorApp.Models
+@using DataAccessLibrary
+@using Microsoft.AspNetCore.Antiforgery
+@inject IProfileData _db
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
+@using Microsoft.AspNetCore.Antiforgery
+@using Structure
+@using Microsoft.JSInterop
+@using Blazored.LocalStorage
+@rendermode InteractiveServer
+@inject ILocalStorageService _localStorage
+
 
 
 
@@ -21,10 +34,10 @@
             </div>
         </div>
         <div style="padding-top: 75px;">
-        <img src="Logo.png" width="600" height="400">
+            <img src="Logo.png" width="600" height="400">
         </div>
         <div class="container__right">
-            <form>
+            <form @onsubmit="@_Login">
                 <h4>Ready to get started?</h4>
                 <div class="form__group">
                     <label for="email">Email</label>
@@ -32,15 +45,59 @@
                         type="text"
                         name="email"
                         id="email"
-                        placeholder="Enter your email"/>
+                        placeholder="Enter your email"@bind="email" required>
                 </div>
                 <div class="form__group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Enter your password"/>
+                    <input type="password" name="password" id="password" placeholder="Enter your password" @bind="password" required>
                 </div>
                 <button type="submit">Login</button>
                 <p>Don't have an account? <a href="@("/SignUp")">Click here</a> to sign up.</p>
+                
+                @if (!string.IsNullOrEmpty(loginErrorMessage))
+                            {
+                                <p style="color: red;">@loginErrorMessage</p>
+                            }
             </form>
         </div>
     </div>
 </div>
+
+@code
+{
+     private string email;
+     private string password;
+     private string loginErrorMessage; // Variable to hold the login error message
+    
+     [Inject]
+     protected IJSRuntime _jsRuntime { get; set; }
+
+     private async Task _Login()
+     {
+         // Reset the error message
+         loginErrorMessage = null;
+
+         // Retrieve user profile from the database based on the provided email
+         var userProfile = await _db.AuthenticateUser(email, password);
+
+         if (userProfile != null)
+         {
+             // Verify the password using bcrypt
+             if (BCrypt.Net.BCrypt.Verify(password, userProfile.password))
+             {
+                 string profileIdString = userProfile.profile_id.ToString();
+                 // Store authentication token/session information (if applicable)
+                 await _jsRuntime.InvokeVoidAsync("setCookie", "profile_id", JsonSerializer.Serialize(profileIdString));
+            
+                 // Redirect to the desired page after successful authentication
+                 NavigationManager.NavigateTo("/Roster"); 
+            
+                 return; // Exit the method after successful authentication
+             }
+         }
+
+         // Authentication failed, display an error message
+         loginErrorMessage = "Invalid email or password.";
+     }
+}
+}

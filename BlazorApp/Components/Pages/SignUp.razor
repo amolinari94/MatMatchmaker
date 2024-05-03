@@ -4,6 +4,7 @@
 @using BlazorApp.Models
 @using DataAccessLibrary
 @inject IProfileData _db
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager
 
 @rendermode InteractiveServer
 
@@ -20,122 +21,66 @@
 
 <body class="SignUp-body">
 
-@*<EditForm Model="@newProfile" OnSubmit="@InsertProfile">
-    <InputText id ="email" @bind-Value="newProfile.email"/>
-    <InputText id ="city" @bind-Value="newProfile.city"/>
-    <InputText id ="state" @bind-Value="newProfile.state"/>
-    <InputText id ="SchoolName" @bind-Value="newProfile.schoolName"/>
-    <InputText id ="Password" @bind-Value="newProfile.password"/>
-    
-    
-    <button type="submit" class="btn btn-primary">Submit</button>
-
-
-</EditForm>*@
-
-          
-<Form>
+<EditForm Model="@profileModel" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
     <table class="input-table" style="border-collapse: collapse; border-spacing: 0;">
         <tr>
-            <td><InputText placeholder="Email" class="input-SignUp" @bind-Value="newProfile.email" /></td>
+            <td><InputText placeholder="Email" class="input-SignUp" @bind-Value="@profileModel.email"/></td>
+            <ValidationMessage For="@(() => profileModel.email)"/>
         </tr>
         <tr>
-            <td><InputText placeholder="City" class="input-SignUp" @bind-Value="newProfile.city" /></td>
+            <td><InputText placeholder="City" class="input-SignUp" @bind-Value="@profileModel.city"/></td>
+            <ValidationMessage For="@(() => profileModel.city)"/>
         </tr>
         <tr>
-            <td><InputText placeholder="State" class="input-SignUp" @bind-Value="newProfile.state" /></td>
+            <td><InputText placeholder="State" class="input-SignUp" @bind-Value="@profileModel.state"/></td>
+            <ValidationMessage For="@(() => profileModel.state)"/>
         </tr>
         <tr>
-            <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="newProfile.schoolName" /></td>
+            <td><InputText placeholder="School Name" class="input-SignUp" @bind-Value="@profileModel.schoolName"/></td>
+            <ValidationMessage For="@(() => profileModel.schoolName)"/>
         </tr>
         <tr>
-            <td><InputText placeholder="Password" class="input-SignUp" @bind-Value="newProfile.password" /></td>
+            <td><InputText placeholder="Password" class="input-SignUp" @bind-Value="@profileModel.password" type="password"/></td>
+            <ValidationMessage For="@(() => profileModel.password)"/>
         </tr>
         <tr>
-            <td><InputText id="confirmPass" placeholder="confirmPass" class="input-SignUp" @bind-Value="passwordTemp2" /></td>
+            <td><InputText placeholder="Confirm Password" class="input-SignUp" @bind-Value="@profileModel.ConfirmPassword" type="password"/></td>
+            <ValidationMessage For="@(() => profileModel.ConfirmPassword)"/>
         </tr>
         <tr>
             <td colspan="2" style="text-align: center;">
-                <button class="btn btn-primary" @onclick="CheckPasswords">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </td>
         </tr>
-        @if (!string.IsNullOrEmpty(confirmPass))
-        {
-            <tr>
-                <td colspan="2" style="text-align: center; color: red;">@confirmPass</td>
-            </tr>
-        }
     </table>
-</Form> 
+</EditForm>
 
-
-</body> 
-
+</body>
 @code {
-    
-    
-    //private string localEmail, localUserName, localCity, localState, localSchoolName, passwordTemp1, passwordTemp2;
-    private List<ProfileModel> profile;
-    private DisplayProfileModel newProfile = new DisplayProfileModel();
+    private DisplayProfileModel profileModel = new DisplayProfileModel();
 
-    private string passwordTemp2;
-    private string confirmPass = "";
-
-
-    protected override async Task OnInitializedAsync()
+    private async Task HandleValidSubmit()
     {
-        profile = await _db.GetProfiles();
-    }
-
-    //private string passwordTemp1, passwordTemp2;
-
-    
-
-
-    private async Task CheckPasswords()
-    {
-        // Store the entered password temporarily
-        string enteredPassword = newProfile.password;
-
-        // Check if passwords match
-        if (enteredPassword != passwordTemp2)
-        {
-            confirmPass = "**Passwords must match**";
-            return; // Exit the method without proceeding further
-        }
-        else
-        {
-            // Clear the error message if passwords match
-            confirmPass = string.Empty;
-        }
-
+        // Form is valid, proceed with form submission
         try
         {
-            // Create a ProfileModel instance from newProfile (DisplayProfileModel)
-            var profileModel = new ProfileModel
-            {
-                email = newProfile.email,
-                password = enteredPassword, // Use the entered password
-                schoolName = newProfile.schoolName,
-                city = newProfile.city,
-                state = newProfile.state
-            };
-
             // Call the method to insert the new profile into the database
-            await _db.InsertProfile(profileModel);
+            await _db.InsertProfile(new ProfileModel
+            {
+                email = profileModel.email,
+                password = profileModel.password,
+                schoolName = profileModel.schoolName,
+                city = profileModel.city,
+                state = profileModel.state
+            });
 
             // Optionally, perform additional actions after successful insertion
-            Console.WriteLine($"Profile email: {newProfile.email}");
+            Console.WriteLine($"Profile email: {profileModel.email}");
 
             // Clear form fields upon successful insertion
-            newProfile = new DisplayProfileModel(); // Reset newProfile object
-
-            // Reset temporary password variables
-            passwordTemp2 = string.Empty;
-            confirmPass = string.Empty; // Clear any previous error message
-
-            // Redirect to another page (e.g., home page)
-            // NavigationManager.NavigateTo("/home");
+            profileModel = new DisplayProfileModel(); // Reset form
+            NavigationManager.NavigateTo("/Login");
         }
         catch (Exception ex)
         {
@@ -144,7 +89,5 @@
             // Display error message to the user, log the error, or perform appropriate error handling
         }
     }
-
-
 
 }

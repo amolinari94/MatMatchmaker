@@ -150,8 +150,17 @@
     private int _numMats = 1;
     private bool _internalMatches = false;//bool
     private int allowedMatches;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadDataAsync();
+            StateHasChanged(); // Ensure the component is re-rendered after data loading
+        }
+    }
 
-    protected override async Task OnInitializedAsync()
+    private async Task LoadDataAsync()
     {
         
         try

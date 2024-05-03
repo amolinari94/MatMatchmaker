@@ -75,6 +75,11 @@
         <br><br/>
         <button type="submit" class="btn btn-primary">Login</button>
         <p><a href="/SignUp">Create an account</a></p>
+        
+        @if (!string.IsNullOrEmpty(loginErrorMessage))
+            {
+                <p style="color: red;">@loginErrorMessage</p>
+            }
 
     </form>
 
@@ -83,29 +88,24 @@
 </body>
 
 @code {
-    [Inject]
-    protected IAntiforgery _antiforgery { get; set; }
+    
     private string email;
     private string password;
+    private string loginErrorMessage; // Variable to hold the login error message
     
     [Inject]
     protected IJSRuntime _jsRuntime { get; set; }
 
     private async Task _Login()
     {
-        // Print out the values of email and password for debugging
-        Console.WriteLine($"Email: {email}, Password: {password}");
-        
+        // Reset the error message
+        loginErrorMessage = null;
+
         // Retrieve user profile from the database based on the provided email
         var userProfile = await _db.AuthenticateUser(email, password);
-        
-        // Print out the userProfile for debugging
-        Console.WriteLine($"User Profile: {userProfile.email}");
 
         if (userProfile != null)
         {
-            Console.WriteLine($"User Profile: {userProfile.email}");
-
             // Verify the password using bcrypt
             if (BCrypt.Net.BCrypt.Verify(password, userProfile.password))
             {
@@ -119,8 +119,8 @@
                 return; // Exit the method after successful authentication
             }
         }
-    
+
         // Authentication failed, display an error message
-        Console.WriteLine("Invalid email or password.");
+        loginErrorMessage = "Invalid email or password.";
     }
 }
