@@ -9,3 +9,8 @@ window.getCookie = function(name) {
     }
     return null;
 };
+
+//this needs to be triggered at some point to delete on session end, or set to a time after login/inactivity
+window.deleteCookie = function(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+};

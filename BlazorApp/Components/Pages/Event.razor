@@ -122,6 +122,7 @@
     
     private void addToLocalGuests(string guestName) {
         LocalGuestList.Add(guestName);
+        //Console.WriteLine(($"\n*****\n****{guestName}*****\n****\n"));
         StateHasChanged();
     }
 
@@ -169,11 +170,12 @@
 
         // Call your database service to add the event
         int eventId = await _dbe.AddEvent(selectedDate, LocalHostID);
+        //eventId -= 2;
 
         if (eventId > 0)
         {
             // Event added successfully
-            Console.WriteLine("Event added successfully with ID: {eventId}");
+            Console.WriteLine($"Event added successfully with ID: {eventId}");
         }
         else
         {
@@ -205,6 +207,7 @@
         
         
         Structure.Event evt = new Structure.Event(eventId, LocalHostID, selectedDate);
+        Console.WriteLine(LocalGuestList[0]);
         evt.guestList = LocalGuestList;
 
 
