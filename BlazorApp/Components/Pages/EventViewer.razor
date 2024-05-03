@@ -206,6 +206,7 @@
         try
         {
             linkEventID(selectedEvent);
+            await jsRuntime.InvokeVoidAsync("setCookie", "eventId", selectedEvent);
             Console.WriteLine($"Clicked Event ID: {selectedEvent.EventID}");
             showEventCriteria(); 
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);

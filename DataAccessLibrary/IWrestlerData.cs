@@ -9,4 +9,5 @@ public interface IWrestlerData
     public Task UpdateWrestler(WrestlerModel wrestler);
     public Task DeleteWrestler(int wrestlerID);
     Task<WrestlerModel> GetWrestlerById(int wrestlerId);
+    Task<List<MatchModel>> GetMatchesForEvent(int eventId);
 }
