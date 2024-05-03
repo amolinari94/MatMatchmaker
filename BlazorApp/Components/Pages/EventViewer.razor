@@ -3,15 +3,19 @@
 @using DataAccessLibrary
 @using Structure
 @using System.Collections.Generic
+@using BlazorApp.EmailSystem.Model
+@using BlazorApp.EmailSystem.Services
 @using DataAccessLibrary.Models
 @using Microsoft.EntityFrameworkCore.ChangeTracking.Internal
 @using Microsoft.EntityFrameworkCore.Storage.ValueConversion
+@using Microsoft.Extensions.Options
 @inject NavigationManager navManager
 @inject IEventData eventData
 @inject IWrestlerData _dba
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @inject IEventGuestsData eventGuestsData 
 @inject EmailSystem.Services.IMailService mailService
+
 @inject IMatchData _dbm
 @inject IMatchData matchData
 @inject IProfileData pd
@@ -26,7 +30,7 @@
 
 <h3>EventViewer</h3>
 
-<button @onclick="sendTestEmail"></button>
+<button @onclick="sendTestEmail">send test email</button>
 
 
 
@@ -208,7 +212,67 @@
     private bool _internalMatches = false;//bool
     private int allowedMatches;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadDataAsync();
+            StateHasChanged(); // Ensure the component is re-rendered after data loading
+        }
+    }
+
+    private async Task LoadDataAsync()
+    {
+        
+        try
+        {
+            int localHostID = await GetSavedProfileID();
+            string HostschoolName = "test";
+            // Retrieve events for the user (replace 4 with the actual userProfileID)
+            var eventModels = await eventData.GetEventsByUserProfileID(localHostID); // Replace 4 with actual userProfileID
+        
+            // Map EventModel instances to Structure.Event instances
+            events = eventModels.Select(em => new Structure.Event(em.event_id, em.host_profile_id, em.event_date)).ToList();
+
+            var hostWrestlers = await _dba.GetWrestlersByProfileID(localHostID);
+            hostRoster = new Structure.Roster("test");
+            
+            foreach (var wrestler in hostWrestlers)
+            {
+                hostRoster.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
+            }
+            foreach (var r in hostRoster.rosterList.Values)
+            {
+                
+                    Console.WriteLine(r);
+               
+                
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading events: {ex.Message}");
+            // Handle error or display appropriate message to the user
+        }
+        
+        
+        
+        /*Structure.Event testEvent1 = new Structure.Event(testEventId, testHostID, testDate);
+        Structure.Event testEvent2 = new Structure.Event(testEventID2, testHostID2, testDate2);
+        events = new List<Structure.Event>();
+        events.Add(testEvent1);
+        events.Add(testEvent2); 
+        //code for integration with DB
+        /*
+        hostID = testProfile.id;
+        events = getEventsFromDB(hostID);*/
+        
+    }
+    /*
     protected override async Task OnInitializedAsync() {
+        
         profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
         localHostId = await GetSavedProfileID();
         eventLoadError = "";
@@ -272,9 +336,14 @@
         /*
         hostID = testProfile.id;
         events = getEventsFromDB(hostID);*/
-        base.OnInitializedAsync();
-    }
+        //base.OnInitializedAsync();
+        //ms = new MailService();
+//}
 
+
+    [Parameter]
+    public MailSettings MailSettings { get; set; }
+    
     public int localHostId;
     public int localEventID;
     protected internal async void getHostID() {
@@ -558,11 +627,28 @@
     }
 
     
-    
+    //private MailService ms = new MailService(mailSettings);
+    //public MailSettings mailSettings;
+    //public EventViewer(){}
+    /*public EventViewer(MailService mailService) {
+        ms = mailService;
+    }
+    */
 
 
-
-    private async void sendTestEmail() {
+    private async Task sendTestEmail() {
+        /*MailSettings mailConfig = new MailSettings() {
+            Username = "amrgm@umsystem.edu",
+            Password = "",
+            Port=465,
+            FromEmail = "amrgm@umsystem.edu",
+            Host = "smtp-mail.outlook.com"
+        };
+        */
+        //Options<MailSettings> config;
+        //config = (IOptions<MailSettings>) mailConfig;
+        //ms = new MailService(config);
+        Console.WriteLine("Attempting Send...");
         await mailService.SendEmailAsync("to.amolinari94@yahoo.com", "nice", "sick");
     }
 
