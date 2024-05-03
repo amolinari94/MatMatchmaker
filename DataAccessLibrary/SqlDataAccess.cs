@@ -73,5 +73,22 @@ namespace DataAccessLibrary
                 return await connection.ExecuteAsync(sql, parameters);
             }
         }
+        
+        /*
+        public async Task<List<string>> getSchoolNames<T, U>(string sql, U parameters) {
+            string connectionString = _config.GetConnectionString("DefaultConnection");
+            using (IDbConnection connection = new SqlConnection(connectionString))
+            {
+                var data = await connection.QueryAsync<string>(sql, parameters);
+
+                return data.ToList();
+            }
+            
+        }
+        */
+
+
+
+        
     }
 }
