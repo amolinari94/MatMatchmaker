@@ -8,4 +8,5 @@ public interface IWrestlerData
     Task<List<WrestlerModel>> GetWrestlersByProfileID(int profileId);
     public Task UpdateWrestler(WrestlerModel wrestler);
     public Task DeleteWrestler(int wrestlerID);
+    Task<WrestlerModel> GetWrestlerById(int wrestlerId);
 }

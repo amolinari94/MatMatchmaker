@@ -22,17 +22,26 @@ namespace DataAccessLibrary
         public async Task<int> InsertMatch(MatchModel match)
         {
             string sql = @"
-                INSERT INTO dbo.Matches (EventId, Wrestler1Id, Wrestler2Id, WinnerId, Result) 
-                VALUES (@EventId, @Wrestler1Id, @Wrestler2Id, @WinnerId, @Result);
-                SELECT CAST(SCOPE_IDENTITY() AS INT);";
+        INSERT INTO dbo.Matches (event_id, wrestler1_id, wrestler2_id) 
+        VALUES (@EventId, @Wrestler1Id, @Wrestler2Id);
+        SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
-            var matchId = await _dba.ExecuteScalar<int>(sql, match);
-            return matchId;
+            var parameters = new
+            {
+                EventId = match.event_id,
+                Wrestler1Id = match.wrestler1_id,
+                Wrestler2Id = match.wrestler2_id,
+                
+            };
+
+            int newMatchId = await _dba.ExecuteScalar<int>(sql, parameters);
+            return newMatchId;
         }
+
 
         public async Task<List<MatchModel>> GetMatchesByEvent(int eventId)
         {
-            string sql = "SELECT * FROM dbo.Matches WHERE EventId = @EventId";
+            string sql = "SELECT * FROM dbo.Matches WHERE event_id = @EventId";
             return await _dba.LoadData<MatchModel, dynamic>(sql, new { EventId = eventId });
         }
 

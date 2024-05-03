@@ -60,5 +60,15 @@ namespace DataAccessLibrary
             string sql = "DELETE FROM dbo.Wrestlers WHERE wrestler_id = @wrestler_id";
             await _dba.SaveData(sql, new { wrestler_id = wrestlerID });
         }
+        
+        public async Task<WrestlerModel> GetWrestlerById(int wrestlerId)
+        {
+            string sql = "SELECT * FROM dbo.Wrestlers WHERE wrestler_id = @WrestlerId";
+            var wrestlers = await _dba.LoadData<WrestlerModel, dynamic>(sql, new { WrestlerId = wrestlerId });
+
+            return wrestlers.FirstOrDefault(); // Return the first (or default) wrestler in the list
+        }
+
+
     }
 }
