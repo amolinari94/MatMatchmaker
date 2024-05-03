@@ -318,6 +318,7 @@
 
         
         localEventID = selectedEvent.EventID;
+        await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
         try
         {
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);

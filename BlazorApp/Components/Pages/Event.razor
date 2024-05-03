@@ -19,6 +19,7 @@
 @inject ISqlDataAccess sql
 @inject IProfileData _dbp
 @inject IEventData _dbe
+@inject IEventGuestsData _dbg
 
 
 
@@ -101,6 +102,7 @@
 </body>
 
 @code {
+    List<ProfileModel> guestProfileModels; 
     
     
     private List<string>LocalGuestList = new List<string>();//local copy of guestlist
@@ -194,15 +196,18 @@
          *****[ SELECT id FROM Events WHERE (HostID == LocalHostID); ]
          */
 
-        /*
-        foreach (var guestSchoolName in LocalGuestList) {
-            DB CALL: Select * FROM Profiles WHERE Profile.schoolName == guestSchoolName;
-
-            Profile guestProfile = ConstructProfileObject();
+        guestProfileModels = await _dbp.GetProfilesBySchoolNames(LocalGuestList);
+        foreach (var guest in guestProfileModels) {
+            EventGuestsModel eg = new EventGuestsModel() {
+                event_id = eventId,
+                guest_profile_id = guest.profile_id,
+                //EventId = new {eventId=eventId};
+                    
+            };
             
-            DB CALL: INSERT INTO GUESTS (EventID, GUESTPROFILEID) VALUES(@EventID, @guestProfile.id);
+            await _dbg.InsertEventGuest(eg);
+
         }
-        */
         
         
         

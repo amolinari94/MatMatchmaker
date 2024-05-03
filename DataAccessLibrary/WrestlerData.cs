@@ -68,6 +68,24 @@ namespace DataAccessLibrary
 
             return wrestlers.FirstOrDefault(); // Return the first (or default) wrestler in the list
         }
+        
+        public async Task<List<MatchModel>> GetMatchesForEvent(int eventId)
+        {
+            string sql = @"
+        SELECT m.match_id, m.event_id, m.wrestler1_id, m.wrestler2_id,
+               w1.firstName AS Wrestler1FirstName, w1.lastName AS Wrestler1LastName, w1.weight AS Wrestler1Weight,
+               w2.firstName AS Wrestler2FirstName, w2.lastName AS Wrestler2LastName, w2.weight AS Wrestler2Weight
+        FROM dbo.Matches m
+        JOIN dbo.Wrestlers w1 ON m.wrestler1_id = w1.wrestler_id
+        JOIN dbo.Wrestlers w2 ON m.wrestler2_id = w2.wrestler_id
+        WHERE m.event_id = @EventId;";
+
+            var parameters = new { EventId = eventId };
+
+            var matches = await _dba.LoadData<MatchModel, dynamic>(sql, parameters);
+
+            return matches;
+        }
 
 
     }
