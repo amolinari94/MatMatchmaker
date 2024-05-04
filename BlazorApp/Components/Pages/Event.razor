@@ -198,7 +198,7 @@
          *****[ SELECT id FROM Events WHERE (HostID == LocalHostID); ]
          */
 
-        guestProfileModels = await _dbp.GetProfilesBySchoolNames(LocalGuestList);
+        guestProfileModels = await profileData.GetProfilesBySchoolNames(LocalGuestList);
         foreach (var guest in guestProfileModels) {
             EventGuestsModel eg = new EventGuestsModel() {
                 event_id = eventId,
@@ -265,11 +265,23 @@
     private List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
     private List<string> FilteredItems = new List<string>();
 
-    protected override void OnInitialized()
-    {
+    public int localHostIdNew;
+    protected internal async void getHostID() {
+        localHostIdNew = await GetSavedProfileID();
+    }
+
+    protected override async void OnInitialized() {
+        getHostID();
+        ProfileData hostProfileData = new ProfileData(sql);
+        
+        
+        string query = "SELECT schoolName FROM Profile WHERE profile_id != @localHostidNew";
+        
+        var parameter = new {localHostIdNew = localHostIdNew};
+        SchoolsList = await sql.LoadData<string, dynamic>(query,parameter);
         FilteredItems = SchoolsList;
         selectedDate = DateTime.Now;
-        ProfileData hostProfileData = new ProfileData(sql);
+        
 
     }
 

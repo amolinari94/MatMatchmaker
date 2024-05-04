@@ -16,6 +16,7 @@
 @inject IEventGuestsData eventGuestsData 
 @inject EmailSystem.Services.IMailService mailService
 
+@inject IJSRuntime jsRuntime2
 
 @inject IMatchData matchData
 @inject IProfileData pd
@@ -184,13 +185,12 @@
 
     Structure.Roster[] guestRosters = new[] {new Structure.Roster(testSchoolName2)};
     private Structure.Roster hostRoster = new Structure.Roster("test");
-    private bool isVisible = false;
-    private string tableStyle => isVisible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
+    private bool table1Visible = false;
+    private bool table2Visible = false;
+    private string tableStyle => table1Visible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
+    private string table2Style => table2Visible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
 
-    private void ToggleTable()
-    {
-        isVisible = !isVisible;
-    }
+    
 
     private int SelectedEventID;
     
@@ -216,15 +216,6 @@
     private int _numMats = 1;
     private bool _internalMatches = false;//bool
     private int allowedMatches;
-    
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await LoadDataAsync();
-            StateHasChanged(); // Ensure the component is re-rendered after data loading
-        }
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -233,8 +224,10 @@
             await LoadDataAsync();
             StateHasChanged(); // Ensure the component is re-rendered after data loading
         }
+        else {
+            profileIDCookie = await jsRuntime2.InvokeAsync<string>("getCookie", CookieName);
+        }
     }
-
 
     private async Task LoadDataAsync()
     {
@@ -261,7 +254,6 @@
                 
                     Console.WriteLine(r);
                
-
                 
             }
 
@@ -470,7 +462,7 @@
             //localEventID -= 2;
             
             //LocalMatchList = await _dbm.GetMatchesByEvent(localEventID);//gets all matches from selected event 
-            modelList = await _dbm.GetMatchesByEvent(localEventID);//gets all matches from selected event 
+            modelList = await matchData.GetMatchesByEvent(localEventID);//gets all matches from selected event 
             Console.WriteLine($"\nModelList count on-click: {modelList.Count}\n");
             LocalMatchList = modelList;
             if (LocalMatchList.Count > 0) {//if the local match List<MatchModel> is populated, call showMatchList()
@@ -735,8 +727,7 @@
 
 
     public string profileIDCookie;
-    protected internal async Task<int> GetSavedProfileID()
-
+    private async Task<int> GetSavedProfileID()
     {
         
         CookieName = "profile_id";
@@ -744,7 +735,7 @@
         try
         {
             // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
-            //string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
+            profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
             profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
 
             if (int.TryParse(profileIDCookie, out int profileID))

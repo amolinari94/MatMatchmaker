@@ -4,6 +4,14 @@
 @using Structure
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
+@using BlazorApp.Components.Pages
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+@inject IEventData eventData
+@inject IWrestlerData _dba
+@inject IEventGuestsData eventGuestsData 
+@inject EmailSystem.Services.IMailService mailService
+@inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @rendermode InteractiveServer
 @inject IWrestlerData WrestlerData
 
@@ -49,7 +57,42 @@
 
 
 @code {
+    //DB communication
+    protected internal async Task<int> GetSavedProfileID()
+    {
+        string cookieName = "profile_id";
+
+        try
+        {
+            // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
+            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
+
+            if (int.TryParse(profileIDCookie, out int profileID))
+            {
+                // Successful parsing: return the parsed profile ID
+                return profileID;
+            }
+            else
+            {
+                // Invalid cookie value: log an error and return a default value
+                Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
+                return -1; // Return a default value (e.g., -1) for invalid profile ID
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any JavaScript interop invocation errors
+            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
+            return -1; // Return a default value (e.g., -1) in case of error
+        }
+    }
+     
     
+    
+     
+
+
     public string lastName { get; set; }
     public string firstName { get; set; }
     public string skill { get; set; }
@@ -105,61 +148,60 @@
      private Model? draggingModel;//the model that is being dragged
      private Match? draggingMatch;
      LinkedList<Match> matches = new LinkedList<Match>();
-     protected override async Task OnAfterRenderAsync(bool firstRender)
-{
-    if (firstRender)
-    {
-        // Retrieve the event ID from the cookie
-        string eventIdString = await jsRuntime.InvokeAsync<string>("getCookie", "eventId");
-        eventIdString = eventIdString?.Trim('"', ' ');
-
-        int eventId;
-        // Attempt to parse the event ID string to an integer
-        if (int.TryParse(eventIdString, out eventId))
+     protected override async Task OnAfterRenderAsync(bool firstRender){
+        
+        if (firstRender)
         {
-            try
+            // Retrieve the event ID from the cookie
+            string eventIdString = await jsRuntime.InvokeAsync<string>("getCookie", "eventId");
+            eventIdString = eventIdString?.Trim('"', ' ');
+
+            int eventId;
+            // Attempt to parse the event ID string to an integer
+            if (int.TryParse(eventIdString, out eventId))
             {
-                // Retrieve matches for the specified event ID
-                var matchesForEvent = await WrestlerData.GetMatchesForEvent(eventId);
-
-                // Clear existing matches
-                matches.Clear();
-
-                // Populate the LinkedList<Match> with actual match data
-                foreach (var match in matchesForEvent)
+                try
                 {
-                    var wrestler1 = await WrestlerData.GetWrestlerById(match.wrestler1_id);
-                    var wrestler2 = await WrestlerData.GetWrestlerById(match.wrestler2_id);
+                    // Retrieve matches for the specified event ID
+                    var matchesForEvent = await WrestlerData.GetMatchesForEvent(eventId);
 
-                    if (wrestler1 != null && wrestler2 != null)
+                    // Clear existing matches
+                    matches.Clear();
+                    //matches = matchesForEvent;
+
+                    // Populate the LinkedList<Match> with actual match data
+                    foreach (var match in matchesForEvent)
                     {
-                        string wrestler1Info = $"{wrestler1.firstName} {wrestler1.lastName} ({wrestler1.weight} lbs)";
-                        string wrestler2Info = $"{wrestler2.firstName} {wrestler2.lastName} ({wrestler2.weight} lbs)";
+                        var wrestler1 = await WrestlerData.GetWrestlerById(match.wrestler1_id);
+                        var wrestler2 = await WrestlerData.GetWrestlerById(match.wrestler2_id);
 
-                        matches.AddLast(new Match
+                        if (wrestler1 != null && wrestler2 != null)
                         {
-                            Order = match.match_id,
-                            Name = $"{wrestler1Info} vs {wrestler2Info}"
-                        });
+                            string wrestler1Info = $"{wrestler1.firstName} {wrestler1.lastName} ({wrestler1.weight} lbs)";
+                            string wrestler2Info = $"{wrestler2.firstName} {wrestler2.lastName} ({wrestler2.weight} lbs)";
+
+                            matches.AddLast(new Match
+                            {
+                                Order = match.match_id,
+                                Name = $"{wrestler1Info} vs {wrestler2Info}"
+                            });
+                        }
                     }
+
+                    // State has changed, trigger a render
+                    StateHasChanged();
                 }
-
-                // State has changed, trigger a render
-                StateHasChanged();
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving matches for event ID {eventId}: {ex.Message}");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"Error retrieving matches for event ID {eventId}: {ex.Message}");
+                Console.WriteLine("Invalid event ID retrieved from the cookie.");
             }
         }
-        else
-        {
-            Console.WriteLine("Invalid event ID retrieved from the cookie.");
-        }
-    }
 }
-
-
 
      private string elementStyle = "";
      private void displayColor(bool condition) {
