@@ -225,7 +225,7 @@
             StateHasChanged(); // Ensure the component is re-rendered after data loading
         }
         else {
-            profileIDCookie = await jsRuntime2.InvokeAsync<string>("getCookie", CookieName);
+            profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
         }
     }
 
@@ -394,13 +394,13 @@
     private async Task HandleEventClick(Structure.Event selectedEvent) {
 
         
-        localEventID = selectedEvent.EventID;
-        await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
+        //localEventID = selectedEvent.EventID;
+        //await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
 
         try
         {
             linkEventID(selectedEvent);
-            await jsRuntime.InvokeVoidAsync("setCookie", "eventId", selectedEvent);
+            await jsRuntime.InvokeVoidAsync("setCookie", "eventId", selectedEvent.EventID);
             Console.WriteLine($"Clicked Event ID: {selectedEvent.EventID}");
             showEventCriteria(); 
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);
@@ -692,7 +692,7 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
+        //CookieName = "eventId";
         try {
             //var cookieValue = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
             profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);

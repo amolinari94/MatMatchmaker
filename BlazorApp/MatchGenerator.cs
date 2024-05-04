@@ -69,7 +69,7 @@ public class MatchGenerator {
 
         int attempts = 0;
         int MatchesGeneratedPerHomeWrestler = 0;
-        while (matchCount < matchMin && attempts<10) {
+        while (matchCount < matchMin ) {
                 try {
                     //while (allowedMatches > MatchesGeneratedPerHomeWrestler) {
                         /*
