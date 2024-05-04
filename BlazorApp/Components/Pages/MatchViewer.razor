@@ -5,6 +5,7 @@
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
 @rendermode InteractiveServer
+@inject IWrestlerData WrestlerData
 
 
 <h3>MatchViewer</h3>
@@ -104,32 +105,61 @@
      private Model? draggingModel;//the model that is being dragged
      private Match? draggingMatch;
      LinkedList<Match> matches = new LinkedList<Match>();
-     protected override void OnInitialized() {//fill names wit "random" string
-         
-         
-         for (int i = 1; i <= 5; i++) // Assuming you want 5 test matches
-         {
-             matches.AddLast(new Match
-             {
-                 Order = i,
-                 Name = $"firstnameTest{i} lastnameTest{i} vs firstnameTest{i + 1} lastnameTest{i + 1}",
-                 //IsDragOver = false
-             });
-             
-             
-         }
-         
-         
-         /*
-         for (var i = 0; i < 10 @*testEvent.matchList.Length*@; i++)
-         {
-             Model m = new() { Order = i, Name = $"Item {i}"@*, match=testEvent.matchList[i]*@};
-             Models.Add(m);
-         }
-         */
-         
-         base.OnInitialized();
-     }
+     protected override async Task OnAfterRenderAsync(bool firstRender)
+{
+    if (firstRender)
+    {
+        // Retrieve the event ID from the cookie
+        string eventIdString = await jsRuntime.InvokeAsync<string>("getCookie", "eventId");
+        eventIdString = eventIdString?.Trim('"', ' ');
+
+        int eventId;
+        // Attempt to parse the event ID string to an integer
+        if (int.TryParse(eventIdString, out eventId))
+        {
+            try
+            {
+                // Retrieve matches for the specified event ID
+                var matchesForEvent = await WrestlerData.GetMatchesForEvent(eventId);
+
+                // Clear existing matches
+                matches.Clear();
+
+                // Populate the LinkedList<Match> with actual match data
+                foreach (var match in matchesForEvent)
+                {
+                    var wrestler1 = await WrestlerData.GetWrestlerById(match.wrestler1_id);
+                    var wrestler2 = await WrestlerData.GetWrestlerById(match.wrestler2_id);
+
+                    if (wrestler1 != null && wrestler2 != null)
+                    {
+                        string wrestler1Info = $"{wrestler1.firstName} {wrestler1.lastName} ({wrestler1.weight} lbs)";
+                        string wrestler2Info = $"{wrestler2.firstName} {wrestler2.lastName} ({wrestler2.weight} lbs)";
+
+                        matches.AddLast(new Match
+                        {
+                            Order = match.match_id,
+                            Name = $"{wrestler1Info} vs {wrestler2Info}"
+                        });
+                    }
+                }
+
+                // State has changed, trigger a render
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving matches for event ID {eventId}: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid event ID retrieved from the cookie.");
+        }
+    }
+}
+
+
 
      private string elementStyle = "";
      private void displayColor(bool condition) {

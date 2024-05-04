@@ -3,15 +3,24 @@
 @using DataAccessLibrary
 @using Structure
 @using System.Collections.Generic
+@using BlazorApp.EmailSystem.Model
+@using BlazorApp.EmailSystem.Services
 @using DataAccessLibrary.Models
 @using Microsoft.EntityFrameworkCore.ChangeTracking.Internal
+@using Microsoft.EntityFrameworkCore.Storage.ValueConversion
+@using Microsoft.Extensions.Options
 @inject NavigationManager navManager
 @inject IEventData eventData
 @inject IWrestlerData _dba
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @inject IEventGuestsData eventGuestsData 
 @inject EmailSystem.Services.IMailService mailService
+
+
 @inject IMatchData matchData
+@inject IProfileData pd
+@rendermode InteractiveServer
+
 
 
 
@@ -20,93 +29,141 @@
 
 <h3>EventViewer</h3>
 
-<button @onclick="sendTestEmail"></button>
+<button @onclick="sendTestEmail">send test email</button>
 
 
 
 <body>
+<label content="@eventLoadError"></label>
 <div class="table-container">
-<table class="table" style="caption-side: top; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
-    <caption content="Events" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
-        <h2>Events</h2>
-    </caption>
-    <tbody>
-    @if (events != null && events.Count > 0) {
-        @foreach (var e in events) {
 
-            <tr style="background-color: azure">
-                        <td>@(events.IndexOf(e) + 1)</td>
-                        <td>
-                            <!-- Display Event ID in a button -->
-                            <button class="btn btn-primary" @onclick="() => HandleEventClick(e)">@e.date.ToShortDateString()</button>
-                        </td>
-                        <td>@e.host</td>
-                        <td>@e.date</td> 
-                    </tr>
-<!--
+    <table class="table" style="caption-side: top; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
+        <caption content="Events" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
+            <h2>Events</h2>
+        </caption>
+        <tbody>
+        @if (events != null && events.Count > 0) {
+            @foreach (var e in events) {
+
+                <tr style="background-color: azure">
+                    <td>@(events.IndexOf(e) + 1)</td>
+                    <td>
+                        <!-- Display Event ID in a button -->
+                        <button class="@eventStyle" @onclick="() => HandleEventClick(e)">@e.date.ToShortDateString()</button>
+                    </td>
+                    <td>@e.host</td>
+                    <td>@e.date</td>
+                </tr>
+                <!--
+
             <tr style="background-color: azure ">
 
                 <td>@(events.ToList().IndexOf(e) + 1)</td>
                 <td> <button class="btn btn-primary"  @onclick="@(()=> linkEventID(e))">@e.date</button></td>
-                <td>db.loadData(SELECT schoolName from PROFILES where ID == @e.host--><!--/td>
+                <td>db.loadData(SELECT schoolName from PROFILES where ID == @e.host-->
+                <!--/td>
             </tr> -->
 
+            }
         }
-    }
 
-    </tbody>
-</table>
 
-    <table  cellpadding="10px" class="table" style=" @tableStyle; width:  70%; height: fit-content;  border-collapse: collapse;">
+        </tbody>
+    </table>
+
+    <table cellpadding="10px" class="table" style=" @tableStyle; width:  60%; height: fit-content;  border-collapse: collapse;">
         <tr height="20px">
-                    <td><label id="matchminl"  for="matchmin">Number of Matches Per Wrestler: </label></td>
-                    <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);"  TValue="int" @bind-Value="@_matchMin"/></td>
-                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" class="text-input" TValue="int" @bind-Value="@_matchMax" /></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><label id="skillL" for="skill">Skill level Difference: </label></td>
-                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_skillGap"/></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
-                    <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_gradeGap" id="grade" name="grade"/></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-        
+            <td><label id="matchminl" for="matchmin">Number of Matches Per Wrestler: </label></td>
+            <td><InputNumber style="border: solid; border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="@_matchMin"/></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" class="text-input" TValue="int" @bind-Value="@_matchMax"/></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label id="skillL" for="skill">Skill level Difference: </label></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_skillGap"/></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><label id="gradeL" for="grade">Grade Level Difference: </label></td>
+            <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_gradeGap" id="grade" name="grade"/></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+
         <tr>
             <td><label id="matsl" for="mats">Number of Mats: </label></td>
             <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
             <td><label id="matchschoolL" for="matchmax">Allow Internal Matches: </label></td>
             <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
         </tr>
-        
+
+
         <h3 class="main-title"> Weight Options: </h3>
         <tr>
-            <td><label id="weightminl" >Weight Limits:</label></td><td><input class="text_input" placeholder="Min" type="text" @bind="_weightMin" id="weighthmin" name="weightmin"/></td>
+            <td><label id="weightminl">Weight Limits:</label></td><td><input class="text_input" placeholder="Min" type="text" @bind="_weightMin" id="weighthmin" name="weightmin"/></td>
+
             <td><label class="text_input" id="weightmaxl" for="weightmax"> </label></td><td><input class="text_input" placeholder="Max" type="text" @bind="_weightMax" id="weightmax" name="weightmax"/></td>
         </tr>
         <tr>
             <td><label id="diffL" for="diff">Max Weight Difference:</label></td><td><InputNumber class="text_input" TValue="int" @bind-Value="_weightDiff" id="diff" name="diff"/></td>
         </tr>
-        
+
         <tr>
             <td><label>Matches Per Wrestlers: </label></td>
             <td><input class="text_input" @bind="allowedMatches" id="allowedMatches" name="allowedMatches"/></td>
             <td><Button @onclick="GenerateMatches">Generate Matches</Button></td>
         </tr>
-                
-                
-                
-        
-        
-        
-        
+
     </table>
-    
+    <table class="table" style=" @table2Style caption-side: top; margin-right: auto; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
+        <caption content="Matches In This Event" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
+            <h2>Matches In This Event</h2>
+        </caption>
+        <tbody>
+        @foreach (var item in matches.OrderBy(x => x.Order)) {
+
+            <tr style="@elementStyle" @key="item" @ondragstart="() => { draggingMatch = item; displayColor(true); }" @ondragend="() => { draggingMatch = null; displayColor(false); }" draggable="true" @ondrop="() => HandleDrop(item)">
+
+                <td style="@elementStyle">@(item.Order)</td>
+                <td style="@elementStyle">@item.Name@*.match[0].firstName</td>
+                            <td>@item.match[0].gender</td>
+                            <td>@item.match[0].weight</td>
+                            <td>@item.match[0].skill</td>
+                            <td>@item.match[0].grade*@</td>
+                <td><button style="height: 50%; vertical-align: bottom;" content="▼" @onclick="(() => shiftDown(item))"></button><button style="height: 50%; vertical-align: top;" content="▲" @onclick="(() => shiftUp(item))"></button> </td>
+
+
+
+
+            </tr>
+
+
+        }
+
+        </tbody>
+        <!--tbody>
+    @if (LocalMatchList != null && LocalMatchList.Count > 0) {
+        @foreach (var m in LocalMatchList) {
+
+            <tr style="background-color: azure">
+                <td>@(LocalMatchList.IndexOf(m) + 1)</td>
+                <td>@m.wrestler1_firstName</td>
+                <td>@m.wrestler1_lastName</td>
+                <td>(@m.wrestler1_weight)</td>
+                <td>vs</td>
+                <td>@m.wrestler2_firstName</td>
+                <td>@m.wrestler2_lastName</td>
+                <td>(@m.wrestler2_weight)</td>
+            </tr>
+        }
+    }
+
+    </tbody-->
+    </table>
+
+
 </div>
 
 
@@ -116,6 +173,15 @@
 
 
 @code {
+
+    /*vvvvvvvvvvvvvvvvvvvvNEW CODEvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
+    string eventLoadError = "";
+    LinkedList<Match> matchListLocal;
+    
+    
+    /*^^^^^^^^^^^^^^^^^^^NEW CODE^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+    public string eventStyle = "btn btn-primary";
+
     Structure.Roster[] guestRosters = new[] {new Structure.Roster(testSchoolName2)};
     private Structure.Roster hostRoster = new Structure.Roster("test");
     private bool isVisible = false;
@@ -160,6 +226,16 @@
         }
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadDataAsync();
+            StateHasChanged(); // Ensure the component is re-rendered after data loading
+        }
+    }
+
+
     private async Task LoadDataAsync()
     {
         
@@ -185,6 +261,7 @@
                 
                     Console.WriteLine(r);
                
+
                 
             }
 
@@ -209,9 +286,125 @@
         events = getEventsFromDB(hostID);*/
         
     }
+    /*
+    protected override async Task OnInitializedAsync() {
+        
+        profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
+        localHostId = await GetSavedProfileID();
+        eventLoadError = "";
+        for (int i = 1; i <= 5; i++) // Assuming you want 5 test matches
+        {
+            matches.AddLast(new Match
+            {
+                Order = i,
+                Name = $"firstnameTest{i} lastnameTest{i} vs firstnameTest{i + 1} lastnameTest{i + 1}",
+                //IsDragOver = false
+            });
+             
+             
+        }
+         
+        //base.OnInitialized();
+        
+        try
+        {
+             
+            //int localHostID = await GetSavedProfileID();
+            string HostschoolName = "test";
+            // Retrieve events for the user (replace 4 with the actual userProfileID)
+            var eventModels = await eventData.GetEventsByUserProfileID(localHostId); // replaced 'localHostID***
+        
+            // Map EventModel instances to Structure.Event instances
+            events = eventModels.Select(em => new Structure.Event(em.event_id, em.host_profile_id, em.event_date)).ToList();
+            
+            var hostWrestlers = await _dba.GetWrestlersByProfileID(localHostId);// replaced 'localHostID ***
+            hostRoster = new Structure.Roster("test");
+            
+            foreach (var wrestler in hostWrestlers)
+            {
+                hostRoster.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
+            }
+
+            foreach (var r in hostRoster.rosterList.Values) {
+
+                Console.WriteLine(r);
+
+                
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading events: {ex.Message}");
+            // Handle error or display appropriate message to the user
+        }
+        
+        
+        
+        /*Structure.Event testEvent1 = new Structure.Event(testEventId, testHostID, testDate);
+        Structure.Event testEvent2 = new Structure.Event(testEventID2, testHostID2, testDate2);
+        events = new List<Structure.Event>();
+        events.Add(testEvent1);
+        events.Add(testEvent2); 
+        //code for integration with DB
+        /*
+        hostID = testProfile.id;
+        events = getEventsFromDB(hostID);*/
+
+        //base.OnInitializedAsync();
+        //ms = new MailService();
+//}
+
+
+    [Parameter]
+    public MailSettings MailSettings { get; set; }
+    
+    public int localHostId;
+    public int localEventID;
+    protected internal async void getHostID() {
+        //localHostId = await GetSavedProfileID();
+    }
+
+    public void showMatchList(int eventID,List<MatchModel> matchList) {
+        //sets invisible match list table to true.  
+        //in this func, populate the table from the match model and then set the table style display mode to empty
+        //matchListDisplay = "";
+        table1Visible = false;
+        table2Visible = true;
+        //ToggleTable(table2Visible, true);
+        //ToggleTable(table1Visible, false);
+        //DisplayMode = "display: none;";
+        StateHasChanged();
+
+
+
+
+    }
+    
+    
+    private void showEventCriteria() {
+        //DisplayMode = show ? "" : "display: none;";
+        //DisplayMode = "";
+        table1Visible = true;
+        table2Visible = false;
+        //ToggleTable(table1Visible,true);
+        //ToggleTable(table2Visible, false);
+        //matchListDisplay = "display: none;";
+        StateHasChanged();
+    }
+
+    protected internal List<MatchModel> LocalMatchList;
+    
     public List<Structure.Roster> guestRostersTest = new List<Structure.Roster>();
-    private async Task HandleEventClick(Structure.Event selectedEvent)
-    {
+    
+    
+    private async Task HandleEventClick(Structure.Event selectedEvent) {
+
+        
+        localEventID = selectedEvent.EventID;
+        await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
+
         try
         {
             linkEventID(selectedEvent);
@@ -233,9 +426,11 @@
             {
                 // Retrieve wrestlers for the current guest profile ID
                 List<WrestlerModel> guestWrestlers = await _dba.GetWrestlersByProfileID(guestProfileID);
+                ProfileModel guestProfile = await pd.GetProfileByID(guestProfileID);
+                Structure.Roster guestRoster = new Structure.Roster(guestProfile.schoolName);
 
                 // Create a new guest roster and add wrestlers to it
-                Structure.Roster guestRoster = new Structure.Roster("email");
+                //Structure.Roster guestRoster = new Structure.Roster("email");
 
                 foreach (var wrestler in guestWrestlers)
                 {
@@ -257,7 +452,7 @@
                 
             }
 
-            foreach (var r in guestRosters)
+            foreach (var r in guestRostersTest)
             {
                 foreach (var wrestler in r.rosterList)
                 {
@@ -267,6 +462,29 @@
             }
             // Perform actions for the clicked event
             
+
+            linkEventID(selectedEvent);
+            getHostID(); //gets current users id
+            localEventID = selectedEvent.EventID; //getting id of selected event
+
+            //localEventID -= 2;
+            
+            //LocalMatchList = await _dbm.GetMatchesByEvent(localEventID);//gets all matches from selected event 
+            modelList = await _dbm.GetMatchesByEvent(localEventID);//gets all matches from selected event 
+            Console.WriteLine($"\nModelList count on-click: {modelList.Count}\n");
+            LocalMatchList = modelList;
+            if (LocalMatchList.Count > 0) {//if the local match List<MatchModel> is populated, call showMatchList()
+                showMatchList(localEventID, LocalMatchList);
+                //DisplayMode = "display: none";//sets events criteria display to invisible (since matches already exist
+            }
+            Console.WriteLine($"Clicked Event ID: {selectedEvent.EventID}");
+            if (LocalMatchList.Count < 1) {
+                showEventCriteria();
+                Console.WriteLine("\n\n***Showing Event Criteria***\n\n");
+                
+                
+            }
+
 
             // Pass the selected event ID to another method
             
@@ -313,22 +531,87 @@
     
     Structure.Roster roster = new Structure.Roster(testSchoolName);
     // Populate host roster with wrestlers for the host profile
-    
-    
-    
-    private async Task GenerateMatches()
-    {
-        Structure.Roster[] guestRosterArray = new[] { guestRostersTest[0] };
-        Console.WriteLine($"Wrestlers in Guest Roster:{guestRosters[0].rosterList.Count}");
-        //instantiating new MatchGenerator Object
-        Console.WriteLine("Started generating");
-        MatchGenerator matchGen = new MatchGenerator(hostRoster, guestRosterArray, _weightDiff,
-            _numMats, _matchMin, _matchMax, _skillGap, _gradeGap, _internalMatches, SelectedEventID);
+
+
+
+    public List<MatchModel> modelList;
+
+    private async Task GenerateMatches() {
+        List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(localEventID);
+        
+        Console.WriteLine("Guest Profile IDs:");
+        foreach (var guestProfileID in guestProfileIDs)
+        {
+            Console.WriteLine(guestProfileID);
+        }
+        // Create and populate guest rosters based on guest profile IDs
+        foreach (int guestProfileID in guestProfileIDs)
+        {
+            // Retrieve wrestlers for the current guest profile ID
+            List<WrestlerModel> guestWrestlers = await _dba.GetWrestlersByProfileID(guestProfileID);
+
+            // Create a new guest roster and add wrestlers to it
+            //TODO: initialize the guest roster with the guests School Name
+            ProfileModel guestProfile = await pd.GetProfileByID(guestProfileID);
+            Structure.Roster guestRoster = new Structure.Roster(guestProfile.schoolName);
+
+            foreach (var wrestler in guestWrestlers)
+            {
+                guestRoster.AddWrestler(
+                    wrestler.wrestler_id,
+                    wrestler.profile_id,
+                    wrestler.firstName,
+                    wrestler.lastName,
+                    wrestler.weight,
+                    wrestler.skillLevel,
+                    wrestler.grade,
+                    wrestler.gender,
+                    wrestler.sameGenderOnly
+                );
+            }
+            // Add the populated guest roster to the list of guest rosters
+            guestRostersTest.Add(guestRoster);
+        }
+
+        foreach (var r in guestRostersTest)
+        {
+            foreach (var wrestler in r.rosterList)
+            {
+                Console.WriteLine(wrestler);
+            }
+                
+        }
+        //TODO: *****MAJOR CHANGE POINT******
+        /*moved the above code block (used to be below the match print statements)*/
+        //TODO: fix why guest roster list may not always be populated/initialized in certain conditions 
+
+        //put the conflicting RosterArray initialization in try block so app doesnt need reload on error.  
+        MatchGenerator matchGen = null;//initializing early with null so the rest of method can stay outside try block
+        try {
+            Structure.Roster[] guestRosterArray = new[] {guestRostersTest[0]};
+            Console.WriteLine($"Wrestlers in Guest Roster:{guestRostersTest[0].rosterList.Count}");
+            //instantiating new MatchGenerator Object
+            Console.WriteLine("Started generating");
+            matchGen = new MatchGenerator(hostRoster, guestRosterArray, _weightDiff,
+                _numMats, _matchMin, _matchMax, _skillGap, _gradeGap, _internalMatches, SelectedEventID);
+        }
+        catch (Exception e) {
+            Console.WriteLine($"Event Load/Access Error (event guest may not be populated)\n msg: {e}");
+            eventLoadError = "Event Error:  event data corrupted. \n Please Make a New Event.";
+        }
+        
+        
+
         Console.WriteLine("Initializing");
         //matchGet.GenerateMatches returns a LinkedList<Match> of all generated matches
+        
         LinkedList<Match> matchList = matchGen.GenerateMatches(false, 1);
+        if (matchList == null) {
+            eventLoadError = "Match Generation Error";
+        }
         Console.WriteLine("Generated");
         Console.WriteLine(matchList.Count);
+        //List<MatchModel> modelList = new List<MatchModel>();
         foreach (var match in matchList) {
             // Retrieve wrestler 1 details
             var wrestler1 = await _dba.GetWrestlerById(match.wrestler1.wrestler.wrestler_id);
@@ -358,18 +641,15 @@
                 wrestler2_id = match.wrestler2.wrestler.wrestler_id,
                
             };
+            modelList.Add(newMatch);
 
             // Insert the match into the database
             int newMatchId = await matchData.InsertMatch(newMatch);
             Console.WriteLine($"Match inserted with ID: {newMatchId}");
         } 
-
-        
-
-        
-       
-
-        navManager.NavigateTo("/MatchViewer");
+        showMatchList(SelectedEventID,modelList);
+        StateHasChanged();
+        //navManager.NavigateTo("/MatchViewer");
     }
 
     
@@ -386,25 +666,85 @@
     }
 
     
-    private void showEventCriteria() {
-        DisplayMode = "";
-        ToggleTable();
+
+    //private MailService ms = new MailService(mailSettings);
+    //public MailSettings mailSettings;
+    //public EventViewer(){}
+    /*public EventViewer(MailService mailService) {
+        ms = mailService;
     }
+    */
 
 
 
-    private async void sendTestEmail() {
+    private async Task sendTestEmail() {
+        /*MailSettings mailConfig = new MailSettings() {
+            Username = "amrgm@umsystem.edu",
+            Password = "",
+            Port=465,
+            FromEmail = "amrgm@umsystem.edu",
+            Host = "smtp-mail.outlook.com"
+        };
+        */
+        //Options<MailSettings> config;
+        //config = (IOptions<MailSettings>) mailConfig;
+        //ms = new MailService(config);
+        Console.WriteLine("Attempting Send...");
         await mailService.SendEmailAsync("to.amolinari94@yahoo.com", "nice", "sick");
     }
-    
-    private async Task<int> GetSavedProfileID()
+
+
+
+    public string CookieName = "profile_id";
+
+    protected override async Task OnParametersSetAsync()
     {
-        string cookieName = "profile_id";
+        await base.OnParametersSetAsync();
+
+        try {
+            //var cookieValue = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
+            profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
+            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
+
+            if (int.TryParse(profileIDCookie, out int profileID))
+            {
+                // Successful parsing: return the parsed profile ID
+                //return profileID;
+                localHostId = profileID;
+            }
+            else
+            {
+                // Invalid cookie value: log an error and return a default value
+                Console.WriteLine("Invalid profile ID cookie value from PARAMSET: " + profileIDCookie);
+                //return -1; // Return a default value (e.g., -1) for invalid profile ID
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any JavaScript interop invocation errors
+            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
+            //return -1; // Return a default value (e.g., -1) in case of error
+        }
+            
+            
+            
+        
+        
+        // Update component state or perform any necessary logic with the cookie value
+    }
+
+
+    public string profileIDCookie;
+    protected internal async Task<int> GetSavedProfileID()
+
+    {
+        
+        CookieName = "profile_id";
 
         try
         {
             // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
-            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
+            //string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
             profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
 
             if (int.TryParse(profileIDCookie, out int profileID))
@@ -437,6 +777,7 @@
             hostRoster.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
         }
     }
+    
 
     private async Task CreateGuestRosters(int[] guestProfileIDs)
     {
@@ -474,7 +815,122 @@
         return eventGuests.Select(eg => eg.guest_profile_id).ToList();
     }
 
-    }
+    
+    
+    
+    /******************************************************************************************************************
+     *   __  __       _______ _____ _    _  __      _______ ________          __   _____ _______       _____ _______ 
+       |  \/  |   /\|__   __/ ____| |  | | \ \    / |_   _|  ____\ \        / /  / ____|__   __|/\   |  __ |__   __|
+       | \  / |  /  \  | | | |    | |__| |  \ \  / /  | | | |__   \ \  /\  / /  | (___    | |  /  \  | |__) | | |   
+       | |\/| | / /\ \ | | | |    |  __  |   \ \/ /   | | |  __|   \ \/  \/ /    \___ \   | | / /\ \ |  _  /  | |   
+       | |  | |/ ____ \| | | |____| |  | |    \  /   _| |_| |____   \  /\  /     ____) |  | |/ ____ \| | \ \  | |   
+       |_|  |_/_/    \_|_|  \_____|_|  |_|     \/   |_____|______|   \/  \/     |_____/   |_/_/    \_|_|  \_\ |_|   
+                                                                                                                    
+                                                                                                                    
+     ******************************************************************************************************************/
+
+    public int diff {get;set;}
+
+    public int skillDiff{get;set;}
+
+    public int gradeDiff {get;set;}
+
+    public int weightMax {get;set;}
+
+    public int weightMin{get;set;}
+    public int index=0;
+    //private List<MatchViewer.Model> Models { get; } = [];
+
+     private void shiftDown(Match match) {
+         if (match.Order < matches.Count) {
+             //Match temp = matches.ToList()[match.Order + 1];
+             matches.ToList()[match.Order].Order--;
+             match.Order++;
+         }
+         
+         
+     }
+     
+     private void shiftUp(Match match) {
+         if (match.Order > 1) {
+             //match.Order--;
+             Match temp = matches.ToList()[match.Order - 1];
+             temp.Order++;
+             match.Order--;
+             matches.ToList()[match.Order + 1] = temp;
+             
+         }
+         
+     }
+     
+     
+
+     private class Model
+     {
+         public int Order { get; set; }
+         public string Name { get; set; } = "";
+         public bool IsDragOver { get; set; }
+         @*protected internal Wrestler[] match {get;set;}=[];*@
+     }
+     
+     //private MatchViewer.Model? draggingModel;//the model that is being dragged
+     private Match? draggingMatch;
+     LinkedList<Match> matches = new LinkedList<Match>();
+     /*
+     protected override void OnInitialized() {//fill names wit "random" string
+         
+         for (int i = 1; i <= 5; i++) // Assuming you want 5 test matches
+         {
+             matches.AddLast(new Match
+             {
+                 Order = i,
+                 Name = $"firstnameTest{i} lastnameTest{i} vs firstnameTest{i + 1} lastnameTest{i + 1}",
+                 //IsDragOver = false
+             });
+             
+             
+         }
+         
+         base.OnInitialized();
+     }
+     */
+     
+     
+     
+
+     private string elementStyle = "";
+     private void displayColor(bool condition) {
+         if (condition) {
+             elementStyle = "background-color: #7eb1de; border: solid; border-radius: 20px; border-color: #0E88AE;";
+         }
+         else {
+             elementStyle = "";
+         }
+         
+     }
+     private void HandleDrop(Match landingMatch)
+     {//landing model -> where the drag happened
+		
+		
+         if (draggingMatch is null)
+         {
+             Console.WriteLine("Null issue");
+             return;
+			
+         }
+		
+         int originalOrderLanding = landingMatch.Order;//keep the original order for later
+         //increase model uned by 1
+         matches.Where(x => x.Order >= landingMatch.Order).ToList().ForEach(x => x.Order++);
+         draggingMatch.Order = originalOrderLanding;//replace landing model
+         int ii = 1;//used to be 0 
+         foreach (var model in matches.OrderBy(x => x.Order).ToList())
+         {
+             model.Order = ii++;//keep the numbers from 0 to size-1
+             model.IsDragOver = false;//remove drag over.
+         }
+     }
+
 
 
 

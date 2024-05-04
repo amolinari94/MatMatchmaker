@@ -156,7 +156,7 @@
         {
             // Retrieve the profile ID from the cookie
             int? profileId = await GetSavedProfileID();
-
+            
             // Print the retrieved profile ID for debugging
             if (profileId.HasValue)
             {
@@ -175,8 +175,23 @@
                     sameGenderOnly = false // Adjust sameGenderOnly value as needed
                 };
 
+                Wrestler wrestlerObj = new Wrestler() {
+                    editing = false,
+                    firstName = newWrestler.firstName,
+                    gender = newWrestler.gender,
+                    grade = newWrestler.grade,
+                    lastName = newWrestler.lastName,
+                    profile_id =newWrestler.profile_id,
+                    sameGenderOnly = newWrestler.sameGenderOnly,
+                    skillLevel = newWrestler.skillLevel,
+                    weight = newWrestler.weight,
+                    //wrestler_id = newWrestler.wrestler_id
+
+                };
+                rosterObj2.rosterList.Add(newWrestler.lastName, wrestlerObj);
                 // Insert the new wrestler into the database
                 int wrestlerID = await _dba.InsertWrestler(newWrestler);
+                wrestlerObj.wrestler_id = wrestlerID;
 
                 // Optionally, perform additional actions after successful insertion
                 Console.WriteLine($"New wrestler inserted with ID: {wrestlerID}");
