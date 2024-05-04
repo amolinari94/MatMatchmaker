@@ -28,16 +28,20 @@
     <Content Remove="DataAccessLibrary\**" />
     <None Remove="DataAccessLibrary\**" />
     <PackageReference Include="NUnit" Version="4.1.0" />
+    <Content Remove="obj\**" />
+    <None Remove="obj\**" />
     
     
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="DataAccessLibrary\**" />
+    <Compile Remove="obj\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="DataAccessLibrary\**" />
+    <EmbeddedResource Remove="obj\**" />
   </ItemGroup>
 
   <ItemGroup>

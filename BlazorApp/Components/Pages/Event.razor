@@ -19,6 +19,7 @@
 @inject ISqlDataAccess sql
 @inject IProfileData profileData
 @inject IEventData _dbe
+@inject IEventGuestsData _dbg
 
 
 
@@ -101,6 +102,7 @@
 </body>
 
 @code {
+    List<ProfileModel> guestProfileModels; 
     
     
     private List<string>LocalGuestList = new List<string>();//local copy of guestlist
@@ -117,11 +119,12 @@
     private int _gradeGap = 0;
     private int _numMats = 1;
     private bool _internalMatches;//bool
-    private DateTime selectedDate = new DateTime(); 
+    protected internal DateTime selectedDate; 
     
     
     private void addToLocalGuests(string guestName) {
         LocalGuestList.Add(guestName);
+        //Console.WriteLine(($"\n*****\n****{guestName}*****\n****\n"));
         StateHasChanged();
     }
 
@@ -161,19 +164,22 @@
     
     private async void addEvent()
     {
+
         // Placeholder for testing, replace with actual event date
         DateTime eventDate = DateTime.Now;
+
 
         // Retrieve host's profile ID asynchronously
         int LocalHostID = await GetSavedProfileID();
 
         // Call your database service to add the event
-        int eventId = await _dbe.AddEvent(eventDate, LocalHostID);
+        int eventId = await _dbe.AddEvent(selectedDate, LocalHostID);
+        //eventId -= 2;
 
         if (eventId > 0)
         {
             // Event added successfully
-            Console.WriteLine("Event added successfully with ID: {eventId}");
+            Console.WriteLine($"Event added successfully with ID: {eventId}");
         }
         else
         {
@@ -192,23 +198,29 @@
          *****[ SELECT id FROM Events WHERE (HostID == LocalHostID); ]
          */
 
-        /*
-        foreach (var guestSchoolName in LocalGuestList) {
-            DB CALL: Select * FROM Profiles WHERE Profile.schoolName == guestSchoolName;
-
-            Profile guestProfile = ConstructProfileObject();
+        guestProfileModels = await _dbp.GetProfilesBySchoolNames(LocalGuestList);
+        foreach (var guest in guestProfileModels) {
+            EventGuestsModel eg = new EventGuestsModel() {
+                event_id = eventId,
+                guest_profile_id = guest.profile_id,
+                //EventId = new {eventId=eventId};
+                    
+            };
             
-            DB CALL: INSERT INTO GUESTS (EventID, GUESTPROFILEID) VALUES(@EventID, @guestProfile.id);
+            await _dbg.InsertEventGuest(eg);
+
         }
-        */
         
         
         
         Structure.Event evt = new Structure.Event(eventId, LocalHostID, selectedDate);
-        
-        
-        
-        
+
+        Console.WriteLine(LocalGuestList[0]);
+        evt.guestList = LocalGuestList;
+
+
+        /*
+
         double weightDiffDouble = Double.Parse(_weightDiff);
         evt.gradeGap = _gradeGap;
         evt.minMatches = _matchMin;
@@ -219,33 +231,24 @@
         evt.allowedMatches = _matchMax;
         evt.internalMatches = _internalMatches;
         evt.guestList = LocalGuestList;
-        
-        
-        
+
+        */
+
 
         /*
-        * uncomment this block when'getRosterBySchoolName' can populate a roster from a given guest school name
-        */
-        for (int i = 0; i < evt.guestList.Count; i++) {
-            
-            //evt.guests[i] = new School(getRosterBySchoolName(evt.guestList[i]));
-        }
-
         foreach (var school in evt.guestRosters) {
             //school.roster = getRosterFromSchoolName(school.Name);
         }
-        
-        
+
+        */
+
+
         /*
          * add dbcall to use guest schoolnames to get an array of guest rosters
          */
-         
-        //MatchGenerator matchGen = new MatchGenerator(hostProfile.school.roster,);
-        //evt.matchList = matchGen.GenerateMatches(false, evt.allowedMatches);
-        hostProfile.Events.Append(evt);//adds the event to the hosts profile object
-        
-        //Add DB call to add event ID to the Events list in guest Profiles
-        
+
+
+
     }
 
     private School getRosterBySchoolName(string schoolName) {

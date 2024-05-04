@@ -26,14 +26,15 @@ namespace BlazorApp.EmailSystem.Services
             message.To.Add(new MailAddress(ToEmail));
             message.Subject = Subject;
             message.IsBodyHtml = true;
-            message.Body = HTMLBody;
+            message.Body = HTMLBody; Console.WriteLine("message constructed...");
             smtp.Port = _mailConfig.Port;
             smtp.Host = _mailConfig.Host;
             smtp.EnableSsl = true;
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential(_mailConfig.Username, _mailConfig.Password);
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;Console.WriteLine("SMTP Host configured...");
             await smtp.SendMailAsync(message);
+            Console.WriteLine("**Success**");
         }
     }
 }

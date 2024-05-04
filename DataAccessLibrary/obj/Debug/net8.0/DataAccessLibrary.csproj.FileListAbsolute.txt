@@ -1,13 +1,26 @@
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\bin\Debug\net8.0\DataAccessLibrary.deps.json
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\bin\Debug\net8.0\DataAccessLibrary.dll
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\bin\Debug\net8.0\DataAccessLibrary.pdb
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.csproj.AssemblyReference.cache
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.AssemblyInfoInputs.cache
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.AssemblyInfo.cs
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.csproj.CoreCompileInputs.cache
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.sourcelink.json
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.dll
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\refint\DataAccessLibrary.dll
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\DataAccessLibrary.pdb
-C:\Users\byrdd\RiderProjects\MatMatchmaker\DataAccessLibrary\obj\Debug\net8.0\ref\DataAccessLibrary.dll
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/bin/Debug/net8.0/DataAccessLibrary.deps.json
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/bin/Debug/net8.0/DataAccessLibrary.dll
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/bin/Debug/net8.0/DataAccessLibrary.pdb
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.csproj.AssemblyReference.cache
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.AssemblyInfoInputs.cache
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.AssemblyInfo.cs
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.csproj.CoreCompileInputs.cache
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.sourcelink.json
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.dll
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/refint/DataAccessLibrary.dll
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.pdb
+C:/Users/byrdd/RiderProjects/MatMatchmaker/DataAccessLibrary/obj/Debug/net8.0/ref/DataAccessLibrary.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/bin/Debug/net8.0/DataAccessLibrary.deps.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/bin/Debug/net8.0/DataAccessLibrary.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/bin/Debug/net8.0/DataAccessLibrary.pdb
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.csproj.AssemblyReference.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.GeneratedMSBuildEditorConfig.editorconfig
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.AssemblyInfoInputs.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.AssemblyInfo.cs
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.csproj.CoreCompileInputs.cache
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.sourcelink.json
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/refint/DataAccessLibrary.dll
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/DataAccessLibrary.pdb
+/Users/alexmolinari/Documents/MAIN/Classes/Spring 2024/Capstone_Course_folder/Capstone/Capstone/DataAccessLibrary/obj/Debug/net8.0/ref/DataAccessLibrary.dll
