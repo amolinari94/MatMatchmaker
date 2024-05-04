@@ -17,7 +17,7 @@
 @inject DataAccessLibrary.IEventData eventData
 @inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @inject ISqlDataAccess sql
-@inject IProfileData _dbp
+@inject IProfileData profileData
 @inject IEventData _dbe
 @inject IEventGuestsData _dbg
 
@@ -164,9 +164,11 @@
     
     private async void addEvent()
     {
-    
-        
-        
+
+        // Placeholder for testing, replace with actual event date
+        DateTime eventDate = DateTime.Now;
+
+
         // Retrieve host's profile ID asynchronously
         int LocalHostID = await GetSavedProfileID();
 
@@ -212,11 +214,13 @@
         
         
         Structure.Event evt = new Structure.Event(eventId, LocalHostID, selectedDate);
+
         Console.WriteLine(LocalGuestList[0]);
         evt.guestList = LocalGuestList;
 
 
         /*
+
         double weightDiffDouble = Double.Parse(_weightDiff);
         evt.gradeGap = _gradeGap;
         evt.minMatches = _matchMin;
@@ -227,19 +231,22 @@
         evt.allowedMatches = _matchMax;
         evt.internalMatches = _internalMatches;
         evt.guestList = LocalGuestList;
+
         */
 
 
         /*
         foreach (var school in evt.guestRosters) {
-            /school.roster = getRosterFromSchoolName(school.Name);
+            //school.roster = getRosterFromSchoolName(school.Name);
         }
+
         */
 
 
         /*
          * add dbcall to use guest schoolnames to get an array of guest rosters
          */
+
 
 
     }
@@ -255,28 +262,14 @@
     private ElementReference searchBox;
     private int counter = 0;
     private string searchTerm = "";
-    
-    protected internal List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
-    
+    private List<string> SchoolsList = new List<string> { "East Missouri", "North Missouri", "South Missouri", "West Missouri" };
     private List<string> FilteredItems = new List<string>();
 
-    public int localHostIdNew;
-    protected internal async void getHostID() {
-        localHostIdNew = await GetSavedProfileID();
-    }
-
-    protected override async void OnInitialized() {
-        getHostID();
-        ProfileData hostProfileData = new ProfileData(sql);
-        
-        
-        string query = "SELECT schoolName FROM Profile WHERE profile_id != @localHostidNew";
-        
-        var parameter = new {localHostIdNew = localHostIdNew};
-        SchoolsList = await sql.LoadData<string, dynamic>(query,parameter);
+    protected override void OnInitialized()
+    {
         FilteredItems = SchoolsList;
         selectedDate = DateTime.Now;
-        
+        ProfileData hostProfileData = new ProfileData(sql);
 
     }
 
@@ -287,12 +280,9 @@
         DisplayMode = "";
     }
 
-    public int numGuests = 0;
     public int emptySpaces = 10;
-    
-    
-    private async Task SelectItem(string item) {
-        numGuests++;
+    private async Task SelectItem(string item)
+    {
         Console.WriteLine($"Selected: {item}");
         searchTerm = item;
         FilteredItems.Clear();

@@ -11,6 +11,7 @@ using Blazored.SessionStorage;
 using DataAccessLibrary;
 using DataAccessLibrary.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +30,9 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<ProfileData>();
+
 
 
 
@@ -54,13 +58,13 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 builder.Services.AddScoped<IMailService, MailService>();
 
 
-builder.Services.AddAntiforgery(options =>
+/*builder.Services.AddAntiforgery(options =>
 {
     options.Cookie.Expiration = TimeSpan.Zero;
     // Disable anti-forgery token validation for testing purposes
     options.SuppressXFrameOptionsHeader = true;
     
-});
+});*/
 
 
 //testing roster display by initializing a Roster and adding wrestlers here (will need to be refactored with a hosted database later (sql or N))

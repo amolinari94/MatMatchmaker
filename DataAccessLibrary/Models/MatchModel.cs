@@ -16,7 +16,7 @@ namespace DataAccessLibrary.Models;
         
         public MatchModel()
         {
-            // Initialization logic here if needed
+            
         }
     }
 

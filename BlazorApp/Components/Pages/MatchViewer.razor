@@ -4,14 +4,6 @@
 @using Structure
 @using System.ComponentModel.DataAnnotations.Schema
 @using System.Reflection.Metadata
-@using BlazorApp.Components.Pages
-@using DataAccessLibrary
-@using DataAccessLibrary.Models
-@inject IEventData eventData
-@inject IWrestlerData _dba
-@inject IEventGuestsData eventGuestsData 
-@inject EmailSystem.Services.IMailService mailService
-@inject Microsoft.JSInterop.IJSRuntime jsRuntime
 @rendermode InteractiveServer
 @inject IWrestlerData WrestlerData
 
@@ -57,42 +49,7 @@
 
 
 @code {
-    //DB communication
-    protected internal async Task<int> GetSavedProfileID()
-    {
-        string cookieName = "profile_id";
-
-        try
-        {
-            // Invoke the 'getCookie' JavaScript function to retrieve the profile ID cookie value
-            string profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", cookieName);
-            profileIDCookie = profileIDCookie?.Trim('"', ' '); // Trim removes leading/trailing quotation marks and spaces
-
-            if (int.TryParse(profileIDCookie, out int profileID))
-            {
-                // Successful parsing: return the parsed profile ID
-                return profileID;
-            }
-            else
-            {
-                // Invalid cookie value: log an error and return a default value
-                Console.WriteLine("Invalid profile ID cookie value: " + profileIDCookie);
-                return -1; // Return a default value (e.g., -1) for invalid profile ID
-            }
-        }
-        catch (Exception ex)
-        {
-            // Handle any JavaScript interop invocation errors
-            Console.WriteLine($"Error retrieving profile ID cookie: {ex.Message}");
-            return -1; // Return a default value (e.g., -1) in case of error
-        }
-    }
-     
     
-    
-     
-
-
     public string lastName { get; set; }
     public string firstName { get; set; }
     public string skill { get; set; }

@@ -16,11 +16,10 @@
 @inject IEventGuestsData eventGuestsData 
 @inject EmailSystem.Services.IMailService mailService
 
-@inject IMatchData _dbm
+
 @inject IMatchData matchData
 @inject IProfileData pd
 @rendermode InteractiveServer
-
 
 
 
@@ -37,6 +36,7 @@
 <body>
 <label content="@eventLoadError"></label>
 <div class="table-container">
+
     <table class="table" style="caption-side: top; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
         <caption content="Events" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
             <h2>Events</h2>
@@ -55,6 +55,7 @@
                     <td>@e.date</td>
                 </tr>
                 <!--
+
             <tr style="background-color: azure ">
 
                 <td>@(events.ToList().IndexOf(e) + 1)</td>
@@ -65,6 +66,7 @@
 
             }
         }
+
 
         </tbody>
     </table>
@@ -89,6 +91,7 @@
             <td></td>
         </tr>
 
+
         <tr>
             <td><label id="matsl" for="mats">Number of Mats: </label></td>
             <td><InputNumber style="border: solid;  border-radius: 50px; border-color: rgb(183, 183, 183);" TValue="int" @bind-Value="_numMats"/></td>
@@ -96,9 +99,11 @@
             <td><input class="text_input" type="checkbox" id="matchSchool" @bind="_internalMatches" name="matchSchool"/></td>
         </tr>
 
+
         <h3 class="main-title"> Weight Options: </h3>
         <tr>
             <td><label id="weightminl">Weight Limits:</label></td><td><input class="text_input" placeholder="Min" type="text" @bind="_weightMin" id="weighthmin" name="weightmin"/></td>
+
             <td><label class="text_input" id="weightmaxl" for="weightmax"> </label></td><td><input class="text_input" placeholder="Max" type="text" @bind="_weightMax" id="weightmax" name="weightmax"/></td>
         </tr>
         <tr>
@@ -110,6 +115,7 @@
             <td><input class="text_input" @bind="allowedMatches" id="allowedMatches" name="allowedMatches"/></td>
             <td><Button @onclick="GenerateMatches">Generate Matches</Button></td>
         </tr>
+
     </table>
     <table class="table" style=" @table2Style caption-side: top; margin-right: auto; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
         <caption content="Matches In This Event" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
@@ -157,6 +163,7 @@
     </tbody-->
     </table>
 
+
 </div>
 
 
@@ -166,6 +173,7 @@
 
 
 @code {
+
     /*vvvvvvvvvvvvvvvvvvvvNEW CODEvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
     string eventLoadError = "";
     LinkedList<Match> matchListLocal;
@@ -173,19 +181,16 @@
     
     /*^^^^^^^^^^^^^^^^^^^NEW CODE^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
     public string eventStyle = "btn btn-primary";
+
     Structure.Roster[] guestRosters = new[] {new Structure.Roster(testSchoolName2)};
     private Structure.Roster hostRoster = new Structure.Roster("test");
-    private bool table1Visible = false;
-    private bool table2Visible = false;
-    private string tableStyle => table1Visible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
-    private string table2Style => table2Visible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
+    private bool isVisible = false;
+    private string tableStyle => isVisible ? "opacity: 1;" : "opacity: 0; pointer-events: none;";
 
-    /*
-    private bool ToggleTable(bool show) {
-        visibilityVariable = show;
-        //isVisible = !isVisible;
+    private void ToggleTable()
+    {
+        isVisible = !isVisible;
     }
-    */
 
     private int SelectedEventID;
     
@@ -211,6 +216,15 @@
     private int _numMats = 1;
     private bool _internalMatches = false;//bool
     private int allowedMatches;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await LoadDataAsync();
+            StateHasChanged(); // Ensure the component is re-rendered after data loading
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -220,6 +234,7 @@
             StateHasChanged(); // Ensure the component is re-rendered after data loading
         }
     }
+
 
     private async Task LoadDataAsync()
     {
@@ -246,6 +261,7 @@
                 
                     Console.WriteLine(r);
                
+
                 
             }
 
@@ -312,18 +328,17 @@
             foreach (var r in hostRoster.rosterList.Values) {
 
                 Console.WriteLine(r);
+
                 
             }
+
+
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading events: {ex.Message}");
             // Handle error or display appropriate message to the user
         }
-
-        
-        
-        
         
         
         
@@ -336,6 +351,7 @@
         /*
         hostID = testProfile.id;
         events = getEventsFromDB(hostID);*/
+
         //base.OnInitializedAsync();
         //ms = new MailService();
 //}
@@ -388,8 +404,13 @@
         
         localEventID = selectedEvent.EventID;
         await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
+
         try
         {
+            linkEventID(selectedEvent);
+            await jsRuntime.InvokeVoidAsync("setCookie", "eventId", selectedEvent);
+            Console.WriteLine($"Clicked Event ID: {selectedEvent.EventID}");
+            showEventCriteria(); 
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);
             
             Console.WriteLine("Guest Profile IDs:");
@@ -398,6 +419,9 @@
                 Console.WriteLine(guestProfileID);
             }
             // Create and populate guest rosters based on guest profile IDs
+            
+           
+            
             foreach (int guestProfileID in guestProfileIDs)
             {
                 // Retrieve wrestlers for the current guest profile ID
@@ -422,8 +446,10 @@
                         wrestler.sameGenderOnly
                     );
                 }
+
                 // Add the populated guest roster to the list of guest rosters
                 guestRostersTest.Add(guestRoster);
+                
             }
 
             foreach (var r in guestRostersTest)
@@ -434,7 +460,9 @@
                 }
                 
             }
+            // Perform actions for the clicked event
             
+
             linkEventID(selectedEvent);
             getHostID(); //gets current users id
             localEventID = selectedEvent.EventID; //getting id of selected event
@@ -457,22 +485,26 @@
                 
             }
 
-            
-            
-            // Perform actions for the clicked event
+
             // Pass the selected event ID to another method
+            
             Console.WriteLine($"Stored Event ID: {selectedEvent.EventID}");
             Console.WriteLine("HandleEventClick completed successfully.");
+            
         }
         catch (Exception ex)
         {
             // Handle any exceptions that may occur during event handling
             Console.WriteLine($"Error handling event click: {ex.Message}");
+            
         }
     }
 
     private List<Structure.Event> getEventsFromDB(int hostID) {
         List<Structure.Event> events = new List<Structure.Event>();
+        
+        
+        
         /*DB Call to populate a List<Event> with events from the database given the hosts id
          *
          * 
@@ -483,9 +515,14 @@
            FROM Events e
            LEFT JOIN EventGuests eg ON e.EventID = eg.EventID
            WHERE e.HostID = @userID OR eg.GuestID = @userID;
+           
+           
            TODO:***OR USE EventData.cs GetEvent METHOD*****
          * 
          */
+        
+        
+
         return events;
     }
 
@@ -494,6 +531,7 @@
     
     Structure.Roster roster = new Structure.Roster(testSchoolName);
     // Populate host roster with wrestlers for the host profile
+
 
 
     public List<MatchModel> modelList;
@@ -563,6 +601,7 @@
         }
         
         
+
         Console.WriteLine("Initializing");
         //matchGet.GenerateMatches returns a LinkedList<Match> of all generated matches
         
@@ -627,6 +666,7 @@
     }
 
     
+
     //private MailService ms = new MailService(mailSettings);
     //public MailSettings mailSettings;
     //public EventViewer(){}
@@ -634,6 +674,7 @@
         ms = mailService;
     }
     */
+
 
 
     private async Task sendTestEmail() {
@@ -651,6 +692,7 @@
         Console.WriteLine("Attempting Send...");
         await mailService.SendEmailAsync("to.amolinari94@yahoo.com", "nice", "sick");
     }
+
 
 
     public string CookieName = "profile_id";
@@ -694,6 +736,7 @@
 
     public string profileIDCookie;
     protected internal async Task<int> GetSavedProfileID()
+
     {
         
         CookieName = "profile_id";
@@ -765,11 +808,13 @@
         }
     }
     
-    private async Task<List<int>> GetGuestProfileIDsForEvent(int eventID) {
+    private async Task<List<int>> GetGuestProfileIDsForEvent(int eventID)
+    {
         // Implement a method to retrieve guest profile IDs for the given event ID
         var eventGuests = await eventGuestsData.GetEventGuestsByEventId(eventID);
         return eventGuests.Select(eg => eg.guest_profile_id).ToList();
     }
+
     
     
     
@@ -885,6 +930,7 @@
              model.IsDragOver = false;//remove drag over.
          }
      }
+
 
 
 
