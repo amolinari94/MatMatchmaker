@@ -30,7 +30,8 @@ namespace Structure
         }
 
         // Constructor with parameters matching database columns
-        public Wrestler(int wrestler_id, int profile_id, string firstName, string lastName, int weight, int skillLevel, int grade, string gender, bool genderPreference)
+        public Wrestler(int wrestler_id, int profile_id, string firstName, string lastName, int weight, 
+            int skillLevel, int grade, string gender, bool genderPreference)
         {
             this.wrestler_id = wrestler_id;
             this.profile_id = profile_id;

@@ -20,7 +20,8 @@
 <link rel="stylesheet" href="~BlazorApp/wwwroot/app.css" />
 <h1 class="main-title">My Roster</h1>
     <div>
-        <table  class="table" style="width: 100%; border-collapse: separate; border-radius: 20px; border-color: rgb(227,227,227);  ">
+        <table  class="table" style="width: 100%; border-collapse: separate;
+         border-radius: 20px; border-color: rgb(227,227,227);  ">
         <thead>
             <tr>
                 <th>Last Name</th>
@@ -45,6 +46,7 @@
                         <td>@item.Value.skillLevel</td>
                         <td>@item.Value.grade</td>
                         <td>@item.Value.weight</td>
+                        <td>@item.Value.gender</td>
                         <td style="border: none"><button class="btn btn-secondary" @onclick=" () => toggleEdit(item.Value)">Edit</button></td>
                     </tr>
                 }
@@ -168,8 +170,8 @@
                     profile_id = profileId.Value,
                     firstName = firstName,
                     lastName = lastName,
-                    weight = 100, // Adjust weight value as needed
-                    skillLevel = 1, // Adjust skillLevel value as needed
+                    weight = int.Parse(weight), // Adjust weight value as needed
+                    skillLevel = int.Parse(skill), // Adjust skillLevel value as needed
                     grade = int.Parse(grade),
                     gender = gender,
                     sameGenderOnly = false // Adjust sameGenderOnly value as needed
@@ -195,6 +197,8 @@
 
                 // Optionally, perform additional actions after successful insertion
                 Console.WriteLine($"New wrestler inserted with ID: {wrestlerID}");
+                displayMode = "display: none;";
+                weight = "0";
                 StateHasChanged();
             }
             else
@@ -315,7 +319,8 @@
                 // Add retrieved wrestlers to the roster
                 foreach (var wrestler in wrestlers)
                 {
-                    rosterObj2.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
+                    rosterObj2.AddWrestler(wrestler.wrestler_id, wrestler.profile_id, wrestler.firstName, 
+                        wrestler.lastName, wrestler.weight, wrestler.skillLevel, wrestler.grade, wrestler.gender, wrestler.sameGenderOnly);
                 }
             }
             else
