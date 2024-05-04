@@ -30,7 +30,7 @@
 
 <h3>EventViewer</h3>
 
-<button @onclick="sendTestEmail">send test email</button>
+<button class="btn btn-secondary"@onclick="NavToMatches">View Matches from Event</button>
 
 
 
@@ -118,7 +118,7 @@
         </tr>
 
     </table>
-    <table class="table" style=" @table2Style caption-side: top; margin-right: auto; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
+    <table class="table" style=" display: none; caption-side: top; margin-right: auto; height: fit-content; flex-direction: column-reverse; transition: transform 0.5s ease;">
         <caption content="Matches In This Event" class="main-title" style=" height: auto; text-align: center !important; display: table-caption !important; font-family: 'Helvetica Neue',serif;  border-top-style: none; border-right: none">
             <h2>Matches In This Event</h2>
         </caption>
@@ -175,6 +175,9 @@
 
 @code {
 
+    public void NavToMatches() {
+        navManager.NavigateTo("/MatchViewer");
+    }
     /*vvvvvvvvvvvvvvvvvvvvNEW CODEvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv*/
     string eventLoadError = "";
     LinkedList<Match> matchListLocal;
@@ -225,7 +228,7 @@
             StateHasChanged(); // Ensure the component is re-rendered after data loading
         }
         else {
-            profileIDCookie = await jsRuntime2.InvokeAsync<string>("getCookie", CookieName);
+            profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
         }
     }
 
@@ -394,13 +397,13 @@
     private async Task HandleEventClick(Structure.Event selectedEvent) {
 
         
-        localEventID = selectedEvent.EventID;
-        await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
+        //localEventID = selectedEvent.EventID;
+        //await jsRuntime.InvokeVoidAsync("setCookie", "eventId", localEventID);
 
         try
         {
             linkEventID(selectedEvent);
-            await jsRuntime.InvokeVoidAsync("setCookie", "eventId", selectedEvent);
+            await jsRuntime.InvokeVoidAsync("setCookie", "eventId", selectedEvent.EventID);
             Console.WriteLine($"Clicked Event ID: {selectedEvent.EventID}");
             showEventCriteria(); 
             List<int> guestProfileIDs = await GetGuestProfileIDsForEvent(selectedEvent.EventID);
@@ -641,7 +644,7 @@
         } 
         showMatchList(SelectedEventID,modelList);
         StateHasChanged();
-        //navManager.NavigateTo("/MatchViewer");
+        navManager.NavigateTo("/MatchViewer");
     }
 
     
@@ -692,7 +695,7 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
+        //CookieName = "eventId";
         try {
             //var cookieValue = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
             profileIDCookie = await jsRuntime.InvokeAsync<string>("getCookie", CookieName);
